@@ -1,4 +1,6 @@
 from .base_screens import Screens
+from scripts.screens.organization_screens import StartScreen
+from scripts.screens.creation_screen import CreationScreen
 
 
 # ---------------------------------------------------------------------------- #
@@ -24,7 +26,14 @@ BUTTONS:
 screens = Screens()
 
 # ---------------------------------------------------------------------------- #
-#                                 cat_screens.py                               #
+#                        organization_screens.py                               #
 # ---------------------------------------------------------------------------- #
 
+start_screen = StartScreen('start screen')
 
+
+# ---------------------------------------------------------------------------- #
+#                        creation_screens.py                                   #
+# ---------------------------------------------------------------------------- #
+
+creation_screen = CreationScreen('create screen')

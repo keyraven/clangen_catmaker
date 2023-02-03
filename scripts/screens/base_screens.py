@@ -1,10 +1,8 @@
+import scripts.global_vars
+import pygame
 from scripts.game_structure.game_essentials import *
 
-
 class Screens():
-    game_screen = screen
-    game_x = screen_x
-    game_y = screen_y
     last_screen = ''
 
     def change_screen(self, new_screen):
@@ -27,8 +25,8 @@ class Screens():
         if name is not None:
             game.all_screens[name] = self
 
-    def fill(self, tuple):
-        pygame.Surface.fill(color=tuple)
+    def fill(self, tup):
+        pygame.Surface.fill(color=tup)
 
     def on_use(self):
         """Runs every frame this screen is used."""
