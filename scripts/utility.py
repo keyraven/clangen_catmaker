@@ -12,30 +12,9 @@ from scripts.game_structure.game_essentials import *
 
 def update_sprite(cat):
     # First, check if the cat is faded.
-    if cat.faded:
-        # Don't update the sprite if the cat is faded.
-        return
 
     # First make pelt, if it wasn't possible before
     if cat.pelt is None:
-        if cat.parent1 is None:
-            # If pelt has not been picked manually, this function chooses one based on possible inheritances
-            cat.pelt = choose_pelt()
-        elif cat.parent2 is None and cat.parent1 in cat.all_cats.keys():
-            # 1 in 3 chance to inherit a single parent's pelt
-            par1 = cat.all_cats[cat.parent1]
-            cat.pelt = choose_pelt(choice([par1.pelt.colour, None]), choice([par1.pelt.white, None]),
-                                   choice([par1.pelt.name, None]),
-                                   choice([par1.pelt.length, None]))
-        if cat.parent1 in cat.all_cats.keys() and cat.parent2 in cat.all_cats.keys():
-            # 2 in 3 chance to inherit either parent's pelt
-            par1 = cat.all_cats[cat.parent1]
-            par2 = cat.all_cats[cat.parent2]
-            cat.pelt = choose_pelt(choice([par1.pelt.colour, par2.pelt.colour, None]),
-                                   choice([par1.pelt.white, par2.pelt.white, None]),
-                                   choice([par1.pelt.name, par2.pelt.name, None]),
-                                   choice([par1.pelt.length, par2.pelt.length, None]))
-        else:
             cat.pelt = choose_pelt()
 
             # THE SPRITE UPDATE
@@ -44,8 +23,7 @@ def update_sprite(cat):
 
     try:
         if cat.pelt.name not in ['Tortie', 'Calico']:
-            if cat.pelt.length == 'long' and cat.status not in ['kitten', 'apprentice',
-                                                                'medicine cat apprentice', "mediator apprentice"] \
+            if cat.pelt.length == 'long' and cat.age not in ['kitten', "adolescent"] \
                     or cat.age == 'elder':
                 new_sprite.blit(
                     sprites.sprites[cat.pelt.sprites[1] + 'extra' + cat.pelt.colour + str(cat.age_sprites[cat.age])],
@@ -54,8 +32,7 @@ def update_sprite(cat):
                 new_sprite.blit(sprites.sprites[cat.pelt.sprites[1] + cat.pelt.colour + str(cat.age_sprites[cat.age])],
                                 (0, 0))
         else:
-            if cat.pelt.length == 'long' and cat.status not in ['kitten', 'apprentice',
-                                                                'medicine cat apprentice', "mediator apprentice"] \
+            if cat.pelt.length == 'long' and cat.age not in ['kitten', "adolescent"] \
                     or cat.age == 'elder':
                 new_sprite.blit(
                     sprites.sprites[cat.tortiebase + 'extra' + cat.tortiecolour + str(cat.age_sprites[cat.age])], (0, 0))
@@ -136,7 +113,7 @@ def update_sprite(cat):
             
 
         # draw line art
-        if game.settings['shaders'] and not cat.dead:
+        """if game.settings['shaders'] and not cat.dead:
             if cat.pelt.length == 'long' and cat.status not in [
                 'kitten', 'apprentice', 'medicine cat apprentice', "mediator apprentice"
             ] or cat.age == 'elder':
@@ -157,7 +134,7 @@ def update_sprite(cat):
                 new_sprite.blit(
                     sprites.sprites['lighting' +
                                     str(cat.age_sprites[cat.age])],
-                    (0, 0))
+                    (0, 0))"""
 
 
         if not cat.dead:
@@ -278,8 +255,7 @@ def update_sprite(cat):
         new_sprite, (sprites.new_size, sprites.new_size))
     cat.large_sprite = pygame.transform.scale(
         cat.big_sprite, (sprites.size * 3, sprites.size * 3))
-    # update class dictionary
-    cat.all_cats[cat.ID] = cat
+
 
 
 def apply_opacity(surface, opacity):

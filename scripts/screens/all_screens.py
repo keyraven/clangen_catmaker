@@ -36,4 +36,4 @@ start_screen = StartScreen('start screen')
 #                        creation_screens.py                                   #
 # ---------------------------------------------------------------------------- #
 
-creation_screen = CreationScreen('create screen')
+creation_screen = CreationScreen('creation screen')

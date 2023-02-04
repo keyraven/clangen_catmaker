@@ -6,7 +6,7 @@ class Game():
     last_screen_forProfile = 'list screen'
 
     # Sort-type
-    sort_type = "rank"
+    current_screen = "start screen"
 
     all_screens = {}
     cur_events = {}

@@ -17,9 +17,7 @@ class StartScreen(base_screens.Screens):
                 self.change_screen("creation screen")
 
     def screen_switches(self):
-
-        self.start_button = custom_buttons.UIImageButton(pygame.Rect((400, 400), (100, 100)), "",
-                                                         manager=scripts.global_vars.MANAGER)
+        self.start_button = pygame_gui.elements.UIButton(pygame.Rect((350, 200), (100, 50)), "Start")
 
     def exit_screen(self):
         self.start_button.kill()

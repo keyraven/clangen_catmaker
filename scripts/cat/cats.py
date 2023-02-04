@@ -15,27 +15,17 @@ from scripts.game_structure.game_essentials import *
 
 class Cat():
 
-    def __init__(self,
-                 prefix=None,
-                 gender=None,
-                 age="adult",
-                 parent1=None,
-                 parent2=None,
-                 pelt=None,
-                 eye_colour=None,
-                 suffix=None,
-                 moons=None,
-                 ):
+    def __init__(self,):
 
         # Private attributes
         self._moons = None
         
         # Public attributes
 
-        self.age = age
-        self.pelt = pelt
-        self.tint = None
-        self.eye_colour = eye_colour
+        self.age = "adult"
+        self.pelt = SingleColour("WHITE", "short")
+        self.tint = "none"
+        self.eye_colour = "BLUE"
         self.eye_colour2 = None
         self.scars = []
         self.dead = False
@@ -47,20 +37,20 @@ class Cat():
         self.white_patches = None
         self.accessory = None
         self.age_sprites = {
-            "kitten": None,
-            "adolescent": None,
-            "young adult": None,
-            "adult": None,
-            "senior adult": None,
-            "elder": None
+            "kitten": 0,
+            "adolescent": 3,
+            "adult": 8,
+            "elder": 3
         }
         self.opacity = 100
+        self.reverse = False
+        self.skin = "BLACK"
 
-        self.gender = gender
+        self.gender = "female"
         self.skill = None
         self.trait = None
-        self.parent1 = parent1
-        self.parent2 = parent2
+        self.parent1 = None
+        self.parent2 = None
 
         # Sprite sizes
         self.sprite = None

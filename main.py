@@ -11,11 +11,12 @@ import scripts.screens.all_screens
 
 
 clock = pygame.time.Clock()
+scripts.screens.all_screens.start_screen.screen_switches()
 
 # MAIN GAME LOOK
 while True:
     time_delta = clock.tick(60) / 1000.0
-
+    global_vars.SCREEN.fill((206, 194, 168))
     game.all_screens[game.current_screen].on_use()
     for event in pygame.event.get():
         game.all_screens[game.current_screen].handle_event(event)
