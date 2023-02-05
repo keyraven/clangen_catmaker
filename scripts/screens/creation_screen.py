@@ -6,10 +6,11 @@ from scripts.utility import update_sprite
 from scripts.game_structure.image_cache import load_image
 import scripts.game_structure.image_button as custom_buttons
 from scripts.cat.cats import Cat
+from scripts.cat.pelts import choose_pelt
 
 class CreationScreen(base_screens.Screens):
-    pelt_options = ["Plain", "Smoke", "Single Stripe", "Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti",
-                    "Speckled", "Rosette", "Bengal", "Marbled"]
+    pelt_options = ["Plain", 'Smoke', "Singlestripe", "Tabby", "Ticked", "Mackerel", "Classic", 'Sokoke', "Agouti",
+                    "Speckled", 'Rosette', "Bengal", "Marbled"]
     tortie_patches_patterns = ["Tabby", ]
     colors = ['White', 'Grey', 'Dark Grey', 'Pale Grey', 'Silver', 'Golden', 'Ginger', 'Dark Ginger',
               'Pale Ginger', 'Cream', 'Brown', 'Dark Brown', 'Light Brown', 'Black', 'Ghost']
@@ -28,19 +29,19 @@ class CreationScreen(base_screens.Screens):
     poses = {
         "short" : {
             "kitten": {
-                "1" : 0,
-                "2" : 1,
-                "3" : 2
+                "1": 0,
+                "2": 1,
+                "3": 2
             },
             "adolescent": {
-                "1" : 3,
-                "2" : 4,
-                "3" : 5
+                "1": 3,
+                "2": 4,
+                "3": 5
             },
             "adult": {
-                "1" : 6,
-                "2" : 7,
-                "3" : 8
+                "1": 6,
+                "2": 7,
+                "3": 8
             },
             "elder": {
                 "1": 3,
@@ -72,6 +73,13 @@ class CreationScreen(base_screens.Screens):
         }
     }
 
+    current_poses = {
+        "kitten": "1",
+        "adolescent": "1",
+        "adult": "3",
+        "elder": "1"
+    }
+
     def __init__(self, name):
         self.general_tab = None
         self.pattern_tab = None
@@ -88,6 +96,8 @@ class CreationScreen(base_screens.Screens):
         self.extras_tab_button = None
         self.color_select = None
         self.white_patches_select = None
+        self.pose_select = None
+        self.base_pelt_select = None
 
         super().__init__(name)
 
@@ -120,6 +130,9 @@ class CreationScreen(base_screens.Screens):
             elif event.ui_element == self.clear:
                 global_vars.CREATED_CAT = Cat()
                 self.update_cat_image()
+            elif event.ui_element == self.randomize:
+                global_vars.CREATED_CAT.randomize_looks()
+                self.update_cat_image()
         elif event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
             if event.ui_element == self.color_select:
                 global_vars.CREATED_CAT.pelt.colour = (event.text.upper()).replace(" ", "")
@@ -132,6 +145,27 @@ class CreationScreen(base_screens.Screens):
                     val = val.replace("COLOR", "COLOUR")
                     global_vars.CREATED_CAT.white_patches = val
                 self.update_cat_image()
+            elif event.ui_element == self.fur_length_select:
+                self.change_fur_length(event.text.lower())
+                self.update_cat_image()
+            elif event.ui_element == self.pose_select:
+                self.change_pose(event.text[-1])
+                self.update_cat_image()
+            elif event.ui_element == self.base_pelt_select:
+                if event.text == "Plain":
+                    selected = 'SingleColour'
+                else:
+                    selected = event.text
+
+                global_vars.CREATED_CAT.pelt = choose_pelt(
+                    global_vars.CREATED_CAT.pelt.colour,
+                    False,
+                    selected,
+                    global_vars.CREATED_CAT.pelt.length
+                )
+                self.update_cat_image()
+
+
 
     def screen_switches(self):
         update_sprite(global_vars.CREATED_CAT)
@@ -182,15 +216,21 @@ class CreationScreen(base_screens.Screens):
         self.fur_length_select = pygame_gui.elements.UIDropDownMenu(["Short", "Long"], "Short",
                                                                     pygame.Rect((10, 10), (200, 40)),
                                                                     container=self.general_tab)
+        self.pose_select = pygame_gui.elements.UIDropDownMenu(["Pose 1", "Pose 2", "Pose 3"], "Pose 3",
+                                                              pygame.Rect((10, 50), (200, 40)),
+                                                              container=self.general_tab)
 
         # PATTERN TAB CONTENTS
         self.color_select = pygame_gui.elements.UIDropDownMenu(self.colors, self.colors[0],
-                                                               pygame.Rect((10, 10), (300, 40)),
+                                                               pygame.Rect((10, 10), (200, 40)),
                                                                container=self.pattern_tab)
 
-        #White Patches
+        self.base_pelt_select = pygame_gui.elements.UIDropDownMenu(self.pelt_options, self.pelt_options[0],
+                                                                   pygame.Rect((220, 10), (200, 40)),
+                                                                   container=self.pattern_tab)
+
         self.white_patches_select = pygame_gui.elements.UIDropDownMenu(self.white_patches, self.white_patches[0],
-                                                                       pygame.Rect((10, 60), (300, 40)),
+                                                                       pygame.Rect((10, 60), (200, 40)),
                                                                        container=self.pattern_tab)
 
     def update_cat_image(self):
@@ -200,8 +240,12 @@ class CreationScreen(base_screens.Screens):
     def change_pose(self, pose: str=None):
         # Changes the pose from 1, 2, or 3
         if pose:
+            # Change the sprite number.
             global_vars.CREATED_CAT.age_sprites[global_vars.CREATED_CAT.age] = self.poses[
                 global_vars.CREATED_CAT.pelt.length][global_vars.CREATED_CAT.age][pose]
+
+            # Adjust tracked poses.
+            self.current_poses[global_vars.CREATED_CAT.age] = pose
 
 
     def change_fur_length(self, fur_length: str=None):
@@ -209,8 +253,10 @@ class CreationScreen(base_screens.Screens):
             global_vars.CREATED_CAT.pelt.length = fur_length
 
             # Change all poses for all ages. 
-            for age in global_vars.CREATED_CAT.age_sprites:
-                global_vars.CREATED_CAT.age_sprites[age] = self.p
+            for age in self.current_poses:
+                # This is such a mess of dictionary lookups.
+                global_vars.CREATED_CAT.age_sprites[age] = self.poses[
+                    fur_length][age][self.current_poses[age]]
 
 
 

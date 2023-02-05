@@ -1,13 +1,8 @@
 from __future__ import annotations
 from random import choice, randint, sample
-from typing import Dict, List, Any
-import math
 import os.path
 
-from .pelts import *
-from .names import *
-from .sprites import *
-
+import scripts.cat.appearance_utility as util
 from scripts.utility import *
 from scripts.game_structure.game_essentials import *
 
@@ -58,7 +53,16 @@ class Cat():
         self.large_sprite = None
 
     def randomize_looks(self):
-        pass
+        self.age = choice(list(self.age_sprites.keys()))
+        util.init_pelt(self)
+        util.init_tint(self)
+        util.init_sprite(self)
+        util.init_scars(self)
+        util.init_accessories(self)
+        util.init_white_patches(self)
+        util.init_eyes(self)
+        util.init_pattern(self)
+
 
 # ---------------------------------------------------------------------------- #
 #                               END OF CAT CLASS                               #

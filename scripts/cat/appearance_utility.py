@@ -273,9 +273,10 @@ def pelt_inheritance(cat, parents: tuple):
     chosen_tortie_base = None
     if torbie:
         # If it is tortie, the chosen pelt above becomes the base pelt.
-        chosen_tortie_base = chosen_pelt.lower()
-        if chosen_tortie_base == ["TwoColour", "SingleColour"]:
+        chosen_tortie_base = chosen_pelt
+        if chosen_tortie_base in ["TwoColour", "SingleColour"]:
             chosen_tortie_base = "Single"
+        chosen_tortie_base = chosen_tortie_base.lower()
         chosen_pelt = random.choice(torties)
 
     # ------------------------------------------------------------------------------------------------------------#
@@ -361,7 +362,7 @@ def pelt_inheritance(cat, parents: tuple):
 
     # SET THE PELT
     cat.pelt = choose_pelt(chosen_pelt_color, chosen_white, chosen_pelt, chosen_pelt_length)
-    cat.tortie_base = chosen_tortie_base  # This will be none if the cat isn't a tortie.
+    cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
 
 def randomize_pelt(cat):
     # ------------------------------------------------------------------------------------------------------------#
@@ -384,9 +385,10 @@ def randomize_pelt(cat):
     chosen_tortie_base = None
     if torbie:
         # If it is tortie, the chosen pelt above becomes the base pelt.
-        chosen_tortie_base = chosen_pelt.lower()
-        if chosen_tortie_base == ["TwoColour", "SingleColour"]:
+        chosen_tortie_base = chosen_pelt
+        if chosen_tortie_base in ["TwoColour", "SingleColour"]:
             chosen_tortie_base = "Single"
+        chosen_tortie_base = chosen_tortie_base.lower()
         chosen_pelt = random.choice(torties)
 
     # ------------------------------------------------------------------------------------------------------------#
@@ -402,7 +404,7 @@ def randomize_pelt(cat):
     # ------------------------------------------------------------------------------------------------------------#
 
 
-    chosen_pelt_length = random.choice(pelt_length)
+    chosen_pelt_length = random.choice(["long", "short"])
 
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT WHITE
@@ -422,25 +424,11 @@ def randomize_pelt(cat):
             chosen_pelt = "Tortie"
 
     cat.pelt = choose_pelt(chosen_pelt_color, chosen_white, chosen_pelt, chosen_pelt_length)
-    cat.tortie_base = chosen_tortie_base  # This will be none if the cat isn't a tortie.
+    cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
 
 def init_pelt(cat):
-    if cat.pelt is not None:
-        return cat.pelt
-    else:
-        # Grab Parents
-        par1 = None
-        par2 = None
-        if cat.parent1 in cat.all_cats:
-            par1 = cat.all_cats[cat.parent1]
-        if cat.parent2 in cat.all_cats:
-            par2 = cat.all_cats[cat.parent2]
+    randomize_pelt(cat)
 
-        if par1 or par2:
-            #If the cat has parents, use inheritance to decide pelt.
-            pelt_inheritance(cat, (par1, par2))
-        else:
-            randomize_pelt(cat)
 
 def init_sprite(cat):
     if cat.pelt is None:
@@ -459,9 +447,6 @@ def init_sprite(cat):
             cat.age_sprites['adult'] = randint(6, 8)
         else:
             cat.age_sprites['adult'] = randint(0, 2)
-        cat.age_sprites['young adult'] = cat.age_sprites['adult']
-        cat.age_sprites['senior adult'] = cat.age_sprites['adult']
-        cat.age_sprites['dead'] = None
 
 
 def init_scars(cat):
@@ -527,18 +512,28 @@ def init_pattern(cat):
             cat.tortiepattern = 'tortieagouti'
         else:
             cat.tortiepattern = choice(['tortietabby', 'tortiemackerel', 'tortieclassic'])
+
     else:
         cat.tortiebase = None
         cat.tortiepattern = None
         cat.tortiecolour = None
+
     if cat.pelt.name in torties and cat.pelt.colour is not None:
-        if cat.pelt.colour in ["BLACK", "DARKBROWN", "GHOST"]:
+        if cat.pelt.colour in black_colours:
             cat.pattern = choice(['GOLDONE', 'GOLDTWO', 'GOLDTHREE', 'GOLDFOUR', 'GINGERONE', 'GINGERTWO', 'GINGERTHREE', 'GINGERFOUR',
                                     'DARKONE', 'DARKTWO', 'DARKTHREE', 'DARKFOUR'])
-        elif cat.pelt.colour in ["DARKGREY", "BROWN"]:
-            cat.pattern = choice(['GOLDONE', 'GOLDTWO', 'GOLDTHREE', 'GOLDFOUR', 'GINGERONE', 'GINGERTWO', 'GINGERTHREE', 'GINGERFOUR'])
-        elif cat.pelt.colour in ["SILVER", "GREY", "LIGHTBROWN"]:
+        elif cat.pelt.colour in brown_colours:
+            cat.pattern = choice(['GOLDONE', 'GOLDTWO', 'GOLDTHREE', 'GOLDFOUR', 'GINGERONE', 'GINGERTWO', 'GINGERTHREE', 'GINGERFOUR',
+                                  "DARKONE", "DARKTWO", "DARKTHREE", "DARKFOUR"])
+        elif cat.pelt.colour in white_colours:
             cat.pattern = choice(['PALEONE', 'PALETWO', 'PALETHREE', 'PALEFOUR', 'CREAMONE', 'CREAMTWO', 'CREAMTHREE', 'CREAMFOUR'])
+        elif cat.pelt.colour in ['DARKGINGER', "GINGER"]:
+            cat.pattern = choice(['PALEONE', 'PALETWO', 'PALETHREE', 'PALEFOUR', 'CREAMONE', 'CREAMTWO', 'CREAMTHREE',
+                                  'CREAMFOUR'])
+        elif cat.pelt.colour in ["CREAM", "GOLDEN", "PALEGINGER"]:
+            cat.pattern = choice(['DARKONE', 'DARKTWO', 'DARKTHREE', 'DARKFOUR'])
+        else:
+            cat.pattern = "GOLDONE"
     else:
         cat.pattern = None
 
@@ -632,26 +627,10 @@ def randomize_white_patches(cat):
     cat.white_patches = chosen_white_patches
 
 def init_white_patches(cat):
-
-    if cat.pelt is None:
-        init_pelt(cat)
-
-    if cat.white_patches:
-        return
-
     if cat.pelt.white:
-
-        par1 = None
-        par2 = None
-        if cat.parent1 in cat.all_cats:
-            par1 = cat.all_cats[cat.parent1]
-        if cat.parent2 in cat.all_cats:
-            par2 = cat.all_cats[cat.parent2]
-
-        if par1 or par2:
-            white_patches_inheritance(cat, (par1, par2))
-        else:
-            randomize_white_patches(cat)
+        randomize_white_patches(cat)
+    else:
+        cat.white_patches = None
 
 
 def init_tint(cat):
