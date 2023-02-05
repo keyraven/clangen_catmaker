@@ -37,15 +37,15 @@
             },
             "hovered_image":
             {
-                "path": "resources/images/buttons/random_dice_hover_large.png"
+                "path": "resources/images/buttons/random_dice_large_hover.png"
             },
 			"selected_image":
             {
-                "path": "resources/images/buttons/random_dice_hover_large.png"
+                "path": "resources/images/buttons/random_dice_large_hover.png"
             },
             "disabled_image":
             {
-                "path":"resources/images/buttons/random_dice_unavailable_large.png"
+                "path":"resources/images/buttons/random_dice_large_unavailable.png"
             }
         }
     },

@@ -1,9 +1,4 @@
 import pygame
-try:
-    import ujson
-except ImportError:
-    import json as ujson
-import traceback
 from scripts.game_structure import image_cache
 
 from scripts.cat.sprites import *

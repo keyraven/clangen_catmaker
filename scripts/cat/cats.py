@@ -15,10 +15,10 @@ from scripts.game_structure.game_essentials import *
 
 class Cat():
 
-    def __init__(self,):
+    def __init__(self):
 
         # Private attributes
-        self._moons = None
+        self._moons = 0
         
         # Public attributes
 
