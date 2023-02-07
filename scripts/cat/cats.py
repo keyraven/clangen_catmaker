@@ -23,6 +23,12 @@ class Cat():
         self.eye_colour = "BLUE"
         self.eye_colour2 = None
         self.scars = []
+        self.scar_slot_list = [
+            None,
+            None,
+            None,
+            None
+        ]
         self.dead = False
         self.df = False
         self.tortiebase = None
@@ -37,6 +43,14 @@ class Cat():
             "adult": 8,
             "elder": 3
         }
+        self.current_poses = {
+            "kitten": "1",
+            "adolescent": "1",
+            "adult": "3",
+            "elder": "1"
+        }
+
+
         self.opacity = 100
         self.reverse = False
         self.skin = "BLACK"

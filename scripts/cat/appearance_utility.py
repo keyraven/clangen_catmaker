@@ -173,197 +173,6 @@ def init_eyes(cat):
                 eye_choice = choice([yellow_eyes, blue_eyes])
                 cat.eye_colour2 = choice(eye_choice)
 
-def pelt_inheritance(cat, parents: tuple):
-    # setting parent pelt categories
-    #We are using a set, since we don't need this to be ordered, and sets deal with removing duplicates.
-    par_peltlength = set()
-    par_peltcolours = set()
-    par_peltnames = set()
-    par_pelts = []
-    par_white = []
-    for p in parents:
-        if p:
-            #Gather pelt color.
-            par_peltcolours.add(p.pelt.colour)
-
-            #Gather pelt length
-            par_peltlength.add(p.pelt.length)
-
-            # Gather pelt name
-            if p.pelt.name in torties:
-                par_peltnames.add(p.tortiebase.capitalize())
-            else:
-                par_peltnames.add(p.pelt.name)
-
-            #Gather exact pelts, for direct inheritance.
-            par_pelts.append(p.pelt)
-
-            #Gather if they have white in their pelt.
-            par_white.append(p.pelt.white)
-        else:
-            # If order for white patches to work correctly, we also want to randomly generate a "pelt_white"
-            # for each "None" parent (missing or unknown parent)
-            par_white.append(bool(random.getrandbits(1)))
-
-            # Append None
-            # Gather pelt color.
-            par_peltcolours.add(None)
-            par_peltlength.add(None)
-            par_peltnames.add(None)
-
-    #If this list is empty, something went wrong.
-    if not par_peltcolours:
-        print("Error - no parents: pelt randomized")
-        randomize_pelt(cat)
-        return
-
-    # There is a 1/10 chance for kits to have the exact same pelt as one of their parents
-    if not randint(0, 10):  # 1/15 chance
-        selected = choice(par_pelts)
-        cat.pelt = choose_pelt(selected.colour, selected.white, selected.name,
-                               selected.length)
-        return
-
-    # ------------------------------------------------------------------------------------------------------------#
-    #   PELT
-    # ------------------------------------------------------------------------------------------------------------#
-
-    # Determine pelt.
-    weights = [0, 0, 0, 0]  #Weights for each pelt group. It goes: (tabbies, spotted, plain, exotic)
-    for p_ in par_peltnames:
-        if p_ in tabbies:
-            add_weight = (50, 10, 5, 7)
-        elif p_ in spotted:
-            add_weight = (10, 50, 5, 5)
-        elif p_ in plain:
-            add_weight = (5, 5, 50, 0)
-        elif p_ in exotic:
-            add_weight = (15, 15, 1, 45)
-        elif p_ is None:  # If there is at least one unknown parent, a None will be added to the set.
-            add_weight = (35, 20, 30, 15)
-        else:
-            add_weight = (0, 0, 0, 0)
-
-        for x in range(0, len(weights)):
-            weights[x] += add_weight[x]
-
-    #A quick check to make sure all the weights aren't 0
-    if all([x == 0 for x in weights]):
-        weights = [1, 1, 1, 1]
-
-    # Now, choose the pelt category and pelt. The extra 0 is for the tortie pelts,
-    chosen_pelt = choice(
-        random.choices(pelt_categories, weights = weights + [0], k = 1)[0]
-    )
-
-    # Tortie chance
-    tortie_chance_f = 4  # There is a default chance for female tortie
-    tortie_chance_m = 9
-    for p_ in par_pelts:
-        if p_.colour in ginger_colours + black_colours:
-            tortie_chance_f = 2
-            tortie_chance_m -= 1
-
-    # Determine tortie:
-    if cat.gender == "female":
-        torbie = random.getrandbits(tortie_chance_f) == 1
-    else:
-        torbie = random.getrandbits(tortie_chance_m) == 1
-
-    chosen_tortie_base = None
-    if torbie:
-        # If it is tortie, the chosen pelt above becomes the base pelt.
-        chosen_tortie_base = chosen_pelt
-        if chosen_tortie_base in ["TwoColour", "SingleColour"]:
-            chosen_tortie_base = "Single"
-        chosen_tortie_base = chosen_tortie_base.lower()
-        chosen_pelt = random.choice(torties)
-
-    # ------------------------------------------------------------------------------------------------------------#
-    #   PELT COLOUR
-    # ------------------------------------------------------------------------------------------------------------#
-    # Weights for each colour group. It goes: (ginger_colours, black_colours, white_colours, brown_colours)
-    weights = [0, 0, 0, 0]
-    for p_ in par_peltcolours:
-        if p_ in ginger_colours:
-            add_weight = (40, 0, 0, 10)
-        elif p_ in black_colours:
-            add_weight = (0, 40, 2, 5)
-        elif p_ in white_colours:
-            add_weight = (0, 5, 40, 0)
-        elif p_ in brown_colours:
-            add_weight = (10, 5, 0, 35)
-        elif p_ is None:
-            add_weight = (40, 40, 40, 40)
-        else:
-            add_weight = (0, 0, 0, 0)
-
-        for x in range(0, len(weights)):
-            weights[x] += add_weight[x]
-
-        # A quick check to make sure all the weights aren't 0
-        if all([x == 0 for x in weights]):
-            weights = [1, 1, 1, 1]
-
-    chosen_pelt_color = choice(
-        random.choices(colour_categories, weights=weights, k=1)[0]
-    )
-
-    # ------------------------------------------------------------------------------------------------------------#
-    #   PELT LENGTH
-    # ------------------------------------------------------------------------------------------------------------#
-
-    weights = [0, 0, 0]  # Weights for each length. It goes (short, medium, long)
-    for p_ in par_peltlength:
-        if p_ == "short":
-            add_weight = (50, 10, 2)
-        elif p_ == "medium":
-            add_weight = (25, 50, 25)
-        elif p_ == "long":
-            add_weight = (2, 10, 50)
-        elif p_ is None:
-            add_weight = (10, 10, 10)
-        else:
-            add_weight = (0, 0, 0)
-
-        for x in range(0, len(weights)):
-            weights[x] += add_weight[x]
-
-    # A quick check to make sure all the weights aren't 0
-    if all([x == 0 for x in weights]):
-        weights = [1, 1, 1]
-
-    chosen_pelt_length = random.choices(pelt_length, weights=weights, k=1)[0]
-
-    # ------------------------------------------------------------------------------------------------------------#
-    #   PELT WHITE
-    # ------------------------------------------------------------------------------------------------------------#
-
-    # There is 94 percentage points that can be added by
-    # parents having white. If we have more than two, this
-    # will keep that the same.
-    percentage_add_per_parent = int(94 / len(par_white))
-    chance = 3
-    for p_ in par_white:
-        if p_:
-            chance += percentage_add_per_parent
-
-    chosen_white = random.randint(1, 100) <= chance
-
-    # Adjustments to pelt chosen based on if the pelt has white in it or not.
-    if chosen_pelt in ["TwoColour", "SingleColour"]:
-        if chosen_white:
-            chosen_pelt = "TwoColour"
-        else:
-            chosen_white = "SingleColour"
-    elif chosen_pelt == "Calico":
-        if not chosen_white:
-            chosen_pelt = "Tortie"
-
-    # SET THE PELT
-    cat.pelt = choose_pelt(chosen_pelt_color, chosen_white, chosen_pelt, chosen_pelt_length)
-    cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
-
 def randomize_pelt(cat):
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT
@@ -375,8 +184,8 @@ def randomize_pelt(cat):
     )
 
     # Tortie chance
-    tortie_chance_f = 2  # There is a default chance for female tortie
-    tortie_chance_m = 9
+    tortie_chance_f = 3  # There is a default chance for female tortie
+    tortie_chance_m = 13
     if cat.gender == "female":
         torbie = random.getrandbits(tortie_chance_f) == 1
     else:
@@ -386,7 +195,7 @@ def randomize_pelt(cat):
     if torbie:
         # If it is tortie, the chosen pelt above becomes the base pelt.
         chosen_tortie_base = chosen_pelt
-        if chosen_tortie_base in ["TwoColour", "SingleColour"]:
+        if chosen_tortie_base in ["SingleColour"]:
             chosen_tortie_base = "Single"
         chosen_tortie_base = chosen_tortie_base.lower()
         chosen_pelt = random.choice(torties)
@@ -414,14 +223,6 @@ def randomize_pelt(cat):
     chosen_white = random.randint(1, 100) <= 40
 
     # Adjustments to pelt chosen based on if the pelt has white in it or not.
-    if chosen_pelt in ["TwoColour", "SingleColour"]:
-        if chosen_white:
-            chosen_pelt = "TwoColour"
-        else:
-            chosen_white = "SingleColour"
-    elif chosen_pelt == "Calico":
-        if not chosen_white:
-            chosen_pelt = "Tortie"
 
     cat.pelt = choose_pelt(chosen_pelt_color, chosen_white, chosen_pelt, chosen_pelt_length)
     cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
@@ -450,17 +251,27 @@ def init_sprite(cat):
 
 
 def init_scars(cat):
-    if not cat.scars:
-        scar_choice = randint(0, 15)
-        if cat.age in ['kitten', 'adolescent']:
-            scar_choice = randint(0, 50)
-        elif cat.age in ['young adult', 'adult']:
-            scar_choice = randint(0, 20)
-        if scar_choice == 1:
-            cat.scars.append(choice([
-                choice(scars1),
-                choice(scars3)
-            ]))
+
+    cat.scar_slot_list = [
+        None,
+        None,
+        None,
+        None,
+    ]
+
+    scar_number = random.choices([0,1,2,3,4], weights=[40, 30, 30, 20, 10], k=1)[0]
+
+    i = 0
+    all_scars = scars1+scars2+scars3
+    while True:
+        if i >= scar_number:
+            break
+        if all_scars:
+            add_scar = choice(all_scars)
+            cat.scar_slot_list[i] = add_scar
+            all_scars.remove(add_scar)
+        i += 1
+
 
     if 'NOTAIL' in cat.scars and 'HALFTAIL' in cat.scars:
         cat.scars.remove('HALFTAIL')

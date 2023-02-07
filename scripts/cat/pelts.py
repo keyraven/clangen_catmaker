@@ -14,18 +14,6 @@ class SingleColour():
     def __repr__(self):
         return self.colour + self.length
 
-class TwoColour():
-    name = "TwoColour"
-    sprites = {1: 'single', 2: 'white'}
-
-    def __init__(self, colour, length):
-        self.colour = colour
-        self.length = length
-        self.white = True
-
-    def __repr__(self):
-        return f"white and {self.colour}{self.length}"
-
 class Tabby():
     name = "Tabby"
     sprites = {1: 'tabby', 2: 'white'}
@@ -214,18 +202,6 @@ class Tortie():
         else:
             return f"tortoiseshell{self.length}"
 
-class Calico():
-    name = "Calico"
-    sprites = {1: 'calico', 2: 'white'}
-
-    def __init__(self, colour, length):
-        self.colour = colour
-        self.length = length
-        self.white = True
-
-    def __repr__(self):
-        return f"calico{self.length}"
-
 
 # ATTRIBUTES, including non-pelt related
 pelt_colours = [
@@ -283,9 +259,9 @@ collars = [
 
 tabbies = ["Tabby", "Ticked", "Mackerel", "Classic", "Sokoke", "Agouti"]
 spotted = ["Speckled", "Rosette"]
-plain = ["SingleColour", "TwoColour", "Smoke", "Singlestripe"]
+plain = ["SingleColour", "Smoke", "Singlestripe"]
 exotic = ["Bengal", "Marbled"]
-torties = ["Tortie", "Calico"]
+torties = ["Tortie"]
 pelt_categories = [tabbies, spotted, plain, exotic, torties]
 
 # SPRITE NAMES

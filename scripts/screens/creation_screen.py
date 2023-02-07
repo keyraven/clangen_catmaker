@@ -9,76 +9,6 @@ from scripts.cat.cats import Cat
 from scripts.cat.pelts import choose_pelt
 
 class CreationScreen(base_screens.Screens):
-    pelt_options = ["Plain", 'Smoke', "Singlestripe", "Tabby", "Ticked", "Mackerel", "Classic", 'Sokoke', "Agouti",
-                    "Speckled", 'Rosette', "Bengal", "Marbled"]
-    tortie_patches_patterns = ["Tabby", ]
-    colors = ['White', 'Grey', 'Dark Grey', 'Pale Grey', 'Silver', 'Golden', 'Ginger', 'Dark Ginger',
-              'Pale Ginger', 'Cream', 'Brown', 'Dark Brown', 'Light Brown', 'Black', 'Ghost']
-    white_patches = ['None', 'Little', 'Little Creamy', 'Tuxedo', 'Light Tuxedo', 'Tuxedo Creamy', 'Buzzardfang',
-                     'Tip', 'Blaze', 'Bib', 'Vee', 'Paws', 'Belly', 'Tail Tip', 'Toes', 'Broken Blaze', 'Lil Two',
-                     'Scourge', 'Toes Tail', 'Ravenpaw', 'Honey', 'Fancy', 'Unders', 'Damien', 'Skunk', 'Mitaine',
-                     'Squeaks', 'Star', 'Any', 'Any Creamy', 'Any 2', 'Any 2 Creamy', 'Broken', 'Freckles', 'Ringtail',
-                     'Half Face', 'Pants 2', 'Goatee', 'Prince', 'Farofa', 'Mister', 'Pants', 'Reverse Pants',
-                     'Half White', 'Appaloosa', 'Piebald', 'Curved', 'Glass', 'Mask Mantle', 'Van', 'Van Creamy',
-                     'One Ear', 'Lightsong', 'Tail', 'Heart', 'Moorish', 'Apron', 'Cap Saddle', 'Colorpoint',
-                     'Colorpoint Creamy', 'Ragdoll', 'Karpati', 'Sepiapoint', 'Minkpoint', 'Sealpoint', 'Full White',
-                     'Vitiligo', 'Vitiligo 2']
-    tints = ["None", "Blue", "Pink"]
-    scars = ["None"]
-
-    poses = {
-        "short" : {
-            "kitten": {
-                "1": 0,
-                "2": 1,
-                "3": 2
-            },
-            "adolescent": {
-                "1": 3,
-                "2": 4,
-                "3": 5
-            },
-            "adult": {
-                "1": 6,
-                "2": 7,
-                "3": 8
-            },
-            "elder": {
-                "1": 3,
-                "2": 4,
-                "3": 5
-            }
-        },
-        "long": {
-            "kitten": {
-                "1": 0,
-                "2": 1,
-                "3": 2
-            },
-            "adolescent": {
-                "1": 3,
-                "2": 4,
-                "3": 5
-            },
-            "adult": {
-                "1": 0,
-                "2": 1,
-                "3": 2
-            },
-            "elder": {
-                "1": 3,
-                "2": 4,
-                "3": 5
-            }
-        }
-    }
-
-    current_poses = {
-        "kitten": "1",
-        "adolescent": "1",
-        "adult": "3",
-        "elder": "1"
-    }
 
     def __init__(self, name):
         self.general_tab = None
@@ -98,6 +28,7 @@ class CreationScreen(base_screens.Screens):
         self.white_patches_select = None
         self.pose_select = None
         self.base_pelt_select = None
+        self.dropdown_menus = {}
 
         super().__init__(name)
 
@@ -129,26 +60,24 @@ class CreationScreen(base_screens.Screens):
                 self.extras_tab.show()
             elif event.ui_element == self.clear:
                 global_vars.CREATED_CAT = Cat()
+                self.build_dropdown_menus()
                 self.update_cat_image()
             elif event.ui_element == self.randomize:
                 global_vars.CREATED_CAT.randomize_looks()
+                self.build_dropdown_menus()
                 self.update_cat_image()
         elif event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
-            if event.ui_element == self.color_select:
-                global_vars.CREATED_CAT.pelt.colour = (event.text.upper()).replace(" ", "")
+            if event.ui_element == self.dropdown_menus["color_select"]:
+                global_vars.CREATED_CAT.pelt.colour = global_vars.colors.inverse[event.text]
+                print(global_vars.CREATED_CAT.pelt.colour)
                 self.update_cat_image()
-            elif event.ui_element == self.white_patches_select:
-                if event.text == "None":
-                    global_vars.CREATED_CAT.white_patches = None
-                else:
-                    val = (event.text.upper()).replace(" ", "")
-                    val = val.replace("COLOR", "COLOUR")
-                    global_vars.CREATED_CAT.white_patches = val
+            elif event.ui_element == self.dropdown_menus["white_patches_select"]:
+                global_vars.CREATED_CAT.white_patches = global_vars.white_patches.inverse[event.text]
                 self.update_cat_image()
-            elif event.ui_element == self.fur_length_select:
+            elif event.ui_element == self.dropdown_menus["pelt_length_select"]:
                 self.change_fur_length(event.text.lower())
                 self.update_cat_image()
-            elif event.ui_element == self.pose_select:
+            elif event.ui_element == self.dropdown_menus["pose_select"]:
                 self.change_pose(event.text[-1])
                 self.update_cat_image()
             elif event.ui_element == self.base_pelt_select:
@@ -212,30 +141,63 @@ class CreationScreen(base_screens.Screens):
                                                                    global_vars.MANAGER,
                                                                    visible=False)
 
-        # GENERAL TAB CONTENTS
-        self.fur_length_select = pygame_gui.elements.UIDropDownMenu(["Short", "Long"], "Short",
-                                                                    pygame.Rect((10, 10), (200, 40)),
-                                                                    container=self.general_tab)
-        self.pose_select = pygame_gui.elements.UIDropDownMenu(["Pose 1", "Pose 2", "Pose 3"], "Pose 3",
-                                                              pygame.Rect((10, 50), (200, 40)),
-                                                              container=self.general_tab)
+        self.build_dropdown_menus()
 
-        # PATTERN TAB CONTENTS
-        self.color_select = pygame_gui.elements.UIDropDownMenu(self.colors, self.colors[0],
-                                                               pygame.Rect((10, 10), (200, 40)),
-                                                               container=self.pattern_tab)
-
-        self.base_pelt_select = pygame_gui.elements.UIDropDownMenu(self.pelt_options, self.pelt_options[0],
-                                                                   pygame.Rect((220, 10), (200, 40)),
-                                                                   container=self.pattern_tab)
-
-        self.white_patches_select = pygame_gui.elements.UIDropDownMenu(self.white_patches, self.white_patches[0],
-                                                                       pygame.Rect((10, 60), (200, 40)),
-                                                                       container=self.pattern_tab)
 
     def update_cat_image(self):
         update_sprite(global_vars.CREATED_CAT)
         self.cat_image.set_image(pygame.transform.scale(global_vars.CREATED_CAT.sprite, (300, 300)))
+
+    def build_dropdown_menus(self):
+        for ele in self.dropdown_menus:
+            self.dropdown_menus[ele].kill()
+        self.dropdown_menus = {}
+
+        # GENERAL TAB CONTENTS
+        self.dropdown_menus["pelt_length_select"] = pygame_gui.elements.UIDropDownMenu(["Short", "Long"],
+                                                                                       global_vars.CREATED_CAT.pelt.length.capitalize(),
+                                                                                       pygame.Rect((10, 10), (200, 40)),
+                                                                                       container=self.general_tab)
+
+        self.dropdown_menus["pose_select"] = pygame_gui.elements.UIDropDownMenu(["Pose 1", "Pose 2", "Pose 3"],
+                                                                                 "Pose " +
+                                                                                 global_vars.CREATED_CAT.current_poses[
+                                                                                 global_vars.CREATED_CAT.age
+                                                                                 ],
+                                                                                 pygame.Rect((10, 50), (200, 40)),
+                                                                                 container=self.general_tab)
+
+        # PATTERN TAB CONTENTS
+        self.dropdown_menus["color_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.colors.values(),
+                                                                                 global_vars.colors[
+                                                                                 global_vars.CREATED_CAT.pelt.colour],
+                                                                                 pygame.Rect((10, 10), (200, 40)),
+                                                                                 container=self.pattern_tab)
+
+
+        current_base_pelt = global_vars.CREATED_CAT.pelt.name
+        if current_base_pelt in ["Tortie", "Calcio"]:
+            current_base_pelt = global_vars.CREATED_CAT.tortiebase.capitalize()
+            if current_base_pelt == "Single":
+                current_base_pelt = "SingleColour"
+
+        self.dropdown_menus["pelt_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.pelt_options.values(),
+                                                                                global_vars.pelt_options[
+                                                                                    current_base_pelt
+                                                                                ],
+                                                                                pygame.Rect((220, 10), (200, 40)),
+                                                                                container=self.pattern_tab)
+
+        if global_vars.CREATED_CAT.white_patches:
+            white_patches = (global_vars.CREATED_CAT.white_patches.lower()).capitalize()
+        else:
+            white_patches = "None"
+        self.dropdown_menus["white_patches_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.white_patches.values(),
+                                                                                         global_vars.white_patches[
+                                                                                         global_vars.CREATED_CAT.white_patches
+                                                                                         ],
+                                                                                         pygame.Rect((10, 60), (200, 40)),
+                                                                                         container=self.pattern_tab)
 
     def change_pose(self, pose: str=None):
         # Changes the pose from 1, 2, or 3
@@ -245,7 +207,7 @@ class CreationScreen(base_screens.Screens):
                 global_vars.CREATED_CAT.pelt.length][global_vars.CREATED_CAT.age][pose]
 
             # Adjust tracked poses.
-            self.current_poses[global_vars.CREATED_CAT.age] = pose
+            global_vars.CREATED_CAT.current_poses[global_vars.CREATED_CAT.age] = pose
 
 
     def change_fur_length(self, fur_length: str=None):
@@ -253,10 +215,10 @@ class CreationScreen(base_screens.Screens):
             global_vars.CREATED_CAT.pelt.length = fur_length
 
             # Change all poses for all ages. 
-            for age in self.current_poses:
+            for age in global_vars.CREATED_CAT.current_poses:
                 # This is such a mess of dictionary lookups.
                 global_vars.CREATED_CAT.age_sprites[age] = self.poses[
-                    fur_length][age][self.current_poses[age]]
+                    fur_length][age][global_vars.CREATED_CAT.current_poses[age]]
 
 
 

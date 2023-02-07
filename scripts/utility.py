@@ -13,6 +13,13 @@ def update_sprite(cat):
     if cat.pelt is None:
             cat.pelt = choose_pelt()
 
+
+    cat.scars = []
+    for scar in cat.scar_slot_list:
+        if scar:
+            cat.scars.append(scar)
+
+
             # THE SPRITE UPDATE
     # draw colour & style
     new_sprite = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
