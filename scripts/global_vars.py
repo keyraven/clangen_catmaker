@@ -19,7 +19,21 @@ pelt_options = bidict({"SingleColour": "Plain",  "Smoke": "Smoke", 'Singlestripe
                        'Sokoke': 'Sokoke', 'Agouti': "Agouti", "Speckled": "Speckled Tabby", "Rosette": "Rosette",
                        "Bengal": "Bengal", "Marbled": "Marbled Tabby"})
 
-tortie_patches_patterns = ["Tabby", ]
+tortie_patches_patterns = bidict({"solid": "Plain", "tabby": "Tabby", "bengal": "Bengal", "marbled": "Marbled Tabby",
+                                  "ticked": "Ticked", "rosette": "Rosette", "smoke": "Smoke",
+                                  "speckled": "Speckled Tabby", "agouti": "Agouti", "classic": "Classic Tabby",
+                                  "mackerel": "Mackerel Tabby", "sokoke": "Sokeke"})
+
+tortie_patches_shapes = bidict({"ONE": "Shape 1", "TWO": "Shape 2", "THREE": "Shape 3", "FOUR": "Shape 4"})
+
+tortie_patches_color = bidict({"GINGER" : "Ginger", "DARKGINGER": "Dark Ginger", "GOLD": "Golden",
+                               "PALE": "Pale Ginger", "CREAM": "Cream"})
+
+eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'PALEGREEN': "Pale Green",
+                      'GREEN': "Green", 'BLUE': "Blue", 'DARKBLUE': "Dark Blue", 'GREY': "Grey", 'CYAN': "Cyan",
+                      'EMERALD': "Emerald", 'PALEBLUE': "Pale Blue", 'PALEYELLOW': "Pale Yellow", 'GOLD': "Gold",
+                      'HEATHERBLUE': "Heather Blue", 'COPPER': "Copper", 'SAGE': "Sage", 'BLUE2': "Blue 2",
+                      'SUNLITICE': "Sunlit Ice", "GREENYELLOW": "Green-Yellow"})
 
 colors = bidict({'WHITE': 'White', 'GREY': 'Grey', 'DARKGREY': 'Dark Grey', 'PALEGREY': 'Pale Grey',
                  'SILVER': 'Silver', 'GOLDEN': 'Golden', 'DARKGINGER': 'Dark Ginger', 'PALEGINGER': 'Pale Ginger',

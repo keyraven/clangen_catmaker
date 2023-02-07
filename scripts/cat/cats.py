@@ -50,6 +50,12 @@ class Cat():
             "elder": "1"
         }
 
+        # Helpers:
+        self.tortie_patches_shape = "ONE"
+        self.tortie_patches_color = "PALE"
+        self.tortie_patches_pattern = "solid"
+        self.stored_eye_color_2 = "BLUE"
+
 
         self.opacity = 100
         self.reverse = False
@@ -69,6 +75,7 @@ class Cat():
     def randomize_looks(self):
         self.age = choice(list(self.age_sprites.keys()))
         util.init_pelt(self)
+        util.init_eyes(self)
         util.init_tint(self)
         util.init_sprite(self)
         util.init_scars(self)

@@ -130,48 +130,13 @@ def plural_acc_names(accessory, plural, singular):
 
 
 def init_eyes(cat):
-    if cat.eye_colour:
-        return   
-    else:
-        par1 = None
-        par2 = None
-        if cat.parent1 is None:
-            cat.eye_colour = choice(eye_colours)
-        elif cat.parent2 is None:
-            par1 = cat.all_cats[cat.parent1]
-            cat.eye_colour = choice(
-                [par1.eye_colour, choice(eye_colours)])
-        else:
-            par1 = cat.all_cats[cat.parent1]
-            par2 = cat.all_cats[cat.parent2]
-            cat.eye_colour = choice([
-                par1.eye_colour, par2.eye_colour,
-                choice(eye_colours)
-            ])
-        num = 120
-        if cat.white_patches in [high_white, mostly_white, 'FULLWHITE'] or cat.pelt.colour == 'WHITE':
-            num = num - 90
-        if cat.white_patches == 'FULLWHITE' or cat.pelt.colour == 'WHITE':
-            num -= 10
-        if par1:
-            if par1.eye_colour2:
-                num -= 10
-        if par2:
-            if par2.eye_colour2:
-                num -= 10
-        if num < 0:
-            num = 1
-        hit = randint(0, num)
-        if hit == 0:
-            if cat.eye_colour in yellow_eyes:
-                eye_choice = choice([blue_eyes, green_eyes])
-                cat.eye_colour2 = choice(eye_choice)
-            elif cat.eye_colour in blue_eyes:
-                eye_choice = choice([yellow_eyes, green_eyes])
-                cat.eye_colour2 = choice(eye_choice)
-            elif cat.eye_colour in green_eyes:
-                eye_choice = choice([yellow_eyes, blue_eyes])
-                cat.eye_colour2 = choice(eye_choice)
+    cat.eye_colour2 = None
+
+    cat.eye_colour = choice(eye_colours)
+
+    hit = randint(0, 6)
+    if hit == 0:
+        cat.eye_colour2 = choice(eye_colours)
 
 def randomize_pelt(cat):
     # ------------------------------------------------------------------------------------------------------------#
@@ -293,8 +258,7 @@ def init_accessories(cat):
 
 
 def init_pattern(cat):
-    if cat.pelt is None:
-        init_pelt(cat)
+
     if cat.pelt.name in torties:
         cat.tortiecolour = cat.pelt.colour
         if cat.tortiebase is None:
@@ -321,6 +285,7 @@ def init_pattern(cat):
             cat.tortiepattern = 'tortiesokoke'
         elif cat.tortiebase == 'agouti':
             cat.tortiepattern = 'tortieagouti'
+            cat.tortie_patches_pattern = 'tortieagouti'
         else:
             cat.tortiepattern = choice(['tortietabby', 'tortiemackerel', 'tortieclassic'])
 

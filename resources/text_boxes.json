@@ -1,1 +1,73 @@
-{}
+{
+  "drop_down_menu": {
+    "colours": {
+      "normal_bg": "#655934",
+      "hovered_bg": "#1E1809",
+      "disabled_bg": "#5C5850",
+      "selected_bg": "#655934",
+      "active_bg": "#655934",
+      "normal_text": "#EFE5CE",
+      "hovered_text": "#EFE5CE",
+      "selected_text": "#EFE5CE",
+      "disabled_text": "#EFE5CE",
+      "link_text": "#B68727",
+      "link_hover": "#EFE5CE",
+      "link_selected": "#3A91A6",
+      "text_shadow": "#777777",
+      "normal_border": "#776045",
+      "hovered_border": "#291B0F",
+      "disabled_border": "#706B64",
+      "selected_border": "#776045",
+      "active_border": "#776045"
+    },
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "3",
+      "border_width": "1",
+      "shadow_width": "0"
+    }
+  },
+  "drop_down_menu.#drop_down_options_list.button": {
+    "font": {
+            "name": "notosans",
+            "regular_path": "resources/fonts/NotoSans-Medium.ttf",
+            "size": "15"
+        }
+  },
+  "drop_down_menu.#selected_option": {
+    "font": {
+            "name": "notosans",
+            "regular_path": "resources/fonts/NotoSans-Medium.ttf",
+            "size": "15"
+        }
+  },
+  "#dropdown_label": {
+    "colours": {
+            "normal_bg": "#00000000",
+            "active_bg": "#00000000",
+            "normal_text": "#000000",
+            "text_shadow": "#00000000",
+            "normal_border": "#776045",
+            "hovered_border": "#291B0F",
+            "disabled_border": "#706B64",
+            "selected_border": "#776045",
+            "active_border": "#776045"
+        },
+    "font": {
+            "name": "notosans",
+            "regular_path": "resources/fonts/NotoSans-Medium.ttf",
+            "size": "15"
+        },
+    "misc": {
+            "border_width": "0",
+            "shadow_width": "0",
+            "padding": "5,0",
+            "text_horiz_alignment": "left"
+    }
+  },
+  "#dropup": {
+    "misc": {
+            "expand_direction": "up"
+    }
+  }
+}

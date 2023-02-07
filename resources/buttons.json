@@ -186,6 +186,44 @@
                 "path":"resources/images/buttons/clear_hover.png"
             }
         }
+    },
+  "#checked_checkbox":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/checkmark_on.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/checkmark_on_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/checkmark_on_hover.png"
+            }
+        }
+    },
+    "#unchecked_checkbox":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/checkmark_off.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/checkmark_off_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/checkmark_off_hover.png"
+            }
+        }
     }
 }
 

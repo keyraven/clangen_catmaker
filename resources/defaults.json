@@ -22,6 +22,7 @@
         },
         "font": {
             "name": "notosans",
+            "regular_path": "resources/fonts/NotoSans-Regular.ttf",
             "size": "15"
         },
         "misc": {
