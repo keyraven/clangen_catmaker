@@ -92,7 +92,7 @@ def randomize_scars(cat):
     scar_number = random.choices([0,1,2,3,4], weights=[50, 20, 15, 10, 5], k=1)[0]
 
     i = 0
-    all_scars = scars1+scars2+scars3
+    all_scars = list(global_vars.scars.keys())
     while True:
         if i >= scar_number:
             break
@@ -111,8 +111,7 @@ def randomize_scars(cat):
 def randomize_accessories(cat):
     acc_display_choice = randint(0, 2)
     if acc_display_choice == 1:
-        cat.accessory = choice(plant_accessories +
-            wild_accessories + collars)
+        cat.accessory = choice(list(global_vars.accessories.keys()))
     else:
         cat.accessory = None
 

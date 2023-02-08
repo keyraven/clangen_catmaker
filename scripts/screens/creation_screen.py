@@ -206,6 +206,21 @@ class CreationScreen(base_screens.Screens):
             elif event.ui_element == self.dropdown_menus["tint_select"]:
                 global_vars.CREATED_CAT.tint = global_vars.tints.inverse[event.text]
                 self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["scar_1"]:
+                global_vars.CREATED_CAT.scar_slot_list[0] = global_vars.scars.inverse[event.text]
+                self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["scar_2"]:
+                global_vars.CREATED_CAT.scar_slot_list[1] = global_vars.scars.inverse[event.text]
+                self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["scar_3"]:
+                global_vars.CREATED_CAT.scar_slot_list[2] = global_vars.scars.inverse[event.text]
+                self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["scar_4"]:
+                global_vars.CREATED_CAT.scar_slot_list[4] = global_vars.scars.inverse[event.text]
+                self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["accessory"]:
+                global_vars.CREATED_CAT.accessory = global_vars.accessories.inverse[event.text]
+                self.update_cat_image()
 
 
 
@@ -323,6 +338,28 @@ class CreationScreen(base_screens.Screens):
                                                                           "Tortie Patches Shape",
                                                                           container=self.pattern_tab,
                                                                           object_id="#dropdown_label")
+
+        #EXTRAS TAB
+        self.labels["scar_1"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Scar 1:",
+                                                            container=self.extras_tab,
+                                                            object_id="#dropdown_label")
+
+        self.labels["scar_2"] = pygame_gui.elements.UILabel(pygame.Rect((200, 15), (150, 25)), "Scar 2:",
+                                                            container=self.extras_tab,
+                                                            object_id="#dropdown_label")
+
+        self.labels["scar_3"] = pygame_gui.elements.UILabel(pygame.Rect((380, 15), (150, 25)), "Scar 3:",
+                                                            container=self.extras_tab,
+                                                            object_id="#dropdown_label")
+
+        self.labels["scar_4"] = pygame_gui.elements.UILabel(pygame.Rect((20, 70), (150, 25)), "Scar 4:",
+                                                            container=self.extras_tab,
+                                                            object_id="#dropdown_label")
+
+        self.labels["accessory"] = pygame_gui.elements.UILabel(pygame.Rect((360, 70), (150, 25)), "Accessory:",
+                                                               container=self.extras_tab,
+                                                               object_id="#dropdown_label")
+
 
         self.build_dropdown_menus()
         self.update_checkboxes_and_disable_dropdowns()
@@ -453,6 +490,48 @@ class CreationScreen(base_screens.Screens):
                                                container=self.pattern_tab,
                                                object_id="#dropup")
 
+        #EXTRAS TAB
+
+        self.dropdown_menus["scar_1"] = \
+            pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
+                                               global_vars.scars[
+                                                   global_vars.CREATED_CAT.scar_slot_list[0]
+                                               ],
+                                               pygame.Rect((20, 35), (170, 30)),
+                                               container=self.extras_tab)
+
+        self.dropdown_menus["scar_2"] = \
+            pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
+                                               global_vars.scars[
+                                                   global_vars.CREATED_CAT.scar_slot_list[1]
+                                               ],
+                                               pygame.Rect((200, 35), (170, 30)),
+                                               container=self.extras_tab)
+
+        self.dropdown_menus["scar_3"] = \
+            pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
+                                               global_vars.scars[
+                                                   global_vars.CREATED_CAT.scar_slot_list[2]
+                                               ],
+                                               pygame.Rect((380, 35), (170, 30)),
+                                               container=self.extras_tab)
+
+        self.dropdown_menus["scar_4"] = \
+            pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
+                                               global_vars.scars[
+                                                   global_vars.CREATED_CAT.scar_slot_list[3]
+                                               ],
+                                               pygame.Rect((20, 90), (170, 30)),
+                                               container=self.extras_tab)
+
+        self.dropdown_menus["accessory"] = \
+            pygame_gui.elements.UIDropDownMenu(global_vars.accessories.values(),
+                                               global_vars.accessories[
+                                                   global_vars.CREATED_CAT.accessory
+                                               ],
+                                               pygame.Rect((360, 90), (190, 30)),
+                                               container=self.extras_tab)
+
     def update_checkboxes_and_disable_dropdowns(self):
         """ This function updates the state of the checkboxes, and also disables any dropdown menus that
             need to be disabled. """
@@ -532,5 +611,3 @@ class CreationScreen(base_screens.Screens):
 
     def open_extras_tab(self):
         pass
-
-

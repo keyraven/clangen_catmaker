@@ -68,7 +68,40 @@ white_patches = bidict({None: 'None', 'LITTLE': 'Little', 'LITTLECREAMY': 'Littl
                         'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint', 'SEALPOINT': 'Sealpoint',
                         'FULLWHITE': 'Full White', 'VITILIGO': 'Vitiligo', 'VITILIGO2': 'Vitiligo 2'})
 
-scars = ["None"]
+scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over Eye", "TAILSCAR": "Tail",
+                "SNOUT": "Snout", "CHEEK": "Cheek",
+                "SIDE": "Side", "THROAT": "Throat", "TAILBASE": "Tail Base", "BELLY": "Belly", "LEGBITE": "Bite: Leg",
+                "NECKBITE": "Bite: Neck", "FACE": "Face", "MANLEG": "Mangled Leg", "BRIGHTHEART": "Mangled Face",
+                "MANTAIL": "Mangled Tail", "BRIDGE": "Bridge", "RIGHTBLIND": "Right Eye Blind",
+                "LEFTBLIND": "Left Eye Blind", "BOTHBLIND": "Both Eyes Blind", "BEAKCHEEK": "Beak: Cheek",
+                "BEAKLOWER": "Beak: Lower", "CATBITE": "Cat Bite", "RATBITE": "Rat Bite", "QUILLCHUNK": "Quill Chunk",
+                "QUILLSCRATCH" : "Quill Scratch", "LEFTEAR": "Left Ear Notch", "RIGHTEAR": "Right Eye Notch",
+                "NOEAR": "No Ears", "NOTAIL": "No Tail", "HALFTAIL": "Half Tail", "NOPAW": "Missing Leg",
+                "SNAKE": "Bite: Snake", "TOETRAP": "Toe Trap", "BURNPAWS": "Burnt Paws", "BURNTAIL": "Burnt Tail",
+                "BURNBELLY": "Burnt Belly", "BURNRUMP": "Burnt Rump", "FROSTFACE": "Frostbitten Face",
+                "FROSTTAIL": "Frostbitten Tail", "FROSTMITT": "Frostbitten Paw1", "FROSTSOCK": "Frostbitten Paw2"})
+
+accessories = bidict({None: "None", "MAPLE LEAF": "Maple Leaf", "HOLLY": "Holly", "BLUE BERRIES": "Blue Berries",
+                      "FORGET ME NOTS": "Forget-me-nots", "RYE STALK": "Rye Stalk", "LAUREL": "Laurel",
+                      "BLUEBELLS": "Bluebells", "NETTLE": "Nettle", "POPPY": "Poppy", "LAVENDER": "Lavender",
+                      "HERBS": "Herbs", "PETALS": "Petals", "DRY HERBS": "Dry Herbs", "OAK LEAVES": "Oak Leaves",
+                      "CATMINT": "Catmint", "MAPLE SEED": "Maple Seed", "JUNIPER": "Juniper",
+                      "RED FEATHERS": "Red Feathers", "BLUE FEATHERS": "Blue Feathers", "JAY FEATHERS": "Jay Feathers",
+                      "MOTH WINGS": "Moth Wings", "CICADA WINGS": "Cicada Wings", "CRIMSON": "Crimson Collar",
+                      "BLUE": "Blue Collar", "YELLOW": "Yellow Collar", "CYAN": "Cyan Collar", "RED": "Red Collar",
+                      "LIME": "Line Collar", "GREEN": "Green Collar", "RAINBOW": "Rainbow Collar",
+                      "BLACK": "Black Collar", "SPIKES": "Spike Collar", "PINK": "Pink Collar",
+                      "PURPLE": "Purple Collar", "MULTI": "Mulicolored Collar", "CRIMSONBELL": "Crimson Bell Collar",
+                      "BLUEBELL": "Blue Bell Collar", "YELLOWBELL": "Yellow Bell Collar",
+                      "CYANBELL": "Cyan Bell Collar", "REDBELL": "Red Bell Collar", "LIMEBELL": "Lime Bell Collar",
+                      "GREENBELL": "Green Bell Collar", "RAINBOWBELL": "Rainbow Bell Color",
+                      "BLACKBELL": "Black Bell Collar", "SPIKESBELL": "Spike Bell Collar",
+                      "PINKBELL": "Pine Bell Collar", "PURPLEBELL": "Purple Bell Collar",
+                      "MULTIBELL": "Mulitcolored Bell Color", "CRIMSONBOW": "Crimson Bow", "BLUEBOW": "Blue Bow",
+                      "YELLOWBOW": "Yellow Bow", "CYANBOW": "Cyan Bow", "REDBOW": "Red Bow", "LIMEBOW": "Line Bow",
+                      "GREENBOW": "Green Bow", "RAINBOWBOW": "Rainbow Bow", "BLACKBOW": "Black Bow",
+                      "SPIKESBOW": "Spike Bow", "PINKBOW": "Pink Bow", "PURPLEBOW": "Purple Bow",
+                      "MULTIBOW": "Multicolored Bow"})
 
 poses = {
     "short": {
