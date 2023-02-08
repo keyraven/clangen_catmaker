@@ -218,7 +218,7 @@ class CreationScreen(base_screens.Screens):
                 global_vars.CREATED_CAT.scar_slot_list[2] = global_vars.scars.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["scar_4"]:
-                global_vars.CREATED_CAT.scar_slot_list[4] = global_vars.scars.inverse[event.text]
+                global_vars.CREATED_CAT.scar_slot_list[3] = global_vars.scars.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["accessory"]:
                 global_vars.CREATED_CAT.accessory = global_vars.accessories.inverse[event.text]
