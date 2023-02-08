@@ -74,15 +74,14 @@ class Cat():
 
     def randomize_looks(self):
         self.age = choice(list(self.age_sprites.keys()))
-        util.init_pelt(self)
-        util.init_eyes(self)
-        util.init_tint(self)
-        util.init_sprite(self)
-        util.init_scars(self)
-        util.init_accessories(self)
-        util.init_white_patches(self)
-        util.init_eyes(self)
-        util.init_pattern(self)
+        util.randomize_pelt(self)
+        util.randomize_eyes(self)
+        util.randomize_tint(self)
+        util.randomize_sprite(self)
+        util.randomize_scars(self)
+        util.randomize_accessories(self)
+        util.randomize_white_patches(self)
+        util.randomize_pattern(self)
 
 
 # ---------------------------------------------------------------------------- #

@@ -26,7 +26,7 @@ tortie_patches_patterns = bidict({"solid": "Plain", "tabby": "Tabby", "bengal": 
 
 tortie_patches_shapes = bidict({"ONE": "Shape 1", "TWO": "Shape 2", "THREE": "Shape 3", "FOUR": "Shape 4"})
 
-tortie_patches_color = bidict({"GINGER" : "Ginger", "DARKGINGER": "Dark Ginger", "GOLD": "Golden",
+tortie_patches_color = bidict({"GINGER": "Ginger", "DARK": "Dark Ginger", "GOLD": "Golden",
                                "PALE": "Pale Ginger", "CREAM": "Cream"})
 
 eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'PALEGREEN': "Pale Green",
@@ -34,6 +34,15 @@ eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'P
                       'EMERALD': "Emerald", 'PALEBLUE': "Pale Blue", 'PALEYELLOW': "Pale Yellow", 'GOLD': "Gold",
                       'HEATHERBLUE': "Heather Blue", 'COPPER': "Copper", 'SAGE': "Sage", 'BLUE2': "Blue 2",
                       'SUNLITICE': "Sunlit Ice", "GREENYELLOW": "Green-Yellow"})
+
+tints = bidict({"none": "None", "pink": "Pink", "gray": "Gray", "red": "Red", "black": "Black", "orange": "Orange",
+                "yellow": "Yellow", "purple": "Purple", "blue": "Blue"})
+
+skin_colors = bidict({'BLACK': "Black", 'RED': "Red", 'PINK': "Pink", 'DARKBROWN': "Dark Brown", 'BROWN': "Brown",
+                      'LIGHTBROWN': "Light Brown", 'DARK': "Dark", 'DARKGREY': "Dark Gray", 'GREY': "Gray",
+                      'DARKSALMON': "Dark Salmon", 'SALMON': 'Salmon', 'PEACH': 'Peach', 'DARKMARBLED': 'Dark Marbled',
+                      'MARBLED': 'Marbled', 'LIGHTMARBLED': 'Light Marbled', 'DARKBLUE': 'Dark Blue', 'BLUE': 'Blue',
+                      'LIGHTBLUE': 'Light Blue'})
 
 colors = bidict({'WHITE': 'White', 'GREY': 'Grey', 'DARKGREY': 'Dark Grey', 'PALEGREY': 'Pale Grey',
                  'SILVER': 'Silver', 'GOLDEN': 'Golden', 'DARKGINGER': 'Dark Ginger', 'PALEGINGER': 'Pale Ginger',
@@ -59,7 +68,6 @@ white_patches = bidict({None: 'None', 'LITTLE': 'Little', 'LITTLECREAMY': 'Littl
                         'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint', 'SEALPOINT': 'Sealpoint',
                         'FULLWHITE': 'Full White', 'VITILIGO': 'Vitiligo', 'VITILIGO2': 'Vitiligo 2'})
 
-tints = ["None", "Gray", "Blue", "Pink", "Red", "Black", "Orange", "Yellow", "Purple"]
 scars = ["None"]
 
 poses = {

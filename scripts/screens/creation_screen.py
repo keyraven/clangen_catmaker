@@ -200,6 +200,12 @@ class CreationScreen(base_screens.Screens):
                                                   global_vars.CREATED_CAT.tortie_patches_shape
 
                 self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["skin_color_select"]:
+                global_vars.CREATED_CAT.skin = global_vars.skin_colors.inverse[event.text]
+                self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["tint_select"]:
+                global_vars.CREATED_CAT.tint = global_vars.tints.inverse[event.text]
+                self.update_cat_image()
 
 
 
@@ -287,25 +293,33 @@ class CreationScreen(base_screens.Screens):
                                                                  container=self.pattern_tab,
                                                                  object_id="#dropdown_label")
 
+        self.labels["tint"] = pygame_gui.elements.UILabel(pygame.Rect((180, 125), (150, 25)), "Tint:",
+                                                                 container=self.pattern_tab,
+                                                                 object_id="#dropdown_label")
+
+        self.labels["Skin Color"] = pygame_gui.elements.UILabel(pygame.Rect((20, 125), (150, 25)), "Skin Color:",
+                                                          container=self.pattern_tab,
+                                                          object_id="#dropdown_label")
+
         self.labels["hetero"] = pygame_gui.elements.UILabel(pygame.Rect((244, 90), (150, 25)), "Heterochromia",
                                                             container=self.pattern_tab,
                                                             object_id="#dropdown_label")
 
-        self.labels["tortie"] = pygame_gui.elements.UILabel(pygame.Rect((75, 165), (150, 25)), "Tortie",
+        self.labels["tortie"] = pygame_gui.elements.UILabel(pygame.Rect((20, 200), (150, 25)), "Tortie",
                                                             container=self.pattern_tab,
                                                             object_id="#dropdown_label")
 
-        self.labels["Tortie Patches Color"] = pygame_gui.elements.UILabel(pygame.Rect((20, 200), (150, 25)),
+        self.labels["Tortie Patches Color"] = pygame_gui.elements.UILabel(pygame.Rect((70, 200), (150, 25)),
                                                                           "Tortie Patches Color",
                                                                           container=self.pattern_tab,
                                                                           object_id="#dropdown_label")
 
-        self.labels["Tortie Patches pattern"] = pygame_gui.elements.UILabel(pygame.Rect((180, 200), (190, 25)),
+        self.labels["Tortie Patches pattern"] = pygame_gui.elements.UILabel(pygame.Rect((230, 200), (190, 25)),
                                                                           "Tortie Patches Pattern",
                                                                           container=self.pattern_tab,
                                                                           object_id="#dropdown_label")
 
-        self.labels["Tortie Patches shape"] = pygame_gui.elements.UILabel(pygame.Rect((370, 200), (190, 25)),
+        self.labels["Tortie Patches shape"] = pygame_gui.elements.UILabel(pygame.Rect((420, 200), (190, 25)),
                                                                           "Tortie Patches Shape",
                                                                           container=self.pattern_tab,
                                                                           object_id="#dropdown_label")
@@ -397,13 +411,27 @@ class CreationScreen(base_screens.Screens):
                                                                                 pygame.Rect((385, 90), (180, 30)),
                                                                                 container=self.pattern_tab)
 
+        self.dropdown_menus["tint_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.tints.values(),
+                                                                                global_vars.tints[
+                                                                                    global_vars.CREATED_CAT.tint
+                                                                                ],
+                                                                                pygame.Rect(((180, 145), (150, 30))),
+                                                                                container=self.pattern_tab)
+
+        self.dropdown_menus["skin_color_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.skin_colors.values(),
+                                                                                      global_vars.skin_colors[
+                                                                                        global_vars.CREATED_CAT.skin
+                                                                                      ],
+                                                                                      pygame.Rect(((20, 145), (150, 30))),
+                                                                                      container=self.pattern_tab)
+
         # Tortie Patches Color
         self.dropdown_menus["torte_patches_color"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.tortie_patches_color.values(),
                                                global_vars.tortie_patches_color[
                                                     global_vars.CREATED_CAT.tortie_patches_color
                                                ],
-                                               pygame.Rect((20, 220), (150, 30)),
+                                               pygame.Rect((70, 220), (150, 30)),
                                                container=self.pattern_tab,
                                                object_id="#dropup")
 
@@ -412,7 +440,7 @@ class CreationScreen(base_screens.Screens):
                                                global_vars.tortie_patches_patterns[
                                                   global_vars.CREATED_CAT.tortie_patches_pattern
                                                ],
-                                               pygame.Rect((180, 220), (180, 30)),
+                                               pygame.Rect((230, 220), (180, 30)),
                                                container=self.pattern_tab,
                                                object_id="#dropup")
 
@@ -421,7 +449,7 @@ class CreationScreen(base_screens.Screens):
                                                global_vars.tortie_patches_shapes[
                                                    global_vars.CREATED_CAT.tortie_patches_shape
                                                ],
-                                               pygame.Rect((370, 220), (150, 30)),
+                                               pygame.Rect((420, 220), (150, 30)),
                                                container=self.pattern_tab,
                                                object_id="#dropup")
 
@@ -434,7 +462,7 @@ class CreationScreen(base_screens.Screens):
 
         # Tortie checkbox
         if global_vars.CREATED_CAT.pelt.name == "Tortie":
-            self.checkboxes["tortie_checkbox"] = custom_buttons.UIImageButton(pygame.Rect((40, 160), (34, 34)),
+            self.checkboxes["tortie_checkbox"] = custom_buttons.UIImageButton(pygame.Rect((25, 220), (34, 34)),
                                                                               "",
                                                                               object_id="#checked_checkbox",
                                                                               container=self.pattern_tab)
@@ -442,7 +470,7 @@ class CreationScreen(base_screens.Screens):
             self.dropdown_menus["torte_patches_pattern"].enable()
             self.dropdown_menus["torte_patches_shape"].enable()
         else:
-            self.checkboxes["tortie_checkbox"] = custom_buttons.UIImageButton(pygame.Rect((40, 160), (34, 34)),
+            self.checkboxes["tortie_checkbox"] = custom_buttons.UIImageButton(pygame.Rect((25, 220), (34, 34)),
                                                                               "",
                                                                               object_id="#unchecked_checkbox",
                                                                               container=self.pattern_tab)
