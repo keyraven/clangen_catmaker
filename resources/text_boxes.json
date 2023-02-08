@@ -69,5 +69,41 @@
     "misc": {
             "expand_direction": "up"
     }
+  },
+  "#title": {
+    "colours": {
+            "dark_bg": "#625937",
+            "normal_text": "#EFE5CE"
+        },
+    "font": {
+            "name": "notosans",
+            "regular_path": "resources/fonts/NotoSans-Bold.ttf",
+            "size": "40"
+        },
+    "misc": {
+            "border_width": "0",
+            "shadow_width": "0",
+            "padding": "0,0",
+            "text_horiz_alignment": "center",
+            "text_vert_alignment": "center"
+    }
+  },
+  "#version": {
+    "colours": {
+            "dark_bg": "#00000000",
+            "normal_text": "#625937"
+        },
+    "font": {
+            "name": "notosans",
+            "regular_path": "resources/fonts/NotoSans-Bold.ttf",
+            "size": "15"
+        },
+    "misc": {
+            "border_width": "0",
+            "shadow_width": "0",
+            "padding": "0,0",
+            "text_horiz_alignment": "center",
+            "text_vert_alignment": "center"
+    }
   }
 }

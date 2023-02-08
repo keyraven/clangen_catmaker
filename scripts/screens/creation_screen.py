@@ -70,6 +70,8 @@ class CreationScreen(base_screens.Screens):
                 self.build_dropdown_menus()
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
+            elif event.ui_element == self.back:
+                self.change_screen('start screen')
             # Here is where the cat creation checkboxes start.
             elif event.ui_element == self.checkboxes["tortie_checkbox"]:
                 # Switch pelt to tortie.
@@ -583,9 +585,6 @@ class CreationScreen(base_screens.Screens):
                                                                       object_id="#unchecked_checkbox",
                                                                       container=self.general_tab)
 
-
-
-
     def change_pose(self, pose: str=None):
         # Changes the pose from 1, 2, or 3
         if pose:
@@ -595,7 +594,6 @@ class CreationScreen(base_screens.Screens):
 
             # Adjust tracked poses.
             global_vars.CREATED_CAT.current_poses[global_vars.CREATED_CAT.age] = pose
-
 
     def change_fur_length(self, fur_length: str=None):
         if fur_length:
@@ -607,7 +605,45 @@ class CreationScreen(base_screens.Screens):
                 global_vars.CREATED_CAT.age_sprites[age] = global_vars.poses[
                     fur_length][age][global_vars.CREATED_CAT.current_poses[age]]
 
+    def exit_screen(self):
+        self.back.kill()
+        self.back = None
 
+        self.done.kill()
+        self.done = None
 
-    def open_extras_tab(self):
-        pass
+        self.randomize.kill()
+        self.randomize = None
+
+        self.clear.kill()
+        self.clear = None
+
+        self.cat_image.kill()
+        self.cat_image = None
+
+        # Tabs
+        self.general_tab_button.kill()
+        self.general_tab_button = None
+
+        self.pattern_tab_button.kill()
+        self.pattern_tab_button = None
+
+        self.extras_tab_button.kill()
+        self.pattern_tab_button = None
+
+        self.tab_background.kill()
+        self.tab_background = None
+
+        # TAB CONTAINERS
+        self.general_tab.kill()
+        self.general_tab = None
+
+        self.pattern_tab.kill()
+        self.pattern_tab = None
+
+        self.extras_tab.kill()
+        self.extras_tab = None
+
+        self.labels = {}
+        self.dropdown_menus = {}
+        self.checkboxes = {}

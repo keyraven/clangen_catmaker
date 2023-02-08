@@ -9,6 +9,8 @@ class StartScreen(base_screens.Screens):
 
     def __init__(self, name):
         self.start_button = None
+        self.title = None
+        self.version = None
         super().__init__(name)
 
     def handle_event(self, event):
@@ -17,8 +19,17 @@ class StartScreen(base_screens.Screens):
                 self.change_screen("creation screen")
 
     def screen_switches(self):
-        self.start_button = pygame_gui.elements.UIButton(pygame.Rect((350, 200), (100, 50)), "Start")
+        self.title = pygame_gui.elements.UITextBox("ClanGen CatMaker", pygame.Rect((0, 200), (800, 100)),
+                                                   object_id="#title")
+        self.start_button = pygame_gui.elements.UIButton(pygame.Rect((350, 320), (100, 50)), "Start")
+        self.version = pygame_gui.elements.UITextBox("Version 0.4.0beta"
+                                                     "\n Please don't sell any images created, and give proper credit. ", pygame.Rect((250, 400), (300, 100)),
+                                                     object_id="#version")
 
     def exit_screen(self):
         self.start_button.kill()
         self.start_button = None
+        self.title.kill()
+        self.title = None
+        self.version.kill()
+        self.version = None
