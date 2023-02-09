@@ -7,6 +7,7 @@ from scripts.game_structure.image_cache import load_image
 import scripts.game_structure.image_button as custom_buttons
 from scripts.cat.cats import Cat
 from scripts.cat.pelts import choose_pelt
+from scripts.game_structure.image_cache import load_image
 
 class CreationScreen(base_screens.Screens):
 
@@ -223,11 +224,44 @@ class CreationScreen(base_screens.Screens):
             elif event.ui_element == self.dropdown_menus["accessory"]:
                 global_vars.CREATED_CAT.accessory = global_vars.accessories.inverse[event.text]
                 self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["lineart_select"]:
+                if event.text == "StarClan":
+                    global_vars.CREATED_CAT.dead = True
+                    global_vars.CREATED_CAT.df = False
+                elif event.text == "Dark Forest":
+                    global_vars.CREATED_CAT.dead = True
+                    global_vars.CREATED_CAT.df = True
+                else:
+                    global_vars.CREATED_CAT.dead = False
+                    global_vars.CREATED_CAT.df = False
+                self.update_cat_image()
+            elif event.ui_element == self.dropdown_menus["platform_select"]:
+                path = global_vars.platforms[event.text]
+                if path:
+                    self.cat_platform.set_image(pygame.transform.scale(load_image(path), (480, 420)))
+                    self.cat_platform.show()
+                else:
+                    self.cat_platform.hide()
 
 
 
     def screen_switches(self):
         update_sprite(global_vars.CREATED_CAT)
+
+        if global_vars.CREATED_CAT.platform != "None":
+            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((200, 25), (480, 420)),
+                                                            pygame.transform.scale(load_image(
+                                                                global_vars.platforms[
+                                                                    global_vars.CREATED_CAT.platform
+                                                                ]),(480, 420)))
+        else:
+            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((160, 25), (480, 420)),
+                                                            global_vars.MANAGER.get_universal_empty_surface(),
+                                                            visible=False)
+
+        self.cat_image = pygame_gui.elements.UIImage(pygame.Rect((250, 25), (300, 300)),
+                                                     pygame.transform.scale(global_vars.CREATED_CAT.sprite,
+                                                                            (300, 300)))
 
         self.back = custom_buttons.UIImageButton(pygame.Rect((50, 25), (105, 30)), "",
                                                  object_id="#back_button")
@@ -240,10 +274,6 @@ class CreationScreen(base_screens.Screens):
 
         self.clear = custom_buttons.UIImageButton(pygame.Rect((690, 291), (50, 50)), "",
                                                   object_id="#clear_button")
-
-        self.cat_image = pygame_gui.elements.UIImage(pygame.Rect((250, 25), (300, 300)),
-                                                     pygame.transform.scale(global_vars.CREATED_CAT.sprite,
-                                                                            (300, 300)))
 
         # Tabs
         self.general_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 365), (100, 88)), "",
@@ -286,6 +316,10 @@ class CreationScreen(base_screens.Screens):
                                                                  object_id="#dropdown_label")
 
         self.labels["reversed"] = pygame_gui.elements.UILabel(pygame.Rect((226, 99), (150, 25)), "Reversed",
+                                                              container=self.general_tab,
+                                                              object_id="#dropdown_label")
+
+        self.labels["lineart"] = pygame_gui.elements.UILabel(pygame.Rect((340, 15), (150, 25)), "Lineart:",
                                                               container=self.general_tab,
                                                               object_id="#dropdown_label")
 
@@ -362,6 +396,10 @@ class CreationScreen(base_screens.Screens):
                                                                container=self.extras_tab,
                                                                object_id="#dropdown_label")
 
+        self.labels["accessory"] = pygame_gui.elements.UILabel(pygame.Rect((20, 125), (150, 25)), "Platform:",
+                                                               container=self.extras_tab,
+                                                               object_id="#dropdown_label")
+
 
         self.build_dropdown_menus()
         self.update_checkboxes_and_disable_dropdowns()
@@ -397,6 +435,19 @@ class CreationScreen(base_screens.Screens):
                                                                                global_vars.CREATED_CAT.age.capitalize(),
                                                                                pygame.Rect((20, 35), (150, 30)),
                                                                                container=self.general_tab)
+
+        if global_vars.CREATED_CAT.dead:
+            if global_vars.CREATED_CAT.df:
+                lineart = global_vars.lineart[1]
+            else:
+                lineart = global_vars.lineart[2]
+        else:
+            lineart = global_vars.lineart[0]
+
+        self.dropdown_menus["lineart_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.lineart,
+                                                                                   lineart,
+                                                                                   pygame.Rect((340, 35), (150, 30)),
+                                                                                   container=self.general_tab)
 
         # PATTERN TAB CONTENTS
         self.dropdown_menus["color_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.colors.values(),
@@ -532,6 +583,12 @@ class CreationScreen(base_screens.Screens):
                                                    global_vars.CREATED_CAT.accessory
                                                ],
                                                pygame.Rect((360, 90), (190, 30)),
+                                               container=self.extras_tab)
+
+        self.dropdown_menus["platform_select"] = \
+            pygame_gui.elements.UIDropDownMenu(global_vars.platforms.keys(),
+                                               global_vars.CREATED_CAT.platform,
+                                               pygame.Rect((20, 145), (260, 30)),
                                                container=self.extras_tab)
 
     def update_checkboxes_and_disable_dropdowns(self):

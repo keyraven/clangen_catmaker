@@ -49,6 +49,7 @@ class Cat():
             "adult": "3",
             "elder": "1"
         }
+        self.platform = "None"
 
         # Helpers:
         self.tortie_patches_shape = "ONE"

@@ -22,7 +22,7 @@ pelt_options = bidict({"SingleColour": "Plain",  "Smoke": "Smoke", 'Singlestripe
 tortie_patches_patterns = bidict({"solid": "Plain", "tabby": "Tabby", "bengal": "Bengal", "marbled": "Marbled Tabby",
                                   "ticked": "Ticked", "rosette": "Rosette", "smoke": "Smoke",
                                   "speckled": "Speckled Tabby", "agouti": "Agouti", "classic": "Classic Tabby",
-                                  "mackerel": "Mackerel Tabby", "sokoke": "Sokeke"})
+                                  "mackerel": "Mackerel Tabby", "sokoke": "Sokoke"})
 
 tortie_patches_shapes = bidict({"ONE": "Shape 1", "TWO": "Shape 2", "THREE": "Shape 3", "FOUR": "Shape 4"})
 
@@ -75,8 +75,9 @@ scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over 
                 "MANTAIL": "Mangled Tail", "BRIDGE": "Bridge", "RIGHTBLIND": "Right Eye Blind",
                 "LEFTBLIND": "Left Eye Blind", "BOTHBLIND": "Both Eyes Blind", "BEAKCHEEK": "Beak: Cheek",
                 "BEAKLOWER": "Beak: Lower", "CATBITE": "Cat Bite", "RATBITE": "Rat Bite", "QUILLCHUNK": "Quill Chunk",
-                "QUILLSCRATCH" : "Quill Scratch", "LEFTEAR": "Left Ear Notch", "RIGHTEAR": "Right Eye Notch",
-                "NOEAR": "No Ears", "NOTAIL": "No Tail", "HALFTAIL": "Half Tail", "NOPAW": "Missing Leg",
+                "QUILLSCRATCH": "Quill Scratch", "LEFTEAR": "Left Ear Notch", "RIGHTEAR": "Right Ear Notch",
+                "NOLEFTEAR": "No Left Ear", "NORIGHTEAR": "No Right Ear", "NOEAR": "No Ears", "NOTAIL": "No Tail",
+                "HALFTAIL": "Half Tail", "NOPAW": "Missing Leg",
                 "SNAKE": "Bite: Snake", "TOETRAP": "Toe Trap", "BURNPAWS": "Burnt Paws", "BURNTAIL": "Burnt Tail",
                 "BURNBELLY": "Burnt Belly", "BURNRUMP": "Burnt Rump", "FROSTFACE": "Frostbitten Face",
                 "FROSTTAIL": "Frostbitten Tail", "FROSTMITT": "Frostbitten Paw1", "FROSTSOCK": "Frostbitten Paw2"})
@@ -102,6 +103,45 @@ accessories = bidict({None: "None", "MAPLE LEAF": "Maple Leaf", "HOLLY": "Holly"
                       "GREENBOW": "Green Bow", "RAINBOWBOW": "Rainbow Bow", "BLACKBOW": "Black Bow",
                       "SPIKESBOW": "Spike Bow", "PINKBOW": "Pink Bow", "PURPLEBOW": "Purple Bow",
                       "MULTIBOW": "Multicolored Bow"})
+
+platforms = {"None": None,
+             "Greenleaf Plains - Day": "resources/images/platforms/plains/greenleaf_light.png",
+             "Leaf-fall Plains - Day": "resources/images/platforms/plains/leaffall_light.png",
+             "Leaf-bare Plains - Day": "resources/images/platforms/plains/leafbare_light.png",
+             "Newleaf Plains - Day": "resources/images/platforms/plains/newleaf_light.png",
+             "Greenleaf Plains - Night": "resources/images/platforms/plains/greenleaf_dark.png",
+             "Leaf-fall Plains - Night": "resources/images/platforms/plains/leaffall_dark.png",
+             "Leaf-bare Plains - Night": "resources/images/platforms/plains/leafbare_dark.png",
+             "Newleaf Plains - Night": "resources/images/platforms/plains/newleaf_dark.png",
+             "Greenleaf Forest - Day": "resources/images/platforms/forest/greenleaf_light.png",
+             "Leaf-fall Forest - Day": "resources/images/platforms/forest/leaffall_light.png",
+             "Leaf-bare Forest - Day": "resources/images/platforms/forest/leafbare_light.png",
+             "Newleaf Forest - Day": "resources/images/platforms/forest/newleaf_light.png",
+             "Greenleaf Forest - Night": "resources/images/platforms/forest/greenleaf_dark.png",
+             "Leaf-fall Forest - Night": "resources/images/platforms/forest/leaffall_dark.png",
+             "Leaf-bare Forest - Night": "resources/images/platforms/forest/leafbare_dark.png",
+             "Newleaf Forest - Night": "resources/images/platforms/forest/newleaf_dark.png",
+             "Greenleaf Mountains - Day": "resources/images/platforms/mountainous/greenleaf_light.png",
+             "Leaf-fall Mountains - Day": "resources/images/platforms/mountainous/leaffall_light.png",
+             "Leaf-bare Mountains - Day": "resources/images/platforms/mountainous/leafbare_light.png",
+             "Newleaf Mountains - Day": "resources/images/platforms/mountainous/newleaf_light.png",
+             "Greenleaf Mountains - Night": "resources/images/platforms/mountainous/greenleaf_dark.png",
+             "Leaf-dall Mountains - Night": "resources/images/platforms/mountainous/leaffall_dark.png",
+             "Leaf-bare Mountains - Night": "resources/images/platforms/mountainous/leafbare_dark.png",
+             "Newleaf Mountains - Night": "resources/images/platforms/mountainous/newleaf_dark.png",
+             "Greenleaf Beach - Day": "resources/images/platforms/beach/greenleaf_light.png",
+             "Leaf-fall Beach - Day": "resources/images/platforms/beach/leaffall_light.png",
+             "Leaf-bare Beach - Day": "resources/images/platforms/beach/leafbare_light.png",
+             "Newleaf Beach - Day": "resources/images/platforms/beach/newleaf_light.png",
+             "Greenleaf Beach - Night": "resources/images/platforms/beach/greenleaf_dark.png",
+             "Leaf-fall Beach - Night": "resources/images/platforms/beach/leaffall_dark.png",
+             "Leaf-bare Beach - Night": "resources/images/platforms/beach/leafbare_dark.png",
+             "Newleaf Beach - Night": "resources/images/platforms/beach/newleaf_dark.png",
+             "Dark Forest - Light": "resources/images/platforms/darkforestplatform_light.png",
+             "Dark Forest - Dark": "resources/images/platforms/darkforestplatform_dark.png",
+             "StarClan": "resources/images/platforms/starclanplatform_dark.png"}
+
+lineart = ["Normal", "StarClan", "Dark Forest"]
 
 poses = {
     "short": {
