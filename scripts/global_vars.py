@@ -49,7 +49,7 @@ colors = bidict({'WHITE': 'White', 'GREY': 'Grey', 'DARKGREY': 'Dark Grey', 'PAL
                  'CREAM': 'Cream', 'BROWN': 'Brown', 'DARKBROWN': 'Dark Brown', 'LIGHTBROWN': 'Light Brown',
                  'BLACK': 'Black', "GHOST": "Ghost", "GINGER": "Ginger"})
 
-white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK': 'Chest Speck', 'PAINTED': 'Painted',
+white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK': 'Chest Speck', 'WINGS': 'Wings', 'PAINTED': 'Painted',
                         'BLACKSTAR': 'Blackstar', 'LITTLE': 'Little', 'LITTLECREAMY': 'Little Creamy', 'TUXEDO': 'Tuxedo',
                         'LIGHTTUXEDO': 'Light Tuxedo', 'TUXEDOCREAMY': 'Tuxedo Creamy', 'BUZZARDFANG': 'Buzzardfang',
                         'TIP': 'Tip', 'BLAZE': 'Blaze', 'BIB': 'Bib', 'VEE': 'Vee', 'PAWS': 'Paws', 'BELLY': 'Belly',
