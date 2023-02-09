@@ -257,7 +257,7 @@ class CreationScreen(base_screens.Screens):
         update_sprite(global_vars.CREATED_CAT)
 
         if global_vars.CREATED_CAT.platform != "None":
-            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((200, 25), (480, 420)),
+            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((160, 25), (480, 420)),
                                                             pygame.transform.scale(load_image(
                                                                 global_vars.platforms[
                                                                     global_vars.CREATED_CAT.platform
