@@ -29,6 +29,7 @@ class CreationScreen(base_screens.Screens):
         self.white_patches_select = None
         self.pose_select = None
         self.base_pelt_select = None
+        self.cat_platform = None
         self.dropdown_menus = {}
         self.checkboxes = {}
         self.labels = {}
@@ -675,6 +676,9 @@ class CreationScreen(base_screens.Screens):
 
         self.done.kill()
         self.done = None
+
+        self.cat_platform.kill()
+        self.cat_platform = None
 
         self.randomize.kill()
         self.randomize = None
