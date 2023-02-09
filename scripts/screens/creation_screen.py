@@ -445,9 +445,9 @@ class CreationScreen(base_screens.Screens):
 
         if global_vars.CREATED_CAT.dead:
             if global_vars.CREATED_CAT.df:
-                lineart = global_vars.lineart[1]
-            else:
                 lineart = global_vars.lineart[2]
+            else:
+                lineart = global_vars.lineart[1]
         else:
             lineart = global_vars.lineart[0]
 
