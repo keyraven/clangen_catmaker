@@ -63,21 +63,32 @@ def randomize_pelt(cat):
 
 
 def randomize_sprite(cat):
-    cat.age_sprites = {
-        'kitten': randint(0, 2),
-        'adolescent': randint(3, 5),
-        'elder': randint(3, 5)
+    cat.current_poses = {
+        'kitten': choice(["1", "2", "3"]),
+        'adolescent': choice(["1", "2", "3"]),
+        'elder': choice(["1", "2", "3"]),
+        'adult': choice(["1", "2", "3"]),
     }
-    cat.reverse = choice([True, False])
 
-    # skin chances
-    cat.skin = choice(list(global_vars.skin_colors.keys()))
-            
+    # Set sprite numbers.
+    for x in cat.age_sprites.keys():
+        cat.age_sprites[x] = global_vars.poses[cat.pelt.length][x][cat.current_poses[x]]
+
     if cat.pelt is not None:
         if cat.pelt.length != 'long':
             cat.age_sprites['adult'] = randint(6, 8)
         else:
             cat.age_sprites['adult'] = randint(0, 2)
+
+
+
+
+    cat.reverse = choice([True, False])
+
+
+
+    # skin chances
+    cat.skin = choice(list(global_vars.skin_colors.keys()))
 
 
 def randomize_platform(cat):
