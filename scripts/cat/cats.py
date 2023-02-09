@@ -37,6 +37,7 @@ class Cat():
         self.tortiecolour = None
         self.white_patches = None
         self.accessory = None
+        self.shading = False
         self.age_sprites = {
             "kitten": 0,
             "adolescent": 3,
@@ -56,7 +57,6 @@ class Cat():
         self.tortie_patches_color = "PALE"
         self.tortie_patches_pattern = "solid"
         self.stored_eye_color_2 = "BLUE"
-
 
         self.opacity = 100
         self.reverse = False
@@ -95,6 +95,8 @@ class Cat():
         elif lineart == "DF":
             self.dead = True
             self.df = True
+
+        self.shading = choice([True, False])
 
 
 

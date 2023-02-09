@@ -137,7 +137,13 @@ class CreationScreen(base_screens.Screens):
                     global_vars.CREATED_CAT.reverse = True
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
-
+            elif event.ui_element == self.checkboxes["shading"]:
+                if global_vars.CREATED_CAT.shading:
+                    global_vars.CREATED_CAT.shading = False
+                else:
+                    global_vars.CREATED_CAT.shading = True
+                self.update_checkboxes_and_disable_dropdowns()
+                self.update_cat_image()
         # Here if where all the dropdown menu actions are handled.
         elif event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
             if event.ui_element == self.dropdown_menus["color_select"]:
@@ -310,7 +316,8 @@ class CreationScreen(base_screens.Screens):
                                                                    visible=False)
 
         # Tab Contents - Labels.
-        # General Tab Labels:
+        # General Tab Labels -----------------------------------------------------------------------------------------
+
         self.labels["Age"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Age:",
                                                          container=self.general_tab,
                                                          object_id="#dropdown_label")
@@ -323,7 +330,11 @@ class CreationScreen(base_screens.Screens):
                                                                  container=self.general_tab,
                                                                  object_id="#dropdown_label")
 
-        self.labels["reversed"] = pygame_gui.elements.UILabel(pygame.Rect((226, 99), (150, 25)), "Reversed",
+        self.labels["reversed"] = pygame_gui.elements.UILabel(pygame.Rect((226, 99), (-1, 25)), "Reversed",
+                                                              container=self.general_tab,
+                                                              object_id="#dropdown_label")
+
+        self.labels["shading"] = pygame_gui.elements.UILabel(pygame.Rect((378, 99), (-1, 25)), "Shading",
                                                               container=self.general_tab,
                                                               object_id="#dropdown_label")
 
@@ -331,7 +342,8 @@ class CreationScreen(base_screens.Screens):
                                                               container=self.general_tab,
                                                               object_id="#dropdown_label")
 
-        # Pattern Tab Labels:
+        # Pattern Tab Labels ------------------------------------------------------------------------------------------
+
         self.labels["color"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Base Color:",
                                                            container=self.pattern_tab,
                                                            object_id="#dropdown_label")
@@ -383,7 +395,8 @@ class CreationScreen(base_screens.Screens):
                                                                           container=self.pattern_tab,
                                                                           object_id="#dropdown_label")
 
-        #EXTRAS TAB
+        # EXTRAS TAB ------------------------------------------------------------------------------------------------
+
         self.labels["scar_1"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Scar 1:",
                                                             container=self.extras_tab,
                                                             object_id="#dropdown_label")
@@ -425,7 +438,8 @@ class CreationScreen(base_screens.Screens):
             self.dropdown_menus[ele].kill()
         self.dropdown_menus = {}
 
-        # GENERAL TAB CONTENTS
+        # GENERAL TAB CONTENTS -----------------------------------------------------------------------------------------
+
         self.dropdown_menus["pelt_length_select"] = pygame_gui.elements.UIDropDownMenu(["Short", "Long"],
                                                                                        global_vars.CREATED_CAT.pelt.length.capitalize(),
                                                                                        pygame.Rect((20, 100), (150, 30)),
@@ -457,7 +471,8 @@ class CreationScreen(base_screens.Screens):
                                                                                    pygame.Rect((340, 35), (150, 30)),
                                                                                    container=self.general_tab)
 
-        # PATTERN TAB CONTENTS
+        # PATTERN TAB CONTENTS --------------------------------------------------------------------------------------
+
         self.dropdown_menus["color_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.colors.values(),
                                                                                  global_vars.colors[
                                                                                  global_vars.CREATED_CAT.pelt.colour],
@@ -646,6 +661,18 @@ class CreationScreen(base_screens.Screens):
                                                                       container=self.general_tab)
         else:
             self.checkboxes["reverse"] = custom_buttons.UIImageButton(pygame.Rect((190, 95), (34, 34)),
+                                                                      "",
+                                                                      object_id="#unchecked_checkbox",
+                                                                      container=self.general_tab)
+
+        #Shading
+        if global_vars.CREATED_CAT.shading:
+            self.checkboxes["shading"] = custom_buttons.UIImageButton(pygame.Rect((340, 95), (34, 34)),
+                                                                      "",
+                                                                      object_id="#checked_checkbox",
+                                                                      container=self.general_tab)
+        else:
+            self.checkboxes["shading"] = custom_buttons.UIImageButton(pygame.Rect((340, 95), (34, 34)),
                                                                       "",
                                                                       object_id="#unchecked_checkbox",
                                                                       container=self.general_tab)

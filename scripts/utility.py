@@ -113,10 +113,8 @@ def update_sprite(cat):
             
 
         # draw line art
-        """if game.settings['shaders'] and not cat.dead:
-            if cat.pelt.length == 'long' and cat.status not in [
-                'kitten', 'apprentice', 'medicine cat apprentice', "mediator apprentice"
-            ] or cat.age == 'elder':
+        if cat.shading:
+            if cat.pelt.length == 'long' and cat.age not in ["kitten", "adolescent"] or cat.age == 'elder':
                 new_sprite.blit(
                     sprites.sprites['shaders' +
                                     str(cat.age_sprites[cat.age] + 9)],
@@ -134,7 +132,7 @@ def update_sprite(cat):
                 new_sprite.blit(
                     sprites.sprites['lighting' +
                                     str(cat.age_sprites[cat.age])],
-                    (0, 0))"""
+                    (0, 0))
 
 
         if not cat.dead:
