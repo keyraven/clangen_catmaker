@@ -66,11 +66,21 @@ class CreationScreen(base_screens.Screens):
                 self.build_dropdown_menus()
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
+                self.update_platform(
+                    global_vars.platforms[
+                        global_vars.CREATED_CAT.platform
+                    ]
+                )
             elif event.ui_element == self.randomize:
                 global_vars.CREATED_CAT.randomize_looks()
                 self.build_dropdown_menus()
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
+                self.update_platform(
+                    global_vars.platforms[
+                        global_vars.CREATED_CAT.platform
+                    ]
+                )
             elif event.ui_element == self.back:
                 self.change_screen('start screen')
             # Here is where the cat creation checkboxes start.
@@ -237,13 +247,14 @@ class CreationScreen(base_screens.Screens):
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["platform_select"]:
                 path = global_vars.platforms[event.text]
-                if path:
-                    self.cat_platform.set_image(pygame.transform.scale(load_image(path), (480, 420)))
-                    self.cat_platform.show()
-                else:
-                    self.cat_platform.hide()
+                self.update_platform(path)
 
-
+    def update_platform(self, path):
+        if path:
+            self.cat_platform.set_image(pygame.transform.scale(load_image(path), (480, 420)))
+            self.cat_platform.show()
+        else:
+            self.cat_platform.hide()
 
     def screen_switches(self):
         update_sprite(global_vars.CREATED_CAT)
@@ -269,35 +280,35 @@ class CreationScreen(base_screens.Screens):
         self.done = custom_buttons.UIImageButton(pygame.Rect((673, 25), (77, 30)), "",
                                                  object_id="#done_button")
 
-        self.randomize = custom_buttons.UIImageButton(pygame.Rect((630, 291), (50, 50)), "",
+        self.randomize = custom_buttons.UIImageButton(pygame.Rect((630, 316), (50, 50)), "",
                                                       object_id="#random_dice_button")
 
-        self.clear = custom_buttons.UIImageButton(pygame.Rect((690, 291), (50, 50)), "",
+        self.clear = custom_buttons.UIImageButton(pygame.Rect((690, 316), (50, 50)), "",
                                                   object_id="#clear_button")
 
         # Tabs
-        self.general_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 365), (100, 88)), "",
+        self.general_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 390), (100, 88)), "",
                                                                object_id="#general_tab_button")
         self.general_tab_button.disable()
 
-        self.pattern_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 456), (100, 88)), "",
+        self.pattern_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 481), (100, 88)), "",
                                                                object_id="#pattern_tab_button")
 
-        self.extras_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 547), (100, 88)), "",
+        self.extras_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 572), (100, 88)), "",
                                                                object_id="#extra_tab_button")
 
-        self.tab_background = pygame_gui.elements.UIImage(pygame.Rect((150, 350), (600, 300)),
+        self.tab_background = pygame_gui.elements.UIImage(pygame.Rect((150, 375), (600, 300)),
                                                           load_image("resources/images/options.png"))
 
         # TAB CONTAINERS
-        self.general_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+        self.general_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 375), (600, 300)),
                                                                     global_vars.MANAGER)
 
-        self.pattern_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+        self.pattern_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 375), (600, 300)),
                                                                     global_vars.MANAGER,
                                                                     visible=False)
 
-        self.extras_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+        self.extras_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 375), (600, 300)),
                                                                    global_vars.MANAGER,
                                                                    visible=False)
 

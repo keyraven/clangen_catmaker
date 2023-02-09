@@ -80,6 +80,9 @@ def randomize_sprite(cat):
             cat.age_sprites['adult'] = randint(0, 2)
 
 
+def randomize_platform(cat):
+    cat.platform = choice(list(global_vars.platforms.keys()))
+
 def randomize_scars(cat):
 
     cat.scar_slot_list = [

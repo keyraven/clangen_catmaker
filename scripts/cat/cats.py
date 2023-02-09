@@ -83,6 +83,21 @@ class Cat():
         util.randomize_accessories(self)
         util.randomize_white_patches(self)
         util.randomize_pattern(self)
+        util.randomize_platform(self)
+
+        lineart = choice(["Star", "Normal", "DF"])
+        if lineart == "Star":
+            self.dead = True
+            self.df = False
+        elif lineart == "Normal":
+            self.dead = False
+            self.df = False
+        elif lineart == "DF":
+            self.dead = True
+            self.df = True
+
+
+
 
 
 # ---------------------------------------------------------------------------- #
