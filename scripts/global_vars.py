@@ -14,40 +14,62 @@ import scripts.cat.cats
 
 CREATED_CAT = scripts.cat.cats.Cat()
 
+
+def sort_bidict(d: bidict, first_element=None):
+    """Sorts Dictionary alphbetically. If None if in the dictionary, always have that first. """
+
+    temp = bidict({})
+    if first_element in d:
+        temp[first_element] = d[first_element]
+        del d[first_element]
+
+    sorted_dict = dict(sorted(d.items(), key=lambda item: item[1]))
+    temp.update(sorted_dict)
+    return temp
+
+
 pelt_options = bidict({"SingleColour": "Plain",  "Smoke": "Smoke", 'Singlestripe': "Single Stripe", 'Tabby': "Tabby",
                        'Ticked': "Ticked Tabby", 'Mackerel': "Mackerel Tabby", 'Classic': "Classic Tabby",
                        'Sokoke': 'Sokoke', 'Agouti': "Agouti", "Speckled": "Speckled Tabby", "Rosette": "Rosette",
                        "Bengal": "Bengal", "Marbled": "Marbled Tabby"})
+pelt_options = sort_bidict(pelt_options)
 
 tortie_patches_patterns = bidict({"solid": "Plain", "tabby": "Tabby", "bengal": "Bengal", "marbled": "Marbled Tabby",
                                   "ticked": "Ticked", "rosette": "Rosette", "smoke": "Smoke",
                                   "speckled": "Speckled Tabby", "agouti": "Agouti", "classic": "Classic Tabby",
                                   "mackerel": "Mackerel Tabby", "sokoke": "Sokoke"})
+tortie_patches_patterns = sort_bidict(tortie_patches_patterns)
 
 tortie_patches_shapes = bidict({"ONE": "Shape 1", "TWO": "Shape 2", "THREE": "Shape 3", "FOUR": "Shape 4"})
+tortie_patches_shapes = sort_bidict(tortie_patches_shapes)
 
 tortie_patches_color = bidict({"GINGER": "Ginger", "DARK": "Dark Ginger", "GOLD": "Golden",
                                "PALE": "Pale Ginger", "CREAM": "Cream"})
+tortie_patches_color = sort_bidict(tortie_patches_color)
 
 eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'PALEGREEN': "Pale Green",
                       'GREEN': "Green", 'BLUE': "Blue", 'DARKBLUE': "Dark Blue", 'GREY': "Grey", 'CYAN': "Cyan",
                       'EMERALD': "Emerald", 'PALEBLUE': "Pale Blue", 'PALEYELLOW': "Pale Yellow", 'GOLD': "Gold",
                       'HEATHERBLUE': "Heather Blue", 'COPPER': "Copper", 'SAGE': "Sage", 'BLUE2': "Blue 2",
                       'SUNLITICE': "Sunlit Ice", "GREENYELLOW": "Green-Yellow"})
+eye_colors = sort_bidict(eye_colors)
 
 tints = bidict({"none": "None", "pink": "Pink", "gray": "Gray", "red": "Red", "black": "Black", "orange": "Orange",
                 "yellow": "Yellow", "purple": "Purple", "blue": "Blue"})
+tints = sort_bidict(tints, 'none')
 
 skin_colors = bidict({'BLACK': "Black", 'RED': "Red", 'PINK': "Pink", 'DARKBROWN': "Dark Brown", 'BROWN': "Brown",
                       'LIGHTBROWN': "Light Brown", 'DARK': "Dark", 'DARKGREY': "Dark Gray", 'GREY': "Gray",
                       'DARKSALMON': "Dark Salmon", 'SALMON': 'Salmon', 'PEACH': 'Peach', 'DARKMARBLED': 'Dark Marbled',
                       'MARBLED': 'Marbled', 'LIGHTMARBLED': 'Light Marbled', 'DARKBLUE': 'Dark Blue', 'BLUE': 'Blue',
                       'LIGHTBLUE': 'Light Blue'})
+skin_colors = sort_bidict(skin_colors)
 
 colors = bidict({'WHITE': 'White', 'GREY': 'Grey', 'DARKGREY': 'Dark Grey', 'PALEGREY': 'Pale Grey',
                  'SILVER': 'Silver', 'GOLDEN': 'Golden', 'DARKGINGER': 'Dark Ginger', 'PALEGINGER': 'Pale Ginger',
                  'CREAM': 'Cream', 'BROWN': 'Brown', 'DARKBROWN': 'Dark Brown', 'LIGHTBROWN': 'Light Brown',
                  'BLACK': 'Black', "GHOST": "Ghost", "GINGER": "Ginger"})
+colors = sort_bidict(colors)
 
 white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK': 'Chest Speck', 'WINGS': 'Wings', 'PAINTED': 'Painted',
                         'BLACKSTAR': 'Blackstar', 'LITTLE': 'Little', 'LITTLECREAMY': 'Little Creamy', 'TUXEDO': 'Tuxedo',
@@ -63,11 +85,12 @@ white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK'
                         'PANTS': 'Pants', 'REVERSEPANTS': 'Reverse Pants', 'HALFWHITE': 'Half White',
                         'APPALOOSA': 'Appaloosa', 'PIEBALD': 'Piebald', 'CURVED': 'Curved', 'GLASS': 'Glass',
                         'MASKMANTLE': 'Mask Mantle', 'VAN': 'Van', 'VANCREAMY': 'Van Creamy', 'ONEEAR': 'One Ear',
-                        'LIGHTSONG': 'Lightsong', 'TAIL': 'Tail', 'HEART': 'Heart', 'MOORISH': 'Moorish',
+                        'LIGHTSONG': 'Lightsong', 'TAIL': 'Tail', 'HEART': 'Heart', 'HEART2': 'Heart 2', 'MOORISH': 'Moorish',
                         'APRON': 'Apron', 'CAPSADDLE': 'Cap Saddle', 'COLOURPOINT': 'Colorpoint',
                         'COLOURPOINTCREAMY': 'Colorpoint Creamy', 'RAGDOLL': 'Ragdoll', 'KARPATI': 'Karpati',
                         'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint', 'SEALPOINT': 'Sealpoint',
                         'FULLWHITE': 'Full White', 'VITILIGO': 'Vitiligo', 'VITILIGO2': 'Vitiligo 2'})
+white_patches = sort_bidict(white_patches, None)
 
 scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over Eye", "TAILSCAR": "Tail",
                 "SNOUT": "Snout", "CHEEK": "Cheek",
@@ -82,6 +105,7 @@ scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over 
                 "SNAKE": "Bite: Snake", "TOETRAP": "Toe Trap", "BURNPAWS": "Burnt Paws", "BURNTAIL": "Burnt Tail",
                 "BURNBELLY": "Burnt Belly", "BURNRUMP": "Burnt Rump", "FROSTFACE": "Frostbitten Face",
                 "FROSTTAIL": "Frostbitten Tail", "FROSTMITT": "Frostbitten Paw1", "FROSTSOCK": "Frostbitten Paw2"})
+scars = sort_bidict(scars, None)
 
 accessories = bidict({None: "None", "MAPLE LEAF": "Maple Leaf", "HOLLY": "Holly", "BLUE BERRIES": "Blue Berries",
                       "FORGET ME NOTS": "Forget-me-nots", "RYE STALK": "Rye Stalk", "LAUREL": "Laurel",
@@ -104,6 +128,7 @@ accessories = bidict({None: "None", "MAPLE LEAF": "Maple Leaf", "HOLLY": "Holly"
                       "GREENBOW": "Green Bow", "RAINBOWBOW": "Rainbow Bow", "BLACKBOW": "Black Bow",
                       "SPIKESBOW": "Spike Bow", "PINKBOW": "Pink Bow", "PURPLEBOW": "Purple Bow",
                       "MULTIBOW": "Multicolored Bow"})
+accessories = sort_bidict(accessories, None)
 
 platforms = {"None": None,
              "Greenleaf Plains - Day": "resources/images/platforms/plains/greenleaf_light.png",
