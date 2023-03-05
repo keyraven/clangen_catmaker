@@ -100,14 +100,6 @@ class CreationScreen(base_screens.Screens):
                     else:
                         global_vars.CREATED_CAT.tortiebase = global_vars.CREATED_CAT.pelt.name.lower()
 
-                    global_vars.CREATED_CAT.tortiecolour = global_vars.CREATED_CAT.pelt.colour
-
-                    global_vars.CREATED_CAT.pattern = global_vars.CREATED_CAT.tortie_patches_color + \
-                                                      global_vars.CREATED_CAT.tortie_patches_shape
-
-
-                    global_vars.CREATED_CAT.tortiepattern = "tortie" + global_vars.CREATED_CAT.tortie_patches_pattern
-
                     global_vars.CREATED_CAT.pelt = choose_pelt(
                         global_vars.CREATED_CAT.pelt.colour,
                         False,
@@ -186,30 +178,21 @@ class CreationScreen(base_screens.Screens):
                 global_vars.CREATED_CAT.stored_eye_color_2 = global_vars.eye_colors.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["torte_patches_color"]:
-                global_vars.CREATED_CAT.tortie_patches_color = global_vars.tortie_patches_color.inverse[
-                    event.text
-                ]
 
-                global_vars.CREATED_CAT.pattern = global_vars.CREATED_CAT.tortie_patches_color + \
-                                                        global_vars.CREATED_CAT.tortie_patches_shape
+                global_vars.CREATED_CAT.tortiecolour = global_vars.colors.inverse[event.text]
+                global_vars.CREATED_CAT.stored_tortiecolour = global_vars.colors.inverse[event.text]
 
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["torte_patches_pattern"]:
-                global_vars.CREATED_CAT.tortie_patches_pattern = global_vars.tortie_patches_patterns.inverse[
-                    event.text
-                ]
 
-                global_vars.CREATED_CAT.tortiepattern = "tortie" + \
-                                                        global_vars.CREATED_CAT.tortie_patches_pattern
+                global_vars.CREATED_CAT.tortiepattern = global_vars.tortie_patches_patterns.inverse[event.text]
+                global_vars.CREATED_CAT.stored_tortiepattern = global_vars.tortie_patches_patterns.inverse[event.text]
 
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["torte_patches_shape"]:
-                global_vars.CREATED_CAT.tortie_patches_shape = global_vars.tortie_patches_shapes.inverse[
-                    event.text
-                ]
 
-                global_vars.CREATED_CAT.pattern = global_vars.CREATED_CAT.tortie_patches_color + \
-                                                  global_vars.CREATED_CAT.tortie_patches_shape
+                global_vars.CREATED_CAT.pattern = global_vars.tortie_patches_shapes.inverse[event.text]
+                global_vars.CREATED_CAT.stored_tortiepattern = global_vars.tortie_patches_shapes.inverse[event.text]
 
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["skin_color_select"]:
@@ -247,6 +230,9 @@ class CreationScreen(base_screens.Screens):
             elif event.ui_element == self.dropdown_menus["platform_select"]:
                 global_vars.CREATED_CAT.platform = event.text
                 self.update_platform()
+            elif event.ui_element == self.dropdown_menus["white_patches_tint_select"]:
+                global_vars.CREATED_CAT.white_patches_tint = global_vars.white_patches_tint.inverse[event.text]
+                self.update_cat_image()
 
     def update_platform(self):
         path = global_vars.platforms[
@@ -365,12 +351,17 @@ class CreationScreen(base_screens.Screens):
                                                                  object_id="#dropdown_label")
 
         self.labels["tint"] = pygame_gui.elements.UILabel(pygame.Rect((180, 125), (150, 25)), "Tint:",
-                                                                 container=self.pattern_tab,
-                                                                 object_id="#dropdown_label")
-
-        self.labels["Skin Color"] = pygame_gui.elements.UILabel(pygame.Rect((20, 125), (150, 25)), "Skin Color:",
                                                           container=self.pattern_tab,
                                                           object_id="#dropdown_label")
+
+        self.labels["white_patches_tint"] = pygame_gui.elements.UILabel(pygame.Rect((340, 125), (150, 25)),
+                                                                        "White Patches Tint:",
+                                                                        container=self.pattern_tab,
+                                                                        object_id="#dropdown_label")
+
+        self.labels["Skin Color"] = pygame_gui.elements.UILabel(pygame.Rect((20, 125), (150, 25)), "Skin Color:",
+                                                                container=self.pattern_tab,
+                                                                object_id="#dropdown_label")
 
         self.labels["hetero"] = pygame_gui.elements.UILabel(pygame.Rect((244, 90), (150, 25)), "Heterochromia",
                                                             container=self.pattern_tab,
@@ -413,11 +404,11 @@ class CreationScreen(base_screens.Screens):
                                                             container=self.extras_tab,
                                                             object_id="#dropdown_label")
 
-        self.labels["accessory"] = pygame_gui.elements.UILabel(pygame.Rect((360, 70), (150, 25)), "Accessory:",
+        self.labels["accessory"] = pygame_gui.elements.UILabel(pygame.Rect((340, 70), (150, 25)), "Accessory:",
                                                                container=self.extras_tab,
                                                                object_id="#dropdown_label")
 
-        self.labels["accessory"] = pygame_gui.elements.UILabel(pygame.Rect((20, 125), (150, 25)), "Platform:",
+        self.labels["platform"] = pygame_gui.elements.UILabel(pygame.Rect((20, 125), (150, 25)), "Platform:",
                                                                container=self.extras_tab,
                                                                object_id="#dropdown_label")
 
@@ -531,6 +522,14 @@ class CreationScreen(base_screens.Screens):
                                                                                 pygame.Rect(((180, 145), (150, 30))),
                                                                                 container=self.pattern_tab)
 
+        self.dropdown_menus["white_patches_tint_select"] = \
+            pygame_gui.elements.UIDropDownMenu(global_vars.white_patches_tint.values(),
+                                               global_vars.white_patches_tint[
+                                                    global_vars.CREATED_CAT.white_patches_tint
+                                               ],
+                                               pygame.Rect(((340, 145), (160, 30))),
+                                               container=self.pattern_tab)
+
         self.dropdown_menus["skin_color_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.skin_colors.values(),
                                                                                       global_vars.skin_colors[
                                                                                         global_vars.CREATED_CAT.skin
@@ -540,9 +539,9 @@ class CreationScreen(base_screens.Screens):
 
         # Tortie Patches Color
         self.dropdown_menus["torte_patches_color"] = \
-            pygame_gui.elements.UIDropDownMenu(global_vars.tortie_patches_color.values(),
-                                               global_vars.tortie_patches_color[
-                                                    global_vars.CREATED_CAT.tortie_patches_color
+            pygame_gui.elements.UIDropDownMenu(global_vars.colors.values(),
+                                               global_vars.colors[
+                                                    global_vars.CREATED_CAT.tortiecolour
                                                ],
                                                pygame.Rect((70, 220), (150, 30)),
                                                container=self.pattern_tab,
@@ -551,7 +550,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["torte_patches_pattern"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.tortie_patches_patterns.values(),
                                                global_vars.tortie_patches_patterns[
-                                                  global_vars.CREATED_CAT.tortie_patches_pattern
+                                                  global_vars.CREATED_CAT.tortiepattern
                                                ],
                                                pygame.Rect((230, 220), (180, 30)),
                                                container=self.pattern_tab,
@@ -560,7 +559,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["torte_patches_shape"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.tortie_patches_shapes.values(),
                                                global_vars.tortie_patches_shapes[
-                                                   global_vars.CREATED_CAT.tortie_patches_shape
+                                                   global_vars.CREATED_CAT.pattern
                                                ],
                                                pygame.Rect((420, 220), (150, 30)),
                                                container=self.pattern_tab,
@@ -605,7 +604,7 @@ class CreationScreen(base_screens.Screens):
                                                global_vars.accessories[
                                                    global_vars.CREATED_CAT.accessory
                                                ],
-                                               pygame.Rect((360, 90), (190, 30)),
+                                               pygame.Rect((320, 90), (230, 30)),
                                                container=self.extras_tab)
 
         self.dropdown_menus["platform_select"] = \

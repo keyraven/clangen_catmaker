@@ -34,18 +34,19 @@ pelt_options = bidict({"SingleColour": "Plain",  "Smoke": "Smoke", 'Singlestripe
                        "Bengal": "Bengal", "Marbled": "Marbled Tabby"})
 pelt_options = sort_bidict(pelt_options)
 
-tortie_patches_patterns = bidict({"solid": "Plain", "tabby": "Tabby", "bengal": "Bengal", "marbled": "Marbled Tabby",
-                                  "ticked": "Ticked", "rosette": "Rosette", "smoke": "Smoke",
+tortie_patches_patterns = bidict({"single": "Plain", "tabby": "Tabby", "bengal": "Bengal", "marbled": "Marbled Tabby",
+                                  "ticked": "Ticked Tabby", "rosette": "Rosette", "smoke": "Smoke",
                                   "speckled": "Speckled Tabby", "agouti": "Agouti", "classic": "Classic Tabby",
                                   "mackerel": "Mackerel Tabby", "sokoke": "Sokoke"})
 tortie_patches_patterns = sort_bidict(tortie_patches_patterns)
 
-tortie_patches_shapes = bidict({"ONE": "Shape 1", "TWO": "Shape 2", "THREE": "Shape 3", "FOUR": "Shape 4"})
+tortie_patches_shapes = bidict({"ONE": "One", "TWO": "Two", "THREE": "Three", "FOUR": "Four",  'REDTAIL': "Redtail",
+                                'DELILAH': "Delilah", 'MINIMAL1': "Minimal 1", 'MINIMAL2': "Minimal 2",
+                                'MINIMAL3': "Minimal 3", 'MINIMAL4': "Minimal 4", 'OREO': "Oreo", 'SWOOP': "Swoop",
+                                'MOTTLED': "Mottled", 'SIDEMASK': "Sidemask", 'EYEDOT': "Eye dot",
+                                'BANDANA': "Bandana", 'PACMAN': "Pacman", 'STREAMSTRIKE': "Streamstrike",
+                                'ORIOLE': "Oriole", 'ROBIN': "Robin", 'BRINDLE': "Brindle", 'PAIGE': "Paige"})
 tortie_patches_shapes = sort_bidict(tortie_patches_shapes)
-
-tortie_patches_color = bidict({"GINGER": "Ginger", "DARK": "Dark Ginger", "GOLD": "Golden",
-                               "PALE": "Pale Ginger", "CREAM": "Cream"})
-tortie_patches_color = sort_bidict(tortie_patches_color)
 
 eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'PALEGREEN': "Pale Green",
                       'GREEN': "Green", 'BLUE': "Blue", 'DARKBLUE': "Dark Blue", 'GREY': "Grey", 'CYAN': "Cyan",
@@ -57,6 +58,9 @@ eye_colors = sort_bidict(eye_colors)
 tints = bidict({"none": "None", "pink": "Pink", "gray": "Gray", "red": "Red", "black": "Black", "orange": "Orange",
                 "yellow": "Yellow", "purple": "Purple", "blue": "Blue"})
 tints = sort_bidict(tints, 'none')
+
+white_patches_tint = bidict({"none": "None", "darkcream": "Dark Cream", "cream": "Cream", "offwhite": "Blue",
+                             "gray": "Gray", "pink": "Pink"})
 
 skin_colors = bidict({'BLACK': "Black", 'RED': "Red", 'PINK': "Pink", 'DARKBROWN': "Dark Brown", 'BROWN': "Brown",
                       'LIGHTBROWN': "Light Brown", 'DARK': "Dark", 'DARKGREY': "Dark Gray", 'GREY': "Gray",
@@ -71,25 +75,24 @@ colors = bidict({'WHITE': 'White', 'GREY': 'Grey', 'DARKGREY': 'Dark Grey', 'PAL
                  'BLACK': 'Black', "GHOST": "Ghost", "GINGER": "Ginger"})
 colors = sort_bidict(colors)
 
-white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK': 'Chest Speck', 'WINGS': 'Wings', 'PAINTED': 'Painted',
-                        'BLACKSTAR': 'Blackstar', 'LITTLE': 'Little', 'LITTLECREAMY': 'Little Creamy', 'TUXEDO': 'Tuxedo',
-                        'LIGHTTUXEDO': 'Light Tuxedo', 'TUXEDOCREAMY': 'Tuxedo Creamy', 'BUZZARDFANG': 'Buzzardfang',
-                        'TIP': 'Tip', 'BLAZE': 'Blaze', 'BIB': 'Bib', 'VEE': 'Vee', 'PAWS': 'Paws', 'BELLY': 'Belly',
-                        'TAILTIP': 'Tail Tip', 'TOES': 'Toes', 'BROKENBLAZE': 'Broken Blaze', 'LILTWO': 'Lil Two',
-                        'SCOURGE': 'Scourge', 'TOESTAIL': 'Toes Tail', 'RAVENPAW': 'Ravenpaw', 'HONEY': 'Honey',
-                        'FANCY': 'Fancy', 'UNDERS': 'Unders', 'DAMIEN': 'Damien', 'SKUNK': 'Skunk',
-                        'MITAINE': 'Mitaine', 'SQUEAKS': 'Squeaks', 'STAR': 'Star', 'ANY': 'Any',
-                        'ANYCREAMY': 'Any Creamy', 'ANY2': 'Any 2', 'ANY2CREAMY': 'Any 2 Creamy', 'BROKEN': 'Broken',
+white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK': 'Chest Speck', 'WINGS': 'Wings',
+                        'PAINTED': 'Painted', 'BLACKSTAR': 'Blackstar', 'LITTLE': 'Little', 'TUXEDO': 'Tuxedo',
+                        'LIGHTTUXEDO': 'Light Tuxedo', 'BUZZARDFANG': 'Buzzardfang', 'TIP': 'Tip', 'BLAZE': 'Blaze',
+                        'BIB': 'Bib', 'VEE': 'Vee', 'PAWS': 'Paws', 'BELLY': 'Belly', 'TAILTIP': 'Tail Tip',
+                        'TOES': 'Toes', 'BROKENBLAZE': 'Broken Blaze', 'LILTWO': 'Lil Two', 'SCOURGE': 'Scourge',
+                        'TOESTAIL': 'Toes Tail', 'RAVENPAW': 'Ravenpaw', 'HONEY': 'Honey', 'FANCY': 'Fancy',
+                        'UNDERS': 'Unders', 'DAMIEN': 'Damien', 'SKUNK': 'Skunk', 'MITAINE': 'Mitaine',
+                        'SQUEAKS': 'Squeaks', 'STAR': 'Star', 'ANY': 'Any', 'ANY2': 'Any 2', 'BROKEN': 'Broken',
                         'FRECKLES': 'Freckles', 'RINGTAIL': 'Ringtail', 'HALFFACE': 'Half Face', 'PANTS2': 'Pants 2',
                         'GOATEE': 'Goatee', 'PRINCE': 'Prince', 'FAROFA': 'Farofa', 'MISTER': 'Mister',
                         'PANTS': 'Pants', 'REVERSEPANTS': 'Reverse Pants', 'HALFWHITE': 'Half White',
                         'APPALOOSA': 'Appaloosa', 'PIEBALD': 'Piebald', 'CURVED': 'Curved', 'GLASS': 'Glass',
-                        'MASKMANTLE': 'Mask Mantle', 'VAN': 'Van', 'VANCREAMY': 'Van Creamy', 'ONEEAR': 'One Ear',
-                        'LIGHTSONG': 'Lightsong', 'TAIL': 'Tail', 'HEART': 'Heart', 'HEART2': 'Heart 2', 'MOORISH': 'Moorish',
-                        'APRON': 'Apron', 'CAPSADDLE': 'Cap Saddle', 'COLOURPOINT': 'Colorpoint',
-                        'COLOURPOINTCREAMY': 'Colorpoint Creamy', 'RAGDOLL': 'Ragdoll', 'KARPATI': 'Karpati',
-                        'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint', 'SEALPOINT': 'Sealpoint',
-                        'FULLWHITE': 'Full White', 'VITILIGO': 'Vitiligo', 'VITILIGO2': 'Vitiligo 2'})
+                        'MASKMANTLE': 'Mask Mantle', 'VAN': 'Van', 'ONEEAR': 'One Ear', 'LIGHTSONG': 'Lightsong',
+                        'TAIL': 'Tail', 'HEART': 'Heart', 'HEART2': 'Heart 2', 'MOORISH': 'Moorish', 'APRON': 'Apron',
+                        'CAPSADDLE': 'Cap Saddle', 'COLOURPOINT': 'Colorpoint', 'RAGDOLL': 'Ragdoll',
+                        'KARPATI': 'Karpati', 'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint',
+                        'SEALPOINT': 'Sealpoint', 'FULLWHITE': 'Full White', 'VITILIGO': 'Vitiligo',
+                        'VITILIGO2': 'Vitiligo 2', "EXTRA": "Extra"})
 white_patches = sort_bidict(white_patches, None)
 
 scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over Eye", "TAILSCAR": "Tail",
@@ -116,18 +119,27 @@ accessories = bidict({None: "None", "MAPLE LEAF": "Maple Leaf", "HOLLY": "Holly"
                       "MOTH WINGS": "Moth Wings", "CICADA WINGS": "Cicada Wings", "CRIMSON": "Crimson Collar",
                       "BLUE": "Blue Collar", "YELLOW": "Yellow Collar", "CYAN": "Cyan Collar", "RED": "Red Collar",
                       "LIME": "Line Collar", "GREEN": "Green Collar", "RAINBOW": "Rainbow Collar",
-                      "BLACK": "Black Collar", "SPIKES": "Spike Collar", "PINK": "Pink Collar",
+                      "BLACK": "Black Collar", "SPIKES": "Spiked Collar", "PINK": "Pink Collar",
                       "PURPLE": "Purple Collar", "MULTI": "Mulicolored Collar", "CRIMSONBELL": "Crimson Bell Collar",
                       "BLUEBELL": "Blue Bell Collar", "YELLOWBELL": "Yellow Bell Collar",
                       "CYANBELL": "Cyan Bell Collar", "REDBELL": "Red Bell Collar", "LIMEBELL": "Lime Bell Collar",
                       "GREENBELL": "Green Bell Collar", "RAINBOWBELL": "Rainbow Bell Color",
-                      "BLACKBELL": "Black Bell Collar", "SPIKESBELL": "Spike Bell Collar",
+                      "BLACKBELL": "Black Bell Collar", "SPIKESBELL": "Spiked Bell Collar",
                       "PINKBELL": "Pine Bell Collar", "PURPLEBELL": "Purple Bell Collar",
                       "MULTIBELL": "Mulitcolored Bell Color", "CRIMSONBOW": "Crimson Bow", "BLUEBOW": "Blue Bow",
                       "YELLOWBOW": "Yellow Bow", "CYANBOW": "Cyan Bow", "REDBOW": "Red Bow", "LIMEBOW": "Line Bow",
                       "GREENBOW": "Green Bow", "RAINBOWBOW": "Rainbow Bow", "BLACKBOW": "Black Bow",
-                      "SPIKESBOW": "Spike Bow", "PINKBOW": "Pink Bow", "PURPLEBOW": "Purple Bow",
-                      "MULTIBOW": "Multicolored Bow"})
+                      "SPIKESBOW": "Spiked Bow", "PINKBOW": "Pink Bow", "PURPLEBOW": "Purple Bow",
+                      "MULTIBOW": "Multicolored Bow", "WHITEBOW": "White Bow", "INDIGOBOW": "Indigo Bow",
+                      "INDIGO": "Indigo Collar", "WHITE": "White Collar", "WHITEBELL": "White Bell Collar",
+                      "INDIGOBELL": "Indigo Bell Collar", "CRIMSONNYLON": "Crimson Nylon Collar",
+                      "BLUENYLON": "Blue Nylon Collar", "YELLOWNYLON": "Yellow Nylon Collar",
+                      "CYANNYLON": "Cyan Nylon Collar", "REDNYLON": "Red Nylon Collar",
+                      "LIMENYLON": "Line Nylon Collar", "GREENNYLON": "Green Nylon Collar",
+                      "RAINBOWNYLON": "Rainbow Nylon Collar", "BLACKNYLON": "Black Nylon Collar",
+                      "SPIKESNYLON": "Spiked Nylon Collar", "WHITENYLON": "White Nylon Collar",
+                      "PINKNYLON": "Pink Nylon Collar", "PURPLENYLON": "Purple Nylon Collar",
+                      "MULTINYLON": "Mulicolored Nylon Collar", "INDIGONYLON": "Indigo Nylon Collar"})
 accessories = sort_bidict(accessories, None)
 
 platforms = {"None": None,
@@ -152,7 +164,7 @@ platforms = {"None": None,
              "Leaf-bare Mountains - Day": "resources/images/platforms/mountainous/leafbare_light.png",
              "Newleaf Mountains - Day": "resources/images/platforms/mountainous/newleaf_light.png",
              "Greenleaf Mountains - Night": "resources/images/platforms/mountainous/greenleaf_dark.png",
-             "Leaf-dall Mountains - Night": "resources/images/platforms/mountainous/leaffall_dark.png",
+             "Leaf-fall Mountains - Night": "resources/images/platforms/mountainous/leaffall_dark.png",
              "Leaf-bare Mountains - Night": "resources/images/platforms/mountainous/leafbare_dark.png",
              "Newleaf Mountains - Night": "resources/images/platforms/mountainous/newleaf_dark.png",
              "Greenleaf Beach - Day": "resources/images/platforms/beach/greenleaf_light.png",
