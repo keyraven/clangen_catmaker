@@ -133,14 +133,9 @@ def randomize_accessories(cat):
 def randomize_pattern(cat):
 
     if cat.pelt.name in torties:
-        cat.tortiecolour = cat.pelt.colour
-
-        cat.tortie_patches_pattern = choice(list(global_vars.tortie_patches_patterns.keys()))
-        cat.tortiepattern = "tortie" + cat.tortie_patches_pattern
-
-        cat.tortie_patches_shape = choice(list(global_vars.tortie_patches_shapes.keys()))
-        cat.tortie_patches_color = choice(list(global_vars.tortie_patches_color.keys()))
-        cat.pattern = cat.tortie_patches_color + cat.tortie_patches_shape
+        cat.tortiepattern = choice(list(global_vars.tortie_patches_patterns.keys()))
+        cat.pattern = choice(list(global_vars.tortie_patches_shapes.keys()))
+        cat.tortiecolour = choice(list(global_vars.colors.keys()))
 
 def randomize_white_patches(cat):
 
@@ -150,4 +145,5 @@ def randomize_white_patches(cat):
 def randomize_tint(cat):
     # Basic tints as possible for all colors.
     cat.tint = choice(list(global_vars.tints.keys()))
+    cat.white_patches_tint = choice(list(global_vars.white_patches_tint.keys()))
 
