@@ -115,7 +115,7 @@ accessories = bidict({None: "None", "MAPLE LEAF": "Maple Leaf", "HOLLY": "Holly"
                       "RED FEATHERS": "Red Feathers", "BLUE FEATHERS": "Blue Feathers", "JAY FEATHERS": "Jay Feathers",
                       "MOTH WINGS": "Moth Wings", "CICADA WINGS": "Cicada Wings", "CRIMSON": "Crimson Collar",
                       "BLUE": "Blue Collar", "YELLOW": "Yellow Collar", "CYAN": "Cyan Collar", "RED": "Red Collar",
-                      "LIME": "Line Collar", "GREEN": "Green Collar", "RAINBOW": "Rainbow Collar",
+                      "LIME": "Lime Collar", "GREEN": "Green Collar", "RAINBOW": "Rainbow Collar",
                       "BLACK": "Black Collar", "SPIKES": "Spike Collar", "PINK": "Pink Collar",
                       "PURPLE": "Purple Collar", "MULTI": "Mulicolored Collar", "CRIMSONBELL": "Crimson Bell Collar",
                       "BLUEBELL": "Blue Bell Collar", "YELLOWBELL": "Yellow Bell Collar",
@@ -124,7 +124,7 @@ accessories = bidict({None: "None", "MAPLE LEAF": "Maple Leaf", "HOLLY": "Holly"
                       "BLACKBELL": "Black Bell Collar", "SPIKESBELL": "Spike Bell Collar",
                       "PINKBELL": "Pine Bell Collar", "PURPLEBELL": "Purple Bell Collar",
                       "MULTIBELL": "Mulitcolored Bell Color", "CRIMSONBOW": "Crimson Bow", "BLUEBOW": "Blue Bow",
-                      "YELLOWBOW": "Yellow Bow", "CYANBOW": "Cyan Bow", "REDBOW": "Red Bow", "LIMEBOW": "Line Bow",
+                      "YELLOWBOW": "Yellow Bow", "CYANBOW": "Cyan Bow", "REDBOW": "Red Bow", "LIMEBOW": "Lime Bow",
                       "GREENBOW": "Green Bow", "RAINBOWBOW": "Rainbow Bow", "BLACKBOW": "Black Bow",
                       "SPIKESBOW": "Spike Bow", "PINKBOW": "Pink Bow", "PURPLEBOW": "Purple Bow",
                       "MULTIBOW": "Multicolored Bow"})

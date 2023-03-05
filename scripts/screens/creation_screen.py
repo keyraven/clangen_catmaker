@@ -742,3 +742,30 @@ class CreationScreen(base_screens.Screens):
         self.labels = {}
         self.dropdown_menus = {}
         self.checkboxes = {}
+
+class DoneScreen(base_screens.Screens):
+
+    def __init__(self, name):
+        self.save_dict = {}
+        super().__init__(name)
+
+    def handle_event(self, event):
+        pass
+
+    def screen_switches(self):
+        self.save_dict = global_vars.CREATED_CAT.generate_save_file()
+
+    def exit_screen(self):
+        pass
+
+    def save_png(self, path):
+        pass
+
+
+class SaveClanGenCodeScreen(base_screens.Screens):
+
+    def __init__(self, name):
+
+        super().__init__(name)
+
+
