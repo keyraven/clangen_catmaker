@@ -350,11 +350,11 @@ class CreationScreen(base_screens.Screens):
                                                                  container=self.pattern_tab,
                                                                  object_id="#dropdown_label")
 
-        self.labels["tint"] = pygame_gui.elements.UILabel(pygame.Rect((180, 125), (150, 25)), "Tint:",
+        self.labels["tint"] = pygame_gui.elements.UILabel(pygame.Rect((200, 125), (150, 25)), "Tint:",
                                                           container=self.pattern_tab,
                                                           object_id="#dropdown_label")
 
-        self.labels["white_patches_tint"] = pygame_gui.elements.UILabel(pygame.Rect((340, 125), (150, 25)),
+        self.labels["white_patches_tint"] = pygame_gui.elements.UILabel(pygame.Rect((360, 125), (150, 25)),
                                                                         "White Patches Tint:",
                                                                         container=self.pattern_tab,
                                                                         object_id="#dropdown_label")
@@ -519,7 +519,7 @@ class CreationScreen(base_screens.Screens):
                                                                                 global_vars.tints[
                                                                                     global_vars.CREATED_CAT.tint
                                                                                 ],
-                                                                                pygame.Rect(((180, 145), (150, 30))),
+                                                                                pygame.Rect(((200, 145), (150, 30))),
                                                                                 container=self.pattern_tab)
 
         self.dropdown_menus["white_patches_tint_select"] = \
@@ -527,14 +527,14 @@ class CreationScreen(base_screens.Screens):
                                                global_vars.white_patches_tint[
                                                     global_vars.CREATED_CAT.white_patches_tint
                                                ],
-                                               pygame.Rect(((340, 145), (160, 30))),
+                                               pygame.Rect(((360, 145), (160, 30))),
                                                container=self.pattern_tab)
 
         self.dropdown_menus["skin_color_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.skin_colors.values(),
                                                                                       global_vars.skin_colors[
                                                                                         global_vars.CREATED_CAT.skin
                                                                                       ],
-                                                                                      pygame.Rect(((20, 145), (150, 30))),
+                                                                                      pygame.Rect(((20, 145), (170, 30))),
                                                                                       container=self.pattern_tab)
 
         # Tortie Patches Color
