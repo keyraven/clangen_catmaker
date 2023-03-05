@@ -69,8 +69,6 @@ class Cat():
 
         # Sprite sizes
         self.sprite = None
-        self.big_sprite = None
-        self.large_sprite = None
 
     def randomize_looks(self):
         self.age = choice(list(self.age_sprites.keys()))
@@ -96,6 +94,9 @@ class Cat():
             self.df = True
 
         self.shading = choice([True, False])
+
+    def generate_large_image(self):
+        return
 
     def generate_save_file(self):
         """Generates a basic save file dictionary with all the looks-based info filled in. """
@@ -144,6 +145,7 @@ class Cat():
             "eye_colour2": self.eye_colour2,
             "reverse": self.reverse,
             "white_patches": self.white_patches,
+            "white_patches_tint": self.white_patches_tint,
             "pattern": self.pattern if self.pelt.name == "Tortie" else None,
             "tortie_base": self.tortiebase if self.pelt.name == "Tortie" else None,
             "tortie_color": self.tortiecolour if self.pelt.name == "Tortie" else None,

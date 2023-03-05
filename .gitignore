@@ -157,3 +157,9 @@ scripts/__pycache__/**
 .vscode/**
 
 .vscode/launch.json
+scripts/__pycache__/utility.cpython-311.pyc
+scripts/__pycache__/utility.cpython-311.pyc
+scripts/cat/__pycache__/appearance_utility.cpython-311.pyc
+scripts/cat/__pycache__/cats.cpython-311.pyc
+scripts/cat/__pycache__/pelts.cpython-311.pyc
+scripts/cat/__pycache__/sprites.cpython-311.pyc

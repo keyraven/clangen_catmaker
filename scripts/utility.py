@@ -252,26 +252,9 @@ def update_sprite(cat):
     if cat.reverse:
         new_sprite = pygame.transform.flip(new_sprite, True, False)
 
-    # Apply opacity
-    if cat.opacity < 100 and not cat.prevent_fading and game.settings["fading"]:
-        new_sprite = apply_opacity(new_sprite, cat.opacity)
-
     # apply
     cat.sprite = new_sprite
-    cat.big_sprite = pygame.transform.scale(
-        new_sprite, (sprites.new_size, sprites.new_size))
-    cat.large_sprite = pygame.transform.scale(
-        cat.big_sprite, (sprites.size * 3, sprites.size * 3))
 
-
-
-def apply_opacity(surface, opacity):
-    for x in range(surface.get_width()):
-        for y in range(surface.get_height()):
-            pixel = list(surface.get_at((x, y)))
-            pixel[3] = int(pixel[3] * opacity/100)
-            surface.set_at((x,y), tuple(pixel))
-    return surface
 # ---------------------------------------------------------------------------- #
 #                                     OTHER                                    #
 # ---------------------------------------------------------------------------- #
