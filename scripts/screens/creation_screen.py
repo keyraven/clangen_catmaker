@@ -87,7 +87,7 @@ class CreationScreen(base_screens.Screens):
                         pelt = "SingleColour"
 
                     global_vars.CREATED_CAT.pelt = choose_pelt(
-                        global_vars.CREATED_CAT.tortiecolour,
+                        global_vars.CREATED_CAT.pelt.colour,
                         False,
                         pelt,
                         global_vars.CREATED_CAT.pelt.length
