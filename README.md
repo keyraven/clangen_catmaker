@@ -13,3 +13,6 @@ Future Plans:
 
 
 Please don't sell any images created, and provide proper attribution. 
+
+
+Nightly builds can be found [here](https://nightly.link/keyraven/clangen_catmaker/build/main)
