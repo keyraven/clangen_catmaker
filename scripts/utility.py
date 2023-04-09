@@ -156,7 +156,7 @@ def update_sprite(cat):
     except (TypeError, KeyError):
         traceback.print_exc()
         # Placeholder image
-        new_sprite.blit(image_cache.load_image(f"sprites/faded/faded_adult.png").convert_alpha(), (0, 0))
+        new_sprite = image_cache.load_image(f"sprites/error_placeholder.png").convert_alpha().copy()
         
     # reverse, if assigned so
     if cat.reverse:

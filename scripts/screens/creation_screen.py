@@ -452,10 +452,17 @@ class CreationScreen(base_screens.Screens):
                                                             container=self.pattern_tab,
                                                             object_id="#dropdown_label")
 
+        
+
+        
+        # -------------------------------------------------------------------------------------------------------------
+        # Pattern 2 Tab Labels ----------------------------------------------------------------------------------------
+        # -------------------------------------------------------------------------------------------------------------
+
         self.labels["tortie"] = pygame_gui.elements.UILabel(pygame.Rect((20, 200), (150, 25)), "Tortie",
                                                             container=self.pattern_tab,
                                                             object_id="#dropdown_label")
-
+        
         self.labels["Tortie Patches Color"] = pygame_gui.elements.UILabel(pygame.Rect((70, 200), (150, 25)),
                                                                           "Tortie Patches Color",
                                                                           container=self.pattern_tab,
@@ -470,10 +477,6 @@ class CreationScreen(base_screens.Screens):
                                                                           "Tortie Patches Shape",
                                                                           container=self.pattern_tab,
                                                                           object_id="#dropdown_label")
-        
-        # -------------------------------------------------------------------------------------------------------------
-        # Pattern 2 Tab Labels ----------------------------------------------------------------------------------------
-        # -------------------------------------------------------------------------------------------------------------
 
         # -------------------------------------------------------------------------------------------------------------
         # EXTRAS Tab Labels -------------------------------------------------------------------------------------------
