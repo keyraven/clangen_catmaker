@@ -224,6 +224,52 @@
                 "path": "resources/images/buttons/checkmark_off_hover.png"
             }
         }
+    },
+    "#last_page_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_l.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_l_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_l_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_l_unavailable.png"
+            }
+        }
+    },
+    "#next_page_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_r.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_r_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_r_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/relationship_list_arrow_r_unavailable.png"
+            }
+        }
     }
 }
 

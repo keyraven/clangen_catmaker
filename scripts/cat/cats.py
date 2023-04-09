@@ -78,30 +78,34 @@ class Cat():
         # Sprite sizes
         self.sprite = None
 
-    def randomize_looks(self):
-        self.age = choice(["newborn", "kitten", "adult", "adolescent", "senior"])
-        util.randomize_pelt(self)
+    def randomize_looks(self, just_pattern=False):
+
+        if not just_pattern:
+            self.age = choice(["newborn", "kitten", "adult", "adolescent", "senior"])
+            util.randomize_sprite(self)
+            util.randomize_scars(self)
+            util.randomize_accessories(self)
+            util.randomize_platform(self)
+            lineart = choice(["Star", "Normal", "DF"])
+            if lineart == "Star":
+                self.dead = True
+                self.df = False
+            elif lineart == "Normal":
+                self.dead = False
+                self.df = False
+            elif lineart == "DF":
+                self.dead = True
+                self.df = True
+
+            self.shading = choice([True, False])
+        
+        util.randomize_pelt(self, change_fur_length=not just_pattern)
         util.randomize_eyes(self)
-        util.randomize_sprite(self)
-        util.randomize_scars(self)
-        util.randomize_accessories(self)
         util.randomize_white_patches(self)
         util.randomize_pattern(self)
-        util.randomize_platform(self)
         util.randomize_tint(self)
 
-        lineart = choice(["Star", "Normal", "DF"])
-        if lineart == "Star":
-            self.dead = True
-            self.df = False
-        elif lineart == "Normal":
-            self.dead = False
-            self.df = False
-        elif lineart == "DF":
-            self.dead = True
-            self.df = True
-
-        self.shading = choice([True, False])
+        
 
     def generate_large_image(self):
         return

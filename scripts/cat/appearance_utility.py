@@ -19,7 +19,7 @@ def randomize_eyes(cat):
         cat.eye_colour2 = choice(list(global_vars.eye_colors.keys()))
 
 
-def randomize_pelt(cat):
+def randomize_pelt(cat, change_fur_length=True):
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT
     # ------------------------------------------------------------------------------------------------------------#
@@ -49,7 +49,10 @@ def randomize_pelt(cat):
     #   PELT LENGTH
     # ------------------------------------------------------------------------------------------------------------#
 
-    chosen_pelt_length = random.choice(["long", "short"])
+    if change_fur_length:
+        chosen_pelt_length = random.choice(["long", "short"])
+    else:
+        chosen_pelt_length = cat.pelt.length
 
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT WHITE
@@ -61,7 +64,6 @@ def randomize_pelt(cat):
 
     cat.pelt = choose_pelt(chosen_pelt_color, chosen_white, chosen_pelt, chosen_pelt_length)
     cat.tortiebase = chosen_tortie_base   # This will be none if the cat isn't a tortie.
-
 
 def randomize_sprite(cat):
     cat.current_poses = {
