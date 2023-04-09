@@ -18,6 +18,7 @@ def randomize_eyes(cat):
     if hit == 0:
         cat.eye_colour2 = choice(list(global_vars.eye_colors.keys()))
 
+
 def randomize_pelt(cat):
     # ------------------------------------------------------------------------------------------------------------#
     #   PELT
@@ -64,28 +65,28 @@ def randomize_pelt(cat):
 
 def randomize_sprite(cat):
     cat.current_poses = {
+        'newborn': "1",
         'kitten': choice(["1", "2", "3"]),
         'adolescent': choice(["1", "2", "3"]),
-        'elder': choice(["1", "2", "3"]),
+        'senior': choice(["1", "2", "3"]),
         'adult': choice(["1", "2", "3"]),
+        'para_adult': "1"
     }
 
+    cat.not_working = bool(random.getrandbits(1))
+    cat.paralyzed = bool(random.getrandbits(1))
+
     # Set sprite numbers.
-    for x in cat.age_sprites.keys():
-        cat.age_sprites[x] = global_vars.poses[cat.pelt.length][x][cat.current_poses[x]]
+    for x in cat.cat_sprites:
+        cat.cat_sprites[x] = global_vars.poses[cat.pelt.length][x][cat.current_poses[x]]
 
     if cat.pelt is not None:
         if cat.pelt.length != 'long':
-            cat.age_sprites['adult'] = randint(6, 8)
+            cat.cat_sprites['adult'] = randint(6, 8)
         else:
-            cat.age_sprites['adult'] = randint(0, 2)
-
-
-
+            cat.cat_sprites['adult'] = randint(0, 2)
 
     cat.reverse = choice([True, False])
-
-
 
     # skin chances
     cat.skin = choice(list(global_vars.skin_colors.keys()))
@@ -93,6 +94,7 @@ def randomize_sprite(cat):
 
 def randomize_platform(cat):
     cat.platform = choice(list(global_vars.platforms.keys()))
+
 
 def randomize_scars(cat):
 
@@ -137,13 +139,14 @@ def randomize_pattern(cat):
         cat.pattern = choice(list(global_vars.tortie_patches_shapes.keys()))
         cat.tortiecolour = choice(list(global_vars.colors.keys()))
 
+
 def randomize_white_patches(cat):
 
     chosen_white_patches = choice(list(global_vars.white_patches.keys()))
     cat.white_patches = chosen_white_patches
 
+
 def randomize_tint(cat):
     # Basic tints as possible for all colors.
     cat.tint = choice(list(global_vars.tints.keys()))
     cat.white_patches_tint = choice(list(global_vars.white_patches_tint.keys()))
-

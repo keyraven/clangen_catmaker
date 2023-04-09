@@ -431,7 +431,7 @@ class CreationScreen(base_screens.Screens):
                                                                                        pygame.Rect((20, 100), (150, 30)),
                                                                                        container=self.general_tab)
 
-        self.dropdown_menus["pose_select"] = pygame_gui.elements.UIDropDownMenu(["Pose 1", "Pose 2", "Pose 3"],
+        self.dropdown_menus["pose_select"] = pygame_gui.elements.UIDropDownMenu(["Pose " + i for i in global_vars.poses[global_vars.CREATED_CAT.pelt.length][global_vars.CREATED_CAT.age]],
                                                                                  "Pose " +
                                                                                  global_vars.CREATED_CAT.current_poses[
                                                                                  global_vars.CREATED_CAT.age
@@ -439,7 +439,7 @@ class CreationScreen(base_screens.Screens):
                                                                                  pygame.Rect((180, 35), (150, 30)),
                                                                                  container=self.general_tab)
 
-        self.dropdown_menus["age_select"] = pygame_gui.elements.UIDropDownMenu(["Kitten", "Adolescent", "Adult", "Elder"],
+        self.dropdown_menus["age_select"] = pygame_gui.elements.UIDropDownMenu(["Newborn", "Kitten", "Adolescent", "Adult", "Senior"],
                                                                                global_vars.CREATED_CAT.age.capitalize(),
                                                                                pygame.Rect((20, 35), (150, 30)),
                                                                                container=self.general_tab)
@@ -675,11 +675,13 @@ class CreationScreen(base_screens.Screens):
         # Changes the pose from 1, 2, or 3
         if pose:
             # Change the sprite number.
-            global_vars.CREATED_CAT.age_sprites[global_vars.CREATED_CAT.age] = global_vars.poses[
+            global_vars.CREATED_CAT.cat_sprites[global_vars.CREATED_CAT.age] = global_vars.poses[
                 global_vars.CREATED_CAT.pelt.length][global_vars.CREATED_CAT.age][pose]
 
             # Adjust tracked poses.
             global_vars.CREATED_CAT.current_poses[global_vars.CREATED_CAT.age] = pose
+
+
 
     def change_fur_length(self, fur_length: str=None):
         if fur_length:
@@ -688,7 +690,7 @@ class CreationScreen(base_screens.Screens):
             # Change all poses for all ages. 
             for age in global_vars.CREATED_CAT.current_poses:
                 # This is such a mess of dictionary lookups.
-                global_vars.CREATED_CAT.age_sprites[age] = global_vars.poses[
+                global_vars.CREATED_CAT.cat_sprites[age] = global_vars.poses[
                     fur_length][age][global_vars.CREATED_CAT.current_poses[age]]
 
     def exit_screen(self):
@@ -756,7 +758,7 @@ class DoneScreen(base_screens.Screens):
         pass
 
 
-class SaveClanGenCodeScreen(base_screens.Screens):
+class SaveCodeScreen(base_screens.Screens):
 
     def __init__(self, name):
 

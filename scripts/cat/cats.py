@@ -36,20 +36,28 @@ class Cat():
         self.tortiepattern = "single"
         self.tortiecolour = "GINGER"
         self.white_patches = None
+        self.points = None
+        self.vitiligo = None
         self.white_patches_tint = "none"
         self.accessory = None
         self.shading = False
-        self.age_sprites = {
+        self.cat_sprites = {
+            "newborn": 20,
             "kitten": 0,
             "adolescent": 3,
             "adult": 8,
-            "elder": 3
+            "senior": 12,
+            "para_adult": 15
         }
+        self.paralyzed = False
+        self.not_working = False
         self.current_poses = {
+            "newborn": "1",
             "kitten": "1",
             "adolescent": "1",
             "adult": "3",
-            "elder": "1"
+            "senior": "1",
+            "para_adult": "1"
         }
         self.platform = "None"
 
@@ -71,7 +79,7 @@ class Cat():
         self.sprite = None
 
     def randomize_looks(self):
-        self.age = choice(list(self.age_sprites.keys()))
+        self.age = choice(["newborn", "kitten", "adult", "adolescent", "senior"])
         util.randomize_pelt(self)
         util.randomize_eyes(self)
         util.randomize_sprite(self)

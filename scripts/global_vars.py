@@ -41,8 +41,8 @@ tortie_patches_patterns = bidict({"single": "Plain", "tabby": "Tabby", "bengal":
 tortie_patches_patterns = sort_bidict(tortie_patches_patterns)
 
 tortie_patches_shapes = bidict({"ONE": "One", "TWO": "Two", "THREE": "Three", "FOUR": "Four",  'REDTAIL': "Redtail",
-                                'DELILAH': "Delilah", 'MINIMAL1': "Minimal 1", 'MINIMAL2': "Minimal 2",
-                                'MINIMAL3': "Minimal 3", 'MINIMAL4': "Minimal 4", 'OREO': "Oreo", 'SWOOP': "Swoop",
+                                'DELILAH': "Delilah", 'MINIMALONE': "Minimal 1", 'MINIMALTWO': "Minimal 2",
+                                'MINIMALTHREE': "Minimal 3", 'MINIMALFOUR': "Minimal 4", 'OREO': "Oreo", 'SWOOP': "Swoop",
                                 'MOTTLED': "Mottled", 'SIDEMASK': "Sidemask", 'EYEDOT': "Eye dot",
                                 'BANDANA': "Bandana", 'PACMAN': "Pacman", 'STREAMSTRIKE': "Streamstrike",
                                 'ORIOLE': "Oriole", 'ROBIN': "Robin", 'BRINDLE': "Brindle", 'PAIGE': "Paige"})
@@ -51,7 +51,7 @@ tortie_patches_shapes = sort_bidict(tortie_patches_shapes)
 eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'PALEGREEN': "Pale Green",
                       'GREEN': "Green", 'BLUE': "Blue", 'DARKBLUE': "Dark Blue", 'GREY': "Grey", 'CYAN': "Cyan",
                       'EMERALD': "Emerald", 'PALEBLUE': "Pale Blue", 'PALEYELLOW': "Pale Yellow", 'GOLD': "Gold",
-                      'HEATHERBLUE': "Heather Blue", 'COPPER': "Copper", 'SAGE': "Sage", 'BLUE2': "Blue 2",
+                      'HEATHERBLUE': "Heather Blue", 'COPPER': "Copper", 'SAGE': "Sage", 'COBALT': "Cobalt",
                       'SUNLITICE': "Sunlit Ice", "GREENYELLOW": "Green-Yellow"})
 eye_colors = sort_bidict(eye_colors)
 
@@ -82,17 +82,17 @@ white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK'
                         'TOES': 'Toes', 'BROKENBLAZE': 'Broken Blaze', 'LILTWO': 'Lil Two', 'SCOURGE': 'Scourge',
                         'TOESTAIL': 'Toes Tail', 'RAVENPAW': 'Ravenpaw', 'HONEY': 'Honey', 'FANCY': 'Fancy',
                         'UNDERS': 'Unders', 'DAMIEN': 'Damien', 'SKUNK': 'Skunk', 'MITAINE': 'Mitaine',
-                        'SQUEAKS': 'Squeaks', 'STAR': 'Star', 'ANY': 'Any', 'ANY2': 'Any 2', 'BROKEN': 'Broken',
-                        'FRECKLES': 'Freckles', 'RINGTAIL': 'Ringtail', 'HALFFACE': 'Half Face', 'PANTS2': 'Pants 2',
+                        'SQUEAKS': 'Squeaks', 'STAR': 'Star', 'ANY': 'Any', 'ANYTWO': 'Any Two', 'BROKEN': 'Broken',
+                        'FRECKLES': 'Freckles', 'RINGTAIL': 'Ringtail', 'HALFFACE': 'Half Face', 'PANTSTWO': 'Pants 2',
                         'GOATEE': 'Goatee', 'PRINCE': 'Prince', 'FAROFA': 'Farofa', 'MISTER': 'Mister',
                         'PANTS': 'Pants', 'REVERSEPANTS': 'Reverse Pants', 'HALFWHITE': 'Half White',
                         'APPALOOSA': 'Appaloosa', 'PIEBALD': 'Piebald', 'CURVED': 'Curved', 'GLASS': 'Glass',
                         'MASKMANTLE': 'Mask Mantle', 'VAN': 'Van', 'ONEEAR': 'One Ear', 'LIGHTSONG': 'Lightsong',
-                        'TAIL': 'Tail', 'HEART': 'Heart', 'HEART2': 'Heart 2', 'MOORISH': 'Moorish', 'APRON': 'Apron',
+                        'TAIL': 'Tail', 'HEART': 'Heart', 'HEARTTWO': 'Heart 2', 'MOORISH': 'Moorish', 'APRON': 'Apron',
                         'CAPSADDLE': 'Cap Saddle', 'COLOURPOINT': 'Colorpoint', 'RAGDOLL': 'Ragdoll',
                         'KARPATI': 'Karpati', 'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint',
                         'SEALPOINT': 'Sealpoint', 'FULLWHITE': 'Full White', 'VITILIGO': 'Vitiligo',
-                        'VITILIGO2': 'Vitiligo 2', "EXTRA": "Extra"})
+                        'VITILIGOTWO': 'Vitiligo 2', "EXTRA": "Extra"})
 white_patches = sort_bidict(white_patches, None)
 
 scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over Eye", "TAILSCAR": "Tail",
@@ -183,6 +183,9 @@ lineart = ["Normal", "StarClan", "Dark Forest"]
 
 poses = {
     "short": {
+        "newborn": {
+            "1": 20,
+        },
         "kitten": {
             "1": 0,
             "2": 1,
@@ -198,13 +201,19 @@ poses = {
             "2": 7,
             "3": 8
         },
-        "elder": {
-            "1": 3,
-            "2": 4,
-            "3": 5
+        "para_adult": {
+            "1": 16
+        },
+        "senior": {
+            "1": 12,
+            "2": 13,
+            "3": 14
         }
     },
     "long": {
+        "newborn": {
+            "1": 20,
+        },
         "kitten": {
             "1": 0,
             "2": 1,
@@ -216,14 +225,17 @@ poses = {
             "3": 5
         },
         "adult": {
-            "1": 0,
-            "2": 1,
-            "3": 2
+            "1": 9,
+            "2": 10,
+            "3": 11
         },
-        "elder": {
-            "1": 3,
-            "2": 4,
-            "3": 5
+        "para_adult":{
+            "1": 15
+        },
+        "senior": {
+            "1": 12,
+            "2": 13,
+            "3": 14
         }
     }
 }
