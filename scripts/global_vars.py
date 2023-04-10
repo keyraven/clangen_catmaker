@@ -52,7 +52,7 @@ eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'P
                       'GREEN': "Green", 'BLUE': "Blue", 'DARKBLUE': "Dark Blue", 'GREY': "Grey", 'CYAN': "Cyan",
                       'EMERALD': "Emerald", 'PALEBLUE': "Pale Blue", 'PALEYELLOW': "Pale Yellow", 'GOLD': "Gold",
                       'HEATHERBLUE': "Heather Blue", 'COPPER': "Copper", 'SAGE': "Sage", 'COBALT': "Cobalt",
-                      'SUNLITICE': "Sunlit Ice", "GREENYELLOW": "Green-Yellow"})
+                      'SUNLITICE': "Sunlit Ice", "GREENYELLOW": "Green-Yellow", 'COPPER': 'Copper', 'BRONZE': 'Bronze'})
 eye_colors = sort_bidict(eye_colors)
 
 tints = bidict({"none": "None", "pink": "Pink", "gray": "Gray", "red": "Red", "black": "Black", "orange": "Orange",
@@ -89,11 +89,16 @@ white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK'
                         'APPALOOSA': 'Appaloosa', 'PIEBALD': 'Piebald', 'CURVED': 'Curved', 'GLASS': 'Glass',
                         'MASKMANTLE': 'Mask Mantle', 'VAN': 'Van', 'ONEEAR': 'One Ear', 'LIGHTSONG': 'Lightsong',
                         'TAIL': 'Tail', 'HEART': 'Heart', 'HEARTTWO': 'Heart 2', 'MOORISH': 'Moorish', 'APRON': 'Apron',
-                        'CAPSADDLE': 'Cap Saddle', 'COLOURPOINT': 'Colorpoint', 'RAGDOLL': 'Ragdoll',
-                        'KARPATI': 'Karpati', 'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint',
-                        'SEALPOINT': 'Sealpoint', 'FULLWHITE': 'Full White', 'VITILIGO': 'Vitiligo',
-                        'VITILIGOTWO': 'Vitiligo 2', "EXTRA": "Extra"})
+                        'CAPSADDLE': 'Cap Saddle', 'FULLWHITE': 'Full White', "EXTRA": "Extra", 'PETAL': 'Petal'})
 white_patches = sort_bidict(white_patches, None)
+
+points = bidict({None: 'None', 'COLOURPOINT': 'Colorpoint', 'RAGDOLL': 'Ragdoll', 'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint',
+                 'SEALPOINT': 'Sealpoint',})
+points = sort_bidict(points, None)
+
+vit = bidict({None: 'None', 'VITILIGO': 'Vitiligo 1', 'VITILIGOTWO': 'Vitiligo 2', 'KARPATI': 'Karpati',
+              'MOON': 'Moon', 'PHANTOM': 'Phantom', 'POWDER': 'Powder'})
+vit = sort_bidict(vit, None)
 
 scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over Eye", "TAILSCAR": "Tail",
                 "SNOUT": "Snout", "CHEEK": "Cheek",
@@ -201,9 +206,6 @@ poses = {
             "2": 7,
             "3": 8
         },
-        "para_adult": {
-            "1": 16
-        },
         "senior": {
             "1": 12,
             "2": 13,
@@ -228,9 +230,6 @@ poses = {
             "1": 9,
             "2": 10,
             "3": 11
-        },
-        "para_adult":{
-            "1": 15
         },
         "senior": {
             "1": 12,

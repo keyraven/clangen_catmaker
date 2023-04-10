@@ -47,7 +47,6 @@ class Cat():
             "adolescent": 3,
             "adult": 8,
             "senior": 12,
-            "para_adult": 15
         }
         self.paralyzed = False
         self.not_working = False
@@ -57,7 +56,6 @@ class Cat():
             "adolescent": "1",
             "adult": "3",
             "senior": "1",
-            "para_adult": "1"
         }
         self.platform = "None"
 
@@ -157,6 +155,8 @@ class Cat():
             "eye_colour2": self.eye_colour2,
             "reverse": self.reverse,
             "white_patches": self.white_patches,
+            "vitiligo": self.vitiligo,
+            "points": self.points,
             "white_patches_tint": self.white_patches_tint,
             "pattern": self.pattern if self.pelt.name == "Tortie" else None,
             "tortie_base": self.tortiebase if self.pelt.name == "Tortie" else None,

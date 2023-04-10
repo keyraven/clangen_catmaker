@@ -72,7 +72,6 @@ def randomize_sprite(cat):
         'adolescent': choice(["1", "2", "3"]),
         'senior': choice(["1", "2", "3"]),
         'adult': choice(["1", "2", "3"]),
-        'para_adult': "1"
     }
 
     cat.not_working = bool(random.getrandbits(1))
@@ -146,6 +145,17 @@ def randomize_white_patches(cat):
 
     chosen_white_patches = choice(list(global_vars.white_patches.keys()))
     cat.white_patches = chosen_white_patches
+    
+    if random.random() > 0.5:
+        cat.points = choice(list(global_vars.points.keys()))
+    else:
+        cat.points = None
+    
+    if random.random() > 0.9:
+        cat.vitiligo = choice(list(global_vars.vit.keys()))
+    else:
+        cat.vitiligo = None
+        
 
 
 def randomize_tint(cat):
