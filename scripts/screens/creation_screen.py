@@ -140,7 +140,9 @@ class CreationScreen(base_screens.Screens):
                     global_vars.CREATED_CAT.not_working = True
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
-        # Here if where all the dropdown menu actions are handled.
+        
+        
+        # Here if where all the dropdown menu actions are handled. ---------------------------------------------
         elif event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
             if event.ui_element == self.dropdown_menus["color_select"]:
                 global_vars.CREATED_CAT.pelt.colour = global_vars.colors.inverse[event.text]
