@@ -6,8 +6,10 @@ from scripts.cat.pelts import *
 from scripts.game_structure.game_essentials import *
 import traceback
 
-def update_sprite(cat):
-    # First, check if the cat is faded.
+def update_sprite(cat):    
+    cat.sprite = generate_sprite(cat)
+
+def generate_sprite(cat, override_age=None):
     cat.scars = []
     for scar in cat.scar_slot_list:
         if scar:
@@ -152,18 +154,18 @@ def update_sprite(cat):
                 temp = sprites.sprites['fadestarclan' + stage + cat_sprite].copy()
                 temp.blit(new_sprite, (0, 0))
                 new_sprite = temp
+                
+        # reverse, if assigned so
+        if cat.reverse:
+            new_sprite = pygame.transform.flip(new_sprite, True, False)
 
     except (TypeError, KeyError):
         traceback.print_exc()
         # Placeholder image
         new_sprite = image_cache.load_image(f"sprites/error_placeholder.png").convert_alpha().copy()
         
-    # reverse, if assigned so
-    if cat.reverse:
-        new_sprite = pygame.transform.flip(new_sprite, True, False)
-
-    cat.sprite = new_sprite
-
+    return new_sprite
+    
 # ---------------------------------------------------------------------------- #
 #                                     OTHER                                    #
 # ---------------------------------------------------------------------------- #

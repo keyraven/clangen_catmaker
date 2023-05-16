@@ -66,12 +66,15 @@ class Cat():
         self.reverse = False
         self.skin = "BLACK"
 
-        # Unused
+        # Used only for export
+        self.ID = "2"
         self.gender = "female"
-        self.skill = None
-        self.trait = None
-        self.parent1 = None
-        self.parent2 = None
+        self.gender_align = "female"
+        self.status = "warrior"
+        self.skill = "???"
+        self.trait = "troublesome"
+        self.backstory = "clan_founder"
+        self.moons = 0
 
         # Sprite sizes
         self.sprite = None
@@ -103,8 +106,6 @@ class Cat():
         util.randomize_pattern(self)
         util.randomize_tint(self)
 
-        
-
     def generate_large_image(self):
         return
 
@@ -117,16 +118,16 @@ class Cat():
             pelt_name = "Calico"
 
         save = {
-            "ID": "1",
+            "ID": self.ID,
             "name_prefix": "Prefix",
             "name_suffix": "Suffix",
-            "gender": "female",
-            "gender_align": "female",
+            "gender": self.gender,
+            "gender_align": self.gender_align,
             "birth_cooldown": 0,
-            "status": "warrior",
-            "backstory": "clan_founder",
+            "status": self.status,
+            "backstory": self.backstory,
             "age": self.age,
-            "moons": 30,
+            "moons": self.moons,
             "trait": "wise",
             "parent1": None,
             "parent2": None,
@@ -137,7 +138,7 @@ class Cat():
             "mate": None,
             "dead": False,
             "died_by": [],
-            "paralyzed": False,
+            "paralyzed": self.paralyzed,
             "no_kits": False,
             "exiled": False,
             "pelt_name": pelt_name,
@@ -164,7 +165,7 @@ class Cat():
             "tortie_pattern": self.tortiepattern if self.pelt.name == "Tortie" else None,
             "skin": self.skin,
             "tint": self.tint,
-            "skill": "great hunter",
+            "skill": self.skill,
             "scars": [x for x in self.scar_slot_list if x],
             "accessory": self.accessory,
             "experience": 0,
