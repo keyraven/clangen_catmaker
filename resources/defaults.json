@@ -30,5 +30,17 @@
             "border_width": "12",
             "shadow_width": "0"
         }
+    },
+    "#left_fac_button": {
+        "misc": {
+            "text_horiz_alignment_padding": "0",
+            "text_vert_alignment_padding": "0"
+        }
+    },
+    "#right_fac_button": {
+        "misc": {
+            "text_horiz_alignment_padding": "0",
+            "text_vert_alignment_padding": "0"
+        }
     }
 }

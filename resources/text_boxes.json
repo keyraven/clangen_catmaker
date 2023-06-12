@@ -123,5 +123,29 @@
             "text_horiz_alignment": "center",
             "text_vert_alignment": "center"
     }
+  },
+  "#facet_select_display": {
+    "colours": {
+            "dark_bg": "#00000000",
+            "active_bg": "#00000000",
+            "normal_text": "#000000",
+            "text_shadow": "#00000000",
+            "normal_border": "#776045",
+            "hovered_border": "#291B0F",
+            "disabled_border": "#706B64",
+            "selected_border": "#776045",
+            "active_border": "#776045"
+        },
+    "font": {
+            "name": "notosans",
+            "regular_path": "resources/fonts/NotoSans-Medium.ttf",
+            "size": "15"
+        },
+    "misc": {
+            "border_width": "0",
+            "shadow_width": "0",
+            "padding": "5,0",
+            "text_horiz_alignment": "center"
+    }
   }
 }

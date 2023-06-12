@@ -904,6 +904,8 @@ class DoneScreen(base_screens.Screens):
 
     def __init__(self, name):
         self.save_dict = {}
+        self.labels = {}
+        self.number_selects = {}
         super().__init__(name)
 
     def handle_event(self, event):
@@ -1020,39 +1022,54 @@ class DoneScreen(base_screens.Screens):
         self.labels["lawfulness"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Lawfulness:",
                                                            container=self.pattern_tab,
                                                            object_id="#dropdown_label")
-        self.labels["aggression"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Agression:",
+        self.labels["aggression"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Aggression:",
                                                            container=self.pattern_tab,
                                                            object_id="#dropdown_label")
-        self.labels["sociablity"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Sociablity:",
+        self.labels["sociability"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Sociability:",
                                                            container=self.pattern_tab,
                                                            object_id="#dropdown_label")
         self.labels["stablity"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Stablity:",
                                                            container=self.pattern_tab,
                                                            object_id="#dropdown_label")
         
+        # Also create the facet select options, since those can be changes and don't need to be rebuild later
+        self.number_selects["lawfulness"] = custom_buttons.UIFacetSelect()
+        self.number_selects["aggression"] = custom_buttons.UIFacetSelect()
+        self.number_selects["sociability"] = custom_buttons.UIFacetSelect()
+        self.number_selects["stablity"] = custom_buttons.UIFacetSelect()
+        
         
         # -------------------------------------------------------------------------------------------------------------
         # Trait Skill Labels 2 Tab Labels -----------------------------------------------------------------------------
         # -------------------------------------------------------------------------------------------------------------
 
-        self.labels["tortie"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Tortie",
+        self.labels["primary_path"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Primary Skill Path:",
                                                             container=self.pattern_tab2,
                                                             object_id="#dropdown_label")
         
-        self.labels["Tortie Patches Color"] = pygame_gui.elements.UILabel(pygame.Rect((70, 15), (150, 25)),
-                                                                          "Tortie Patches Color",
+        self.labels["secondary_path"] = pygame_gui.elements.UILabel(pygame.Rect((70, 15), (150, 25)),
+                                                               "Secondary Skill Path:",
+                                                               container=self.pattern_tab2,
+                                                               object_id="#dropdown_label")
+
+        self.labels["primary_tier"] = pygame_gui.elements.UILabel(pygame.Rect((230, 15), (190, 25)),
+                                                                          "Primary Skill Tier:",
                                                                           container=self.pattern_tab2,
                                                                           object_id="#dropdown_label")
 
-        self.labels["Tortie Patches pattern"] = pygame_gui.elements.UILabel(pygame.Rect((230, 15), (190, 25)),
-                                                                          "Tortie Patches Pattern",
+        self.labels["secondary_tier"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
+                                                                          "Secondary Skill Tier:",
                                                                           container=self.pattern_tab2,
                                                                           object_id="#dropdown_label")
-
-        self.labels["Tortie Patches shape"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
-                                                                          "Tortie Patches Shape",
-                                                                          container=self.pattern_tab2,
-                                                                          object_id="#dropdown_label")
+        
+        self.labels["hidden"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
+                                                                        "Hidden Skill: ",
+                                                                        container=self.pattern_tab2,
+                                                                        object_id="#dropdown_label")
+        
+        self.number_selects["primary_tier"] = custom_buttons.UIFacetSelect()
+        self.number_selects["secondary_tier"] = custom_buttons.UIFacetSelect()
+        
 
         self.build_dropdown_menus()
         self.update_checkboxes_and_disable_dropdowns()
