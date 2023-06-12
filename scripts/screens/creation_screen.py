@@ -271,9 +271,11 @@ class CreationScreen(base_screens.Screens):
         ]
         
         for x in pages:
-            if self.visable_tab in x:
+            if self.visable_tab in x:    
                 index = x.index(self.visable_tab)
                 new_index = index + direction
+                self.page_indicator.set_text(f"{new_index + 1} / {len(x)}")
+                
                 if 0 <= new_index < len(x):
                     self.show_tab(x[new_index])
                     
@@ -289,6 +291,8 @@ class CreationScreen(base_screens.Screens):
                             
                     return
                 
+                
+        self.page_indicator.set_text(f"1 / 1")
         self.next_page.disable()
         self.last_page.disable()
 
@@ -376,8 +380,11 @@ class CreationScreen(base_screens.Screens):
                                                       object_id="#last_page_button")
         self.next_page = custom_buttons.UIImageButton(pygame.Rect((534, 640), (34, 34)), "",
                                                       object_id="#next_page_button")
-        self.last_page.disable()
-        self.next_page.disable()
+        self.page_indicator = pygame_gui.elements.UITextBox("", pygame.Rect((370, 647), (162, 30)),
+                                                            object_id="#page_number")
+        
+        # Updates the page indicator and disabling the page buttons
+        self.handle_page_switching(0)
 
 
         # ------------------------------------------------------------------------------------------------------------
@@ -522,7 +529,6 @@ class CreationScreen(base_screens.Screens):
         self.build_dropdown_menus()
         self.update_checkboxes_and_disable_dropdowns()        
         
-
     def update_cat_image(self):
         """ Updates the cat images and displays it. """
         update_sprite(global_vars.CREATED_CAT)
@@ -848,28 +854,6 @@ class CreationScreen(base_screens.Screens):
         # Extras Tab --------------------------------------------------------------------------------------------------
         # -------------------------------------------------------------------------------------------------------------
 
-    def change_pose(self, pose: str=None):
-        # Changes the pose from 1, 2, or 3
-        if pose:
-            # Change the sprite number.
-            global_vars.CREATED_CAT.cat_sprites[global_vars.CREATED_CAT.age] = global_vars.poses[
-                global_vars.CREATED_CAT.pelt.length][global_vars.CREATED_CAT.age][pose]
-
-            # Adjust tracked poses.
-            global_vars.CREATED_CAT.current_poses[global_vars.CREATED_CAT.age] = pose
-
-
-
-    def change_fur_length(self, fur_length: str=None):
-        if fur_length:
-            global_vars.CREATED_CAT.pelt.length = fur_length
-
-            # Change all poses for all ages. 
-            for age in global_vars.CREATED_CAT.current_poses:
-                # This is such a mess of dictionary lookups.
-                global_vars.CREATED_CAT.cat_sprites[age] = global_vars.poses[
-                    fur_length][age][global_vars.CREATED_CAT.current_poses[age]]
-
     def exit_screen(self):
         self.back.kill()
         self.back = None
@@ -926,7 +910,152 @@ class DoneScreen(base_screens.Screens):
         pass
 
     def screen_switches(self):
-        self.save_dict = global_vars.CREATED_CAT.generate_save_file()
+        update_sprite(global_vars.CREATED_CAT)
+
+        if global_vars.CREATED_CAT.platform != "None":
+            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((160, 25), (480, 420)),
+                                                            pygame.transform.scale(load_image(
+                                                                global_vars.platforms[
+                                                                    global_vars.CREATED_CAT.platform
+                                                                ]),(480, 420)))
+        else:
+            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((160, 25), (480, 420)),
+                                                            global_vars.MANAGER.get_universal_empty_surface(),
+                                                            visible=False)
+
+        self.cat_image = pygame_gui.elements.UIImage(pygame.Rect((250, 25), (300, 300)),
+                                                     pygame.transform.scale(global_vars.CREATED_CAT.sprite,
+                                                                            (300, 300)))
+
+        self.back = custom_buttons.UIImageButton(pygame.Rect((50, 25), (105, 30)), "",
+                                                 object_id="#back_button")
+
+        self.done = custom_buttons.UIImageButton(pygame.Rect((673, 25), (77, 30)), "",
+                                                 object_id="#done_button")
+
+        self.randomize = custom_buttons.UIImageButton(pygame.Rect((630, 291), (50, 50)), "",
+                                                      object_id="#random_dice_button")
+
+        self.clear = custom_buttons.UIImageButton(pygame.Rect((690, 291), (50, 50)), "",
+                                                  object_id="#clear_button")
+
+        # -----------------------------------------------------------------------------------------------------------
+        # TAB BUTTONS -----------------------------------------------------------------------------------------------
+        # -----------------------------------------------------------------------------------------------------------
+        self.general_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 365), (100, 88)), "",
+                                                               object_id="#general_tab_button")
+        self.general_tab_button.disable()
+
+        self.trait_skill_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 456), (100, 88)), "",
+                                                               object_id="#pattern_tab_button")
+
+        self.tab_background = pygame_gui.elements.UIImage(pygame.Rect((150, 350), (600, 300)),
+                                                          load_image("resources/images/options.png"))
+        
+        # -----------------------------------------------------------------------------------------------------------
+        # TAB CONTAINERS --------------------------------------------------------------------------------------------
+        # -----------------------------------------------------------------------------------------------------------
+        self.general_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+                                                                    global_vars.MANAGER)
+
+        self.trait_skill_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+                                                                    global_vars.MANAGER,
+                                                                    visible=False)
+        
+        self.visable_tab = self.general_tab
+
+        # ------------------------------------------------------------------------------------------------------------
+        # Page Buttons -----------------------------------------------------------------------------------------------
+        # ------------------------------------------------------------------------------------------------------------
+        self.last_page = custom_buttons.UIImageButton(pygame.Rect((334, 640), (34, 34)), "",
+                                                      object_id="#last_page_button")
+        self.next_page = custom_buttons.UIImageButton(pygame.Rect((534, 640), (34, 34)), "",
+                                                      object_id="#next_page_button")
+        self.page_indicator = pygame_gui.elements.UITextBox("", pygame.Rect((370, 647), (162, 30)),
+                                                            object_id="#page_number")
+        
+        # Updates the page indicator and disabling the page buttons
+        self.handle_page_switching(0)
+
+
+        # ------------------------------------------------------------------------------------------------------------
+        # General Tab Labels -----------------------------------------------------------------------------------------
+        # ------------------------------------------------------------------------------------------------------------
+
+        self.labels["prefix"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Prefix:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["suffix"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Suffix:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["sex"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Sex:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["gender"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Gender Alignment:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["age"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Age (in moons):",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["id"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Cat ID:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["experience"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Experience Level:",
+                                                                container=self.general_tab,
+                                                                object_id="#dropdown_label")
+
+        # -------------------------------------------------------------------------------------------------------------
+        # Trait Skill Labels ------------------------------------------------------------------------------------------
+        # -------------------------------------------------------------------------------------------------------------
+
+        self.labels["trait"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Trait:",
+                                                           container=self.pattern_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["lawfulness"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Lawfulness:",
+                                                           container=self.pattern_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["aggression"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Agression:",
+                                                           container=self.pattern_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["sociablity"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Sociablity:",
+                                                           container=self.pattern_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["stablity"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Stablity:",
+                                                           container=self.pattern_tab,
+                                                           object_id="#dropdown_label")
+        
+        
+        # -------------------------------------------------------------------------------------------------------------
+        # Trait Skill Labels 2 Tab Labels -----------------------------------------------------------------------------
+        # -------------------------------------------------------------------------------------------------------------
+
+        self.labels["tortie"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Tortie",
+                                                            container=self.pattern_tab2,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["Tortie Patches Color"] = pygame_gui.elements.UILabel(pygame.Rect((70, 15), (150, 25)),
+                                                                          "Tortie Patches Color",
+                                                                          container=self.pattern_tab2,
+                                                                          object_id="#dropdown_label")
+
+        self.labels["Tortie Patches pattern"] = pygame_gui.elements.UILabel(pygame.Rect((230, 15), (190, 25)),
+                                                                          "Tortie Patches Pattern",
+                                                                          container=self.pattern_tab2,
+                                                                          object_id="#dropdown_label")
+
+        self.labels["Tortie Patches shape"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
+                                                                          "Tortie Patches Shape",
+                                                                          container=self.pattern_tab2,
+                                                                          object_id="#dropdown_label")
+
+        self.build_dropdown_menus()
+        self.update_checkboxes_and_disable_dropdowns()
 
     def exit_screen(self):
         pass

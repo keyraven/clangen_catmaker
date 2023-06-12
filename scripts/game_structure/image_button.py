@@ -5,6 +5,7 @@ from pygame_gui.core.text.text_box_layout import TextBoxLayout
 from pygame_gui.core.utility import translate
 import scripts.game_structure.image_cache as image_cache
 import html
+from pygame_gui.core import UIElement
 
 
 class UIImageButton(pygame_gui.elements.UIButton):
@@ -63,7 +64,60 @@ class UIImageButton(pygame_gui.elements.UIButton):
 
         return changed
 
-
+class UIFacetSliderBar():
+    """A nice wrapper for a cool facet bar, with custom changing background to indicate the current ranges
+    of the trait chosen"""
+    
+    def __init__(self, relative_Rect, current_value_width = 30, allow_range:tuple = None) -> None:
+        
+        if relative_Rect[2] < current_value_width:
+            print("Warning - ya messed up")
+            current_value_width = int(relative_Rect[2] * 0.2)
+        
+        if allow_range is None:
+            allow_range = (0,16)
+        
+        slider_rect = relative_Rect.copy()
+        slider_rect[2] -= current_value_width
+        slider_rect[0] += current_value_width
+        
+        current_value_rect = relative_Rect.copy()
+        current_value_rect[2] = 30
+        
+        background_rect = slider_rect.copy()
+        background_rect[0] += 20
+        background_rect[2] -= 40
+        
+        
+        background_image = pygame.Surface((background_rect[2], background_rect[3]))
+        self.background = pygame_gui.elements.UIImage(background_rect, background_image)
+        self.background.disable()
+        #self.set_background(allow_range)
+        self.slider = pygame_gui.elements.UIHorizontalSlider(slider_rect, 0, (0, 16), object_id="horizontal_slider")
+        self.current_value = pygame_gui.elements.UITextBox(str(self.slider.get_current_value()), current_value_rect, 
+                                                           object_id="#dropdown_label")
+        self.current_displayed_value = 0
+        
+    def set_background(self, allow_range):
+        size = self.background.get_relative_rect()
+        size = (size[2], size[3])
+        
+        shaded_width = int(size[0] * (allow_range[1] - allow_range[0]) / 16) + 20
+        shaded_start = int(size[0] * (allow_range[0] / 16))
+        
+        background_image = pygame.Surface(size, flags=pygame.SRCALPHA)
+        background_image.fill((255,0,0), pygame.Rect((shaded_start, 0), (shaded_width, size[1])))
+        
+        self.background.set_image(background_image)
+    
+    def update_current_value(self):
+        if self.slider.get_current_value() == self.current_displayed_value:
+            return
+        
+        self.current_displayed_value = self.slider.get_current_value()
+        self.current_value.set_text(str(self.current_displayed_value))
+            
+        
 class UISpriteButton():
     '''This is for use with the cat sprites. It wraps together a UIImage and Transparent Button.
         For most functions, this can be used exactly like other pygame_gui elements. '''
