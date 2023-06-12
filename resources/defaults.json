@@ -2,8 +2,8 @@
     "defaults": {
         "colours": {
             "normal_bg": "#655934",
-            "dark_bg": "#00000000",
             "hovered_bg": "#1E1809",
+            "dark_bg": "#2e2919",
             "disabled_bg": "#5C5850",
             "selected_bg": "#655934",
             "active_bg": "#655934",
@@ -29,11 +29,6 @@
         "misc": {
             "border_width": "12",
             "shadow_width": "0"
-        }
-    },
-    "horizontal_slider": {
-        "colours": {
-            "dark_bg": "#00000000"
         }
     }
 }

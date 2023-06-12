@@ -1,7 +1,10 @@
+from typing import Dict, Optional, Tuple, Union
 import pygame
 import pygame_gui
+from pygame_gui.core.interfaces import IContainerLikeInterface, IUIManagerInterface
 from pygame_gui.core.text.html_parser import HTMLParser
 from pygame_gui.core.text.text_box_layout import TextBoxLayout
+from pygame_gui.core.ui_element import UIElement
 from pygame_gui.core.utility import translate
 import scripts.game_structure.image_cache as image_cache
 import html
@@ -92,7 +95,7 @@ class UIFacetSliderBar():
         background_image = pygame.Surface((background_rect[2], background_rect[3]))
         self.background = pygame_gui.elements.UIImage(background_rect, background_image)
         self.background.disable()
-        #self.set_background(allow_range)
+        self.set_background(allow_range)
         self.slider = pygame_gui.elements.UIHorizontalSlider(slider_rect, 0, (0, 16), object_id="horizontal_slider")
         self.current_value = pygame_gui.elements.UITextBox(str(self.slider.get_current_value()), current_value_rect, 
                                                            object_id="#dropdown_label")
@@ -102,8 +105,11 @@ class UIFacetSliderBar():
         size = self.background.get_relative_rect()
         size = (size[2], size[3])
         
-        shaded_width = int(size[0] * (allow_range[1] - allow_range[0]) / 16) + 20
-        shaded_start = int(size[0] * (allow_range[0] / 16))
+        sliding_button_width = 20
+        
+        notice_apart = (size[0] - 20) / 17
+        shaded_width = int(notice_apart * (1 + allow_range[1] - allow_range[0])) + 12
+        shaded_start = int(size[0] * (allow_range[0] / 16)) - 7
         
         background_image = pygame.Surface(size, flags=pygame.SRCALPHA)
         background_image.fill((255,0,0), pygame.Rect((shaded_start, 0), (shaded_width, size[1])))
@@ -116,7 +122,18 @@ class UIFacetSliderBar():
         
         self.current_displayed_value = self.slider.get_current_value()
         self.current_value.set_text(str(self.current_displayed_value))
-            
+
+class UIFacetSelect(UIElement):
+    def __init__(self, 
+                 relative_rect: pygame.Rect | Tuple[int, int, int, int], 
+                 manager: IUIManagerInterface | None, 
+                 container: IContainerLikeInterface | None, 
+                 starting_height: int, 
+                 visible: int = 1):
+        
+        self.button_container = None
+        
+        super().__init__(relative_rect, manager, container, starting_height=starting_height, visible=visible)
         
 class UISpriteButton():
     '''This is for use with the cat sprites. It wraps together a UIImage and Transparent Button.
