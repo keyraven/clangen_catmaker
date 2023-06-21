@@ -2,9 +2,9 @@ from __future__ import annotations
 from random import choice, randint, sample
 import os.path
 
-import scripts.cat.appearance_utility as util
 from scripts.utility import *
 from scripts.game_structure.game_essentials import *
+from scripts.cat.pelts import Pelt
 
 
 
@@ -18,28 +18,9 @@ class Cat():
         # Public attributes
 
         self.age = "adult"
-        self.pelt = SingleColour("WHITE", "short")
-        self.tint = "none"
-        self.eye_colour = "BLUE"
-        self.eye_colour2 = None
-        self.scars = []
-        self.scar_slot_list = [
-            None,
-            None,
-            None,
-            None
-        ]
+        self.pelt = Pelt()
         self.dead = False
         self.df = False
-        self.tortiebase = "single"
-        self.pattern = "ONE"
-        self.tortiepattern = "single"
-        self.tortiecolour = "GINGER"
-        self.white_patches = None
-        self.points = None
-        self.vitiligo = None
-        self.white_patches_tint = "none"
-        self.accessory = None
         self.shading = False
         self.cat_sprites = {
             "newborn": 20,
@@ -48,62 +29,25 @@ class Cat():
             "adult": 8,
             "senior": 12,
         }
-        self.paralyzed = False
-        self.not_working = False
-        self.current_poses = {
-            "newborn": "1",
-            "kitten": "1",
-            "adolescent": "1",
-            "adult": "3",
-            "senior": "1",
-        }
         self.platform = "None"
 
-        # Helpers:
-        self.stored_eye_color_2 = "BLUE"
-
-        self.opacity = 100
-        self.reverse = False
-        self.skin = "BLACK"
-
-        # Unused
+        # Used only for export
+        self.ID = "2"
         self.gender = "female"
-        self.skill = None
-        self.trait = None
-        self.parent1 = None
-        self.parent2 = None
+        self.gender_align = "female"
+        self.status = "warrior"
+        self.skill = "???"
+        self.trait = "troublesome"
+        self.backstory = "clan_founder"
+        self.moons = 0
 
         # Sprite sizes
         self.sprite = None
 
     def randomize_looks(self, just_pattern=False):
-
-        if not just_pattern:
-            self.age = choice(["newborn", "kitten", "adult", "adolescent", "senior"])
-            util.randomize_sprite(self)
-            util.randomize_scars(self)
-            util.randomize_accessories(self)
-            util.randomize_platform(self)
-            lineart = choice(["Star", "Normal", "DF"])
-            if lineart == "Star":
-                self.dead = True
-                self.df = False
-            elif lineart == "Normal":
-                self.dead = False
-                self.df = False
-            elif lineart == "DF":
-                self.dead = True
-                self.df = True
-
-            self.shading = choice([True, False])
         
-        util.randomize_pelt(self, change_fur_length=not just_pattern)
-        util.randomize_eyes(self)
-        util.randomize_white_patches(self)
-        util.randomize_pattern(self)
-        util.randomize_tint(self)
-
-        
+        self.age = random.choice(list(self.pelt.current_poses.keys()))
+        self.pelt.randomize_pelt()
 
     def generate_large_image(self):
         return
@@ -117,16 +61,16 @@ class Cat():
             pelt_name = "Calico"
 
         save = {
-            "ID": "1",
+            "ID": self.ID,
             "name_prefix": "Prefix",
             "name_suffix": "Suffix",
-            "gender": "female",
-            "gender_align": "female",
+            "gender": self.gender,
+            "gender_align": self.gender_align,
             "birth_cooldown": 0,
-            "status": "warrior",
-            "backstory": "clan_founder",
+            "status": self.status,
+            "backstory": self.backstory,
             "age": self.age,
-            "moons": 30,
+            "moons": self.moons,
             "trait": "wise",
             "parent1": None,
             "parent2": None,
@@ -137,7 +81,7 @@ class Cat():
             "mate": None,
             "dead": False,
             "died_by": [],
-            "paralyzed": False,
+            "paralyzed": self.paralyzed,
             "no_kits": False,
             "exiled": False,
             "pelt_name": pelt_name,
@@ -164,7 +108,7 @@ class Cat():
             "tortie_pattern": self.tortiepattern if self.pelt.name == "Tortie" else None,
             "skin": self.skin,
             "tint": self.tint,
-            "skill": "great hunter",
+            "skill": self.skill,
             "scars": [x for x in self.scar_slot_list if x],
             "accessory": self.accessory,
             "experience": 0,

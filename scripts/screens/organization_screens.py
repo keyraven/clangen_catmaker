@@ -22,10 +22,10 @@ class StartScreen(base_screens.Screens):
         self.title = pygame_gui.elements.UITextBox("ClanGen CatMaker", pygame.Rect((0, 200), (800, 100)),
                                                    object_id="#title")
         self.start_button = pygame_gui.elements.UIButton(pygame.Rect((350, 320), (100, 50)), "Start")
-        self.version = pygame_gui.elements.UITextBox("Version 0.4.1beta"
+        self.version = pygame_gui.elements.UITextBox("Version 0.5.0beta"
                                                      "\n Please don't sell any images created, and give proper credit. ", pygame.Rect((250, 400), (300, 100)),
                                                      object_id="#version")
-
+        
     def exit_screen(self):
         self.start_button.kill()
         self.start_button = None

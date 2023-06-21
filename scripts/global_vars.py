@@ -6,9 +6,11 @@ screen_x, screen_y = 800, 700
 SCREEN = pygame.display.set_mode((screen_x, screen_y))
 MANAGER = pygame_gui.ui_manager.UIManager((screen_x, screen_y), 'resources/defaults.json', enable_live_theme_updates=False)
 
+MANAGER.get_theme().load_theme('resources/defaults.json')
 MANAGER.get_theme().load_theme('resources/buttons.json')
 MANAGER.get_theme().load_theme('resources/text_boxes.json')
 MANAGER.get_theme().load_theme('resources/text_boxes.json')
+
 
 import scripts.cat.cats
 
@@ -45,7 +47,10 @@ tortie_patches_shapes = bidict({"ONE": "One", "TWO": "Two", "THREE": "Three", "F
                                 'MINIMALTHREE': "Minimal 3", 'MINIMALFOUR': "Minimal 4", 'OREO': "Oreo", 'SWOOP': "Swoop",
                                 'MOTTLED': "Mottled", 'SIDEMASK': "Sidemask", 'EYEDOT': "Eye dot",
                                 'BANDANA': "Bandana", 'PACMAN': "Pacman", 'STREAMSTRIKE': "Streamstrike",
-                                'ORIOLE': "Oriole", 'ROBIN': "Robin", 'BRINDLE': "Brindle", 'PAIGE': "Paige"})
+                                'ORIOLE': "Oriole", 'ROBIN': "Robin", 'BRINDLE': "Brindle", 'PAIGE': "Paige", 
+                                "ROSETAIL": "Rosetail", "SAFI": "Safi", "HALF": "Half", "CHIMERA": "Chimera", 
+                                "SMUDGED": "Smudged", "DAUB": "Daub", "DAPPLENIGHT": "Dapplenight", "STREAK": "Streak", 
+                                "MASK": "Mask", "CHEST": "Chest", "ARMTAIL": "Armtail", "EMBER": "Ember"})
 tortie_patches_shapes = sort_bidict(tortie_patches_shapes)
 
 eye_colors = bidict( {'YELLOW': "Yellow", 'AMBER': "Amber", 'HAZEL': "Hazel", 'PALEGREEN': "Pale Green",
@@ -73,7 +78,8 @@ skin_colors = sort_bidict(skin_colors)
 colors = bidict({'WHITE': 'White', 'GREY': 'Grey', 'DARKGREY': 'Dark Grey', 'PALEGREY': 'Pale Grey',
                  'SILVER': 'Silver', 'GOLDEN': 'Golden', 'DARKGINGER': 'Dark Ginger', 'PALEGINGER': 'Pale Ginger',
                  'CREAM': 'Cream', 'BROWN': 'Brown', 'DARKBROWN': 'Dark Brown', 'LIGHTBROWN': 'Light Brown',
-                 'BLACK': 'Black', "GHOST": "Ghost", "GINGER": "Ginger"})
+                 'BLACK': 'Black', "GHOST": "Ghost", "GINGER": "Ginger", "SIENNA": "Sienna", "LILAC": "Lilac",
+                 "GOLDEN-BROWN": "Golden Brown", "CHOCOLATE": "Chocolate"})
 colors = sort_bidict(colors)
 
 white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK': 'Chest Speck', 'WINGS': 'Wings',
@@ -90,7 +96,11 @@ white_patches = bidict({None: 'None', 'MAO': 'Mao', 'LUNA': 'Luna', 'CHESTSPECK'
                         'APPALOOSA': 'Appaloosa', 'PIEBALD': 'Piebald', 'CURVED': 'Curved', 'GLASS': 'Glass',
                         'MASKMANTLE': 'Mask Mantle', 'VAN': 'Van', 'ONEEAR': 'One Ear', 'LIGHTSONG': 'Lightsong',
                         'TAIL': 'Tail', 'HEART': 'Heart', 'HEARTTWO': 'Heart 2', 'MOORISH': 'Moorish', 'APRON': 'Apron',
-                        'CAPSADDLE': 'Cap Saddle', 'FULLWHITE': 'Full White', "EXTRA": "Extra", 'PETAL': 'Petal'})
+                        'CAPSADDLE': 'Cap Saddle', 'FULLWHITE': 'Full White', "EXTRA": "Extra", 'PETAL': 'Petal',
+                        "DIVA": "Diva", "SAVANNAH": "Savannah", "FADESPOTS": "Fadespots", "SHIBAINU": "Shiba Inu", 
+                        "TOPCOVER": "Top Cover", "DAPPLEPAW": "Dapplepaw", "BEARD": "Beard", "PEBBLESHINE": "Pebbleshine", 
+                        "OWL": "Owl", "WOODPECKER": "Woodpecker", "MISS": "Miss", "BOOTS": "Boots", "COW": "Cow", 
+                        "COWTWO": "Cow 2", "BUB": "Bub"})
 white_patches = sort_bidict(white_patches, None)
 
 points = bidict({None: 'None', 'COLOURPOINT': 'Colorpoint', 'RAGDOLL': 'Ragdoll', 'SEPIAPOINT': 'Sepiapoint', 'MINKPOINT': 'Minkpoint',
@@ -98,7 +108,7 @@ points = bidict({None: 'None', 'COLOURPOINT': 'Colorpoint', 'RAGDOLL': 'Ragdoll'
 points = sort_bidict(points, None)
 
 vit = bidict({None: 'None', 'VITILIGO': 'Vitiligo 1', 'VITILIGOTWO': 'Vitiligo 2', 'KARPATI': 'Karpati',
-              'MOON': 'Moon', 'PHANTOM': 'Phantom', 'POWDER': 'Powder'})
+              'MOON': 'Moon', 'PHANTOM': 'Phantom', 'POWDER': 'Powder', 'BLEACHED': 'Bleached'})
 vit = sort_bidict(vit, None)
 
 scars = bidict({None: "None", "ONE": "Chest", "TWO": "Shoulder", "THREE": "Over Eye", "TAILSCAR": "Tail",

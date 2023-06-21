@@ -1,10 +1,15 @@
+from typing import Dict, Optional, Tuple, Union
 import pygame
 import pygame_gui
+from pygame_gui.core.interfaces import IContainerLikeInterface, IUIManagerInterface
 from pygame_gui.core.text.html_parser import HTMLParser
 from pygame_gui.core.text.text_box_layout import TextBoxLayout
+from pygame_gui.core.ui_element import UIElement
 from pygame_gui.core.utility import translate
 import scripts.game_structure.image_cache as image_cache
 import html
+from pygame_gui.core import UIElement
+from pygame_gui.core import ObjectID
 
 
 class UIImageButton(pygame_gui.elements.UIButton):
@@ -63,7 +68,116 @@ class UIImageButton(pygame_gui.elements.UIButton):
 
         return changed
 
-
+class UIFacetSelect(UIElement):
+    """ Hacked together element for two arrow bars that change the center displayed value. 
+        Allows you to set and change an allowed range.  
+        Using it for facet selection. """
+    
+    def __init__(self,
+                 relative_rect,
+                 current_value,
+                 allowed_range,
+                 manager = None,
+                 container = None,
+                 object_id = None):
+        
+        self.button_container = None
+        
+        super().__init__(relative_rect, manager, container, 
+                       layer_thickness=2,
+                       starting_height=1)
+        
+        self._create_valid_ids(container=container,
+                               parent_element=None,
+                               object_id=object_id,
+                               element_id="facet_select")
+        
+        self.background_rect = relative_rect
+        
+        self.button_container = pygame_gui.core.UIContainer(self.background_rect,
+                                                manager=self.ui_manager,
+                                                container=self.ui_container,
+                                                anchors=self.anchors,
+                                                object_id=None,
+                                                visible=self.visible)
+        
+        self.button_width = 25
+        self.low_bound = allowed_range[0]
+        self.high_bound = allowed_range[1]
+        self.current_value = current_value if self.low_bound <= current_value <= self.high_bound \
+            else allowed_range[0]
+        
+        self.display = pygame_gui.elements.UITextBox("", pygame.Rect((self.button_width, 0), 
+                                                     (self.background_rect.width - 2*self.button_width, self.background_rect.height)),
+                                                     manager=self.ui_manager,
+                                                     visible=self.visible,
+                                                     container=self.button_container,
+                                                     object_id="#facet_select_display")
+        self.left_button = pygame_gui.elements.UIButton(pygame.Rect((0, 0),
+                                                                    (self.button_width, self.background_rect.height)),
+                                                        '◀', self.ui_manager, 
+                                                        container=self.button_container,
+                                                        object_id=ObjectID("#left_fac_button", "@arrow_button"),
+                                                        starting_height=1,
+                                                        anchors={'left': 'left',
+                                                            'right': 'left',
+                                                            'top': 'top',
+                                                            'bottom': 'bottom'},
+                                                        visible=self.visible)
+        self.right_button = pygame_gui.elements.UIButton(pygame.Rect((-self.button_width, 0),
+                                                                    (self.button_width, self.background_rect.height)),
+                                                        '▶', self.ui_manager, 
+                                                        container=self.button_container,
+                                                        starting_height=1,
+                                                        object_id=ObjectID("#right_fac_button", "@arrow_button"),
+                                                        anchors={'left': 'right',
+                                                            'right': 'right',
+                                                            'top': 'top',
+                                                            'bottom': 'bottom'},
+                                                        visible=self.visible)
+        
+        self.set_current_value(self.current_value)
+        
+    def process_event(self, event) -> bool:
+        processed_event = False
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == self.left_button and self.low_bound < self.current_value:
+                new_value = self.current_value - 1
+                self.set_current_value(new_value)
+                self.processed_event = True
+            elif event.ui_element == self.right_button and self.high_bound > self.current_value:
+                new_value = self.current_value + 1
+                self.set_current_value(new_value)
+                self.processed_event = True
+                
+        return processed_event
+    
+    def set_current_value(self, new_value:int):
+        if not (self.low_bound <= new_value <= self.high_bound):
+            return
+        
+        self.current_value = new_value
+        self.display.set_text(str(self.current_value))
+        self._update_disabled_buttons()
+        
+    def update_allowed_range(self, new_range):
+        self.low_bound = new_range[0]
+        self.high_bound = new_range[1]
+        
+        if not (self.low_bound <= self.current_value <= self.high_bound):
+            self.set_current_value(self.low_bound)
+        
+    def _update_disabled_buttons(self):
+        if self.current_value <= self.low_bound:
+            self.left_button.disable()
+        else:
+            self.left_button.enable()
+            
+        if self.current_value >= self.high_bound:
+            self.right_button.disable()
+        else:
+            self.right_button.enable()
+     
 class UISpriteButton():
     '''This is for use with the cat sprites. It wraps together a UIImage and Transparent Button.
         For most functions, this can be used exactly like other pygame_gui elements. '''

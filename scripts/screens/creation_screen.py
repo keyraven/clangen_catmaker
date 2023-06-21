@@ -2,11 +2,10 @@ import scripts.screens.base_screens as base_screens
 import pygame_gui
 import pygame
 import scripts.global_vars as global_vars
-from scripts.utility import update_sprite
+from scripts.utility import update_sprite, generate_sprite
 from scripts.game_structure.image_cache import load_image
 import scripts.game_structure.image_button as custom_buttons
 from scripts.cat.cats import Cat
-from scripts.cat.pelts import choose_pelt
 from scripts.game_structure.image_cache import load_image
 
 class CreationScreen(base_screens.Screens):
@@ -39,7 +38,10 @@ class CreationScreen(base_screens.Screens):
 
     def handle_event(self, event):
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
-            if event.ui_element == self.general_tab_button:
+            if event.ui_element == self.done:
+                return
+                self.change_screen('detail screen')
+            elif event.ui_element == self.general_tab_button:
                 self.show_tab(self.general_tab)
                 self.handle_page_switching(0)
             elif event.ui_element == self.pattern_tab_button:
@@ -76,47 +78,39 @@ class CreationScreen(base_screens.Screens):
                 # Switch pelt to tortie.
                 if global_vars.CREATED_CAT.pelt.name == "Tortie":
                     # Switch cat from tortie.
-                    pelt = global_vars.CREATED_CAT.tortiebase.capitalize()
+                    pelt = global_vars.CREATED_CAT.pelt.tortiebase.capitalize()
 
                     if pelt == "Single":
                         pelt = "SingleColour"
-
-                    global_vars.CREATED_CAT.pelt = choose_pelt(
-                        global_vars.CREATED_CAT.pelt.colour,
-                        False,
-                        pelt,
-                        global_vars.CREATED_CAT.pelt.length
-                    )
+                        
+                    global_vars.CREATED_CAT.pelt.name = pelt
 
                 else:
                     #Switch Cat to Tortie
-                    global_vars.CREATED_CAT.pelt = choose_pelt(
-                        global_vars.CREATED_CAT.pelt.colour,
-                        False,
-                        "Tortie",
-                        global_vars.CREATED_CAT.pelt.length
-                    )
+                    global_vars.CREATED_CAT.pelt.tortiebase = \
+                        global_vars.CREATED_CAT.pelt.sprites_names[global_vars.CREATED_CAT.pelt.name]
+                    global_vars.CREATED_CAT.pelt.name = "Tortie"
+                    
 
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
             elif event.ui_element == self.checkboxes["hetero_eyes"]:
-
+                
                 # This will switch hetero eyes from off to on, and vis versa.
-                if global_vars.CREATED_CAT.eye_colour2:
-                    global_vars.CREATED_CAT.eye_colour2 = None
+                if global_vars.CREATED_CAT.pelt.eye_colour2:
+                    global_vars.CREATED_CAT.pelt.eye_colour2 = None
                 else:
                     # We store the last eye color 2 in "stored eye color" for QOL reasons.
-                    global_vars.CREATED_CAT.eye_colour2 = global_vars.CREATED_CAT.stored_eye_color_2
+                    global_vars.CREATED_CAT.pelt.eye_colour2 = global_vars.CREATED_CAT.pelt.stored_eye_color_2
 
                 self.build_dropdown_menus()
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
             elif event.ui_element == self.checkboxes["reverse"]:
                 # This checkbox flips the car horizonally.
-                if global_vars.CREATED_CAT.reverse:
-                    global_vars.CREATED_CAT.reverse = False
-                else:
-                    global_vars.CREATED_CAT.reverse = True
+                global_vars.CREATED_CAT.pelt.reverse = not \
+                    global_vars.CREATED_CAT.pelt.reverse
+                    
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
             elif event.ui_element == self.checkboxes["shading"]:
@@ -124,20 +118,19 @@ class CreationScreen(base_screens.Screens):
                     global_vars.CREATED_CAT.shading = False
                 else:
                     global_vars.CREATED_CAT.shading = True
+                    
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
             elif event.ui_element == self.checkboxes["paralyzed"]:
-                if global_vars.CREATED_CAT.paralyzed:
-                    global_vars.CREATED_CAT.paralyzed = False
-                else:
-                    global_vars.CREATED_CAT.paralyzed = True
+                global_vars.CREATED_CAT.pelt.paralyzed = not \
+                    global_vars.CREATED_CAT.pelt.paralyzed
+                
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
             elif event.ui_element == self.checkboxes["sick"]:
-                if global_vars.CREATED_CAT.not_working:
-                    global_vars.CREATED_CAT.not_working = False
-                else:
-                    global_vars.CREATED_CAT.not_working = True
+                global_vars.CREATED_CAT.pelt.not_working = not \
+                    global_vars.CREATED_CAT.pelt.not_working
+                
                 self.update_checkboxes_and_disable_dropdowns()
                 self.update_cat_image()
         
@@ -149,13 +142,16 @@ class CreationScreen(base_screens.Screens):
                 global_vars.CREATED_CAT.tortiecolour = global_vars.colors.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["white_patches_select"]:
-                global_vars.CREATED_CAT.white_patches = global_vars.white_patches.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.white_patches = global_vars.white_patches.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["pelt_length_select"]:
-                self.change_fur_length(event.text.lower())
+                global_vars.CREATED_CAT.pelt.set_pelt_length(event.text.lower())
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["pose_select"]:
-                self.change_pose(event.text[-1])
+                global_vars.CREATED_CAT.pelt.set_pose(
+                    global_vars.CREATED_CAT.age,
+                    event.text[-1]
+                )
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["pelt_select"]:
 
@@ -164,63 +160,62 @@ class CreationScreen(base_screens.Screens):
                 if global_vars.CREATED_CAT.pelt.name == "Tortie":
                     if selected == "SingleColour":
                         selected = "single"
-                    global_vars.CREATED_CAT.tortiebase = selected.lower()
+                    global_vars.CREATED_CAT.pelt.tortiebase = selected.lower()
                 else:
-                    global_vars.CREATED_CAT.pelt = choose_pelt(
-                        global_vars.CREATED_CAT.pelt.colour,
-                        False,
-                        selected,
-                        global_vars.CREATED_CAT.pelt.length
-                    )
+                    global_vars.CREATED_CAT.pelt.name = selected
+            
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["age_select"]:
                 global_vars.CREATED_CAT.age = event.text.lower()
+                # We need to rebuild some dropdowns in order for the pose
+                # to update correctly. 
+                self.build_dropdown_menus() 
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["eye_color_1"]:
-                global_vars.CREATED_CAT.eye_colour = global_vars.eye_colors.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.eye_colour = global_vars.eye_colors.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["eye_color_2"]:
-                global_vars.CREATED_CAT.eye_colour2 = global_vars.eye_colors.inverse[event.text]
-                global_vars.CREATED_CAT.stored_eye_color_2 = global_vars.eye_colors.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.eye_colour2 = global_vars.eye_colors.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.stored_eye_color_2 = global_vars.eye_colors.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["torte_patches_color"]:
 
-                global_vars.CREATED_CAT.tortiecolour = global_vars.colors.inverse[event.text]
-                global_vars.CREATED_CAT.stored_tortiecolour = global_vars.colors.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.tortiecolour = global_vars.colors.inverse[event.text]
 
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["torte_patches_pattern"]:
 
-                global_vars.CREATED_CAT.tortiepattern = global_vars.tortie_patches_patterns.inverse[event.text]
-                global_vars.CREATED_CAT.stored_tortiepattern = global_vars.tortie_patches_patterns.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.tortiepattern = global_vars.tortie_patches_patterns.inverse[event.text]
 
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["torte_patches_shape"]:
 
-                global_vars.CREATED_CAT.pattern = global_vars.tortie_patches_shapes.inverse[event.text]
-                global_vars.CREATED_CAT.stored_tortiepattern = global_vars.tortie_patches_shapes.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.pattern = global_vars.tortie_patches_shapes.inverse[event.text]
 
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["skin_color_select"]:
-                global_vars.CREATED_CAT.skin = global_vars.skin_colors.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.skin = global_vars.skin_colors.inverse[event.text]
+                
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["tint_select"]:
-                global_vars.CREATED_CAT.tint = global_vars.tints.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.tint = global_vars.tints.inverse[event.text]
+                
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["scar_1"]:
-                global_vars.CREATED_CAT.scar_slot_list[0] = global_vars.scars.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.scar_slot_list[0] = global_vars.scars.inverse[event.text]
+                
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["scar_2"]:
-                global_vars.CREATED_CAT.scar_slot_list[1] = global_vars.scars.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.scar_slot_list[1] = global_vars.scars.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["scar_3"]:
-                global_vars.CREATED_CAT.scar_slot_list[2] = global_vars.scars.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.scar_slot_list[2] = global_vars.scars.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["scar_4"]:
-                global_vars.CREATED_CAT.scar_slot_list[3] = global_vars.scars.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.scar_slot_list[3] = global_vars.scars.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["accessory"]:
-                global_vars.CREATED_CAT.accessory = global_vars.accessories.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.accessory = global_vars.accessories.inverse[event.text]
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["lineart_select"]:
                 if event.text == "StarClan":
@@ -232,18 +227,23 @@ class CreationScreen(base_screens.Screens):
                 else:
                     global_vars.CREATED_CAT.dead = False
                     global_vars.CREATED_CAT.df = False
+                
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["platform_select"]:
                 global_vars.CREATED_CAT.platform = event.text
+                
                 self.update_platform()
             elif event.ui_element == self.dropdown_menus["white_patches_tint_select"]:
-                global_vars.CREATED_CAT.white_patches_tint = global_vars.white_patches_tint.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.white_patches_tint = global_vars.white_patches_tint.inverse[event.text]
+                
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["points_select"]:
-                global_vars.CREATED_CAT.points = global_vars.points.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.points = global_vars.points.inverse[event.text]
+                
                 self.update_cat_image()
             elif event.ui_element == self.dropdown_menus["vit_select"]:
-                global_vars.CREATED_CAT.vitiligo = global_vars.vit.inverse[event.text]
+                global_vars.CREATED_CAT.pelt.vitiligo = global_vars.vit.inverse[event.text]
+                
                 self.update_cat_image()
 
     def show_tab(self, container):
@@ -274,9 +274,11 @@ class CreationScreen(base_screens.Screens):
         ]
         
         for x in pages:
-            if self.visable_tab in x:
+            if self.visable_tab in x:    
                 index = x.index(self.visable_tab)
                 new_index = index + direction
+                self.page_indicator.set_text(f"{new_index + 1} / {len(x)}")
+                
                 if 0 <= new_index < len(x):
                     self.show_tab(x[new_index])
                     
@@ -292,6 +294,8 @@ class CreationScreen(base_screens.Screens):
                             
                     return
                 
+                
+        self.page_indicator.set_text(f"1 / 1")
         self.next_page.disable()
         self.last_page.disable()
 
@@ -379,8 +383,11 @@ class CreationScreen(base_screens.Screens):
                                                       object_id="#last_page_button")
         self.next_page = custom_buttons.UIImageButton(pygame.Rect((534, 640), (34, 34)), "",
                                                       object_id="#next_page_button")
-        self.last_page.disable()
-        self.next_page.disable()
+        self.page_indicator = pygame_gui.elements.UITextBox("", pygame.Rect((370, 647), (162, 30)),
+                                                            object_id="#page_number")
+        
+        # Updates the page indicator and disabling the page buttons
+        self.handle_page_switching(0)
 
 
         # ------------------------------------------------------------------------------------------------------------
@@ -525,7 +532,6 @@ class CreationScreen(base_screens.Screens):
         self.build_dropdown_menus()
         self.update_checkboxes_and_disable_dropdowns()        
         
-
     def update_cat_image(self):
         """ Updates the cat images and displays it. """
         update_sprite(global_vars.CREATED_CAT)
@@ -549,7 +555,7 @@ class CreationScreen(base_screens.Screens):
 
         self.dropdown_menus["pose_select"] = pygame_gui.elements.UIDropDownMenu(["Pose " + i for i in global_vars.poses[global_vars.CREATED_CAT.pelt.length][global_vars.CREATED_CAT.age]],
                                                                                  "Pose " +
-                                                                                 global_vars.CREATED_CAT.current_poses[
+                                                                                 global_vars.CREATED_CAT.pelt.current_poses[
                                                                                  global_vars.CREATED_CAT.age
                                                                                  ],
                                                                                  pygame.Rect((180, 35), (150, 30)),
@@ -586,7 +592,7 @@ class CreationScreen(base_screens.Screens):
 
         current_base_pelt = global_vars.CREATED_CAT.pelt.name
         if current_base_pelt in ["Tortie", "Calcio"]:
-            current_base_pelt = global_vars.CREATED_CAT.tortiebase.capitalize()
+            current_base_pelt = global_vars.CREATED_CAT.pelt.tortiebase.capitalize()
             if current_base_pelt == "Single":
                 current_base_pelt = "SingleColour"
 
@@ -597,42 +603,42 @@ class CreationScreen(base_screens.Screens):
                                                                                 pygame.Rect((185, 35), (180, 30)),
                                                                                 container=self.pattern_tab)
 
-        if global_vars.CREATED_CAT.white_patches:
-            white_patches = (global_vars.CREATED_CAT.white_patches.lower()).capitalize()
+        if global_vars.CREATED_CAT.pelt.white_patches:
+            white_patches = (global_vars.CREATED_CAT.pelt.white_patches.lower()).capitalize()
         else:
             white_patches = "None"
         self.dropdown_menus["white_patches_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.white_patches.values(),
                                                                                          global_vars.white_patches[
-                                                                                            global_vars.CREATED_CAT.white_patches
+                                                                                            global_vars.CREATED_CAT.pelt.white_patches
                                                                                          ],
                                                                                          pygame.Rect((375, 35), (190, 30)),
                                                                                          container=self.pattern_tab)
         
         self.dropdown_menus["points_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.points.values(),
                                                                            global_vars.points[
-                                                                               global_vars.CREATED_CAT.points
+                                                                               global_vars.CREATED_CAT.pelt.points
                                                                            ],
                                                                            pygame.Rect((20, 90), (190, 30)),
                                                                            container=self.pattern_tab)
         
         self.dropdown_menus["vit_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.vit.values(),
                                                                         global_vars.vit[
-                                                                            global_vars.CREATED_CAT.vitiligo
+                                                                            global_vars.CREATED_CAT.pelt.vitiligo
                                                                         ],
                                                                         pygame.Rect((220, 90), (190, 30)),
                                                                         container=self.pattern_tab)
 
         self.dropdown_menus["eye_color_1"] = pygame_gui.elements.UIDropDownMenu(global_vars.eye_colors.values(),
                                                                                 global_vars.eye_colors[
-                                                                                    global_vars.CREATED_CAT.eye_colour
+                                                                                    global_vars.CREATED_CAT.pelt.eye_colour
                                                                                 ],
                                                                                 pygame.Rect((20, 145), (180, 30)),
                                                                                 container=self.pattern_tab)
 
-        if global_vars.CREATED_CAT.eye_colour2:
-            eye_color_2 = global_vars.CREATED_CAT.eye_colour2
+        if global_vars.CREATED_CAT.pelt.eye_colour2:
+            eye_color_2 = global_vars.CREATED_CAT.pelt.eye_colour2
         else:
-            eye_color_2 = global_vars.CREATED_CAT.eye_colour
+            eye_color_2 = global_vars.CREATED_CAT.pelt.eye_colour
 
 
         self.dropdown_menus["eye_color_2"] = pygame_gui.elements.UIDropDownMenu(global_vars.eye_colors.values(),
@@ -644,7 +650,7 @@ class CreationScreen(base_screens.Screens):
         
         self.dropdown_menus["tint_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.tints.values(),
                                                                                 global_vars.tints[
-                                                                                    global_vars.CREATED_CAT.tint
+                                                                                    global_vars.CREATED_CAT.pelt.tint
                                                                                 ],
                                                                                 pygame.Rect(((200, 200), (150, 30))),
                                                                                 container=self.pattern_tab,
@@ -653,7 +659,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["white_patches_tint_select"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.white_patches_tint.values(),
                                                global_vars.white_patches_tint[
-                                                    global_vars.CREATED_CAT.white_patches_tint
+                                                    global_vars.CREATED_CAT.pelt.white_patches_tint
                                                ],
                                                pygame.Rect(((360, 200), (205, 30))),
                                                container=self.pattern_tab,
@@ -661,7 +667,7 @@ class CreationScreen(base_screens.Screens):
 
         self.dropdown_menus["skin_color_select"] = pygame_gui.elements.UIDropDownMenu(global_vars.skin_colors.values(),
                                                                                       global_vars.skin_colors[
-                                                                                        global_vars.CREATED_CAT.skin
+                                                                                        global_vars.CREATED_CAT.pelt.skin
                                                                                       ],
                                                                                       pygame.Rect(((20, 200), (170, 30))),
                                                                                       container=self.pattern_tab,
@@ -676,7 +682,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["torte_patches_color"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.colors.values(),
                                                global_vars.colors[
-                                                    global_vars.CREATED_CAT.tortiecolour
+                                                    global_vars.CREATED_CAT.pelt.tortiecolour
                                                ],
                                                pygame.Rect((70, 35), (150, 30)),
                                                container=self.pattern_tab2)
@@ -684,7 +690,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["torte_patches_pattern"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.tortie_patches_patterns.values(),
                                                global_vars.tortie_patches_patterns[
-                                                  global_vars.CREATED_CAT.tortiepattern
+                                                  global_vars.CREATED_CAT.pelt.tortiepattern
                                                ],
                                                pygame.Rect((230, 35), (180, 30)),
                                                container=self.pattern_tab2)
@@ -692,7 +698,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["torte_patches_shape"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.tortie_patches_shapes.values(),
                                                global_vars.tortie_patches_shapes[
-                                                   global_vars.CREATED_CAT.pattern
+                                                   global_vars.CREATED_CAT.pelt.pattern
                                                ],
                                                pygame.Rect((420, 35), (150, 30)),
                                                container=self.pattern_tab2)
@@ -704,7 +710,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["scar_1"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
                                                global_vars.scars[
-                                                   global_vars.CREATED_CAT.scar_slot_list[0]
+                                                   global_vars.CREATED_CAT.pelt.scar_slot_list[0]
                                                ],
                                                pygame.Rect((20, 35), (270, 30)),
                                                container=self.extras_tab)
@@ -712,7 +718,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["scar_2"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
                                                global_vars.scars[
-                                                   global_vars.CREATED_CAT.scar_slot_list[1]
+                                                   global_vars.CREATED_CAT.pelt.scar_slot_list[1]
                                                ],
                                                pygame.Rect((300, 35), (270, 30)),
                                                container=self.extras_tab)
@@ -720,7 +726,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["scar_3"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
                                                global_vars.scars[
-                                                   global_vars.CREATED_CAT.scar_slot_list[2]
+                                                   global_vars.CREATED_CAT.pelt.scar_slot_list[2]
                                                ],
                                                pygame.Rect((20, 90), (270, 30)),
                                                container=self.extras_tab)
@@ -728,7 +734,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["scar_4"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.scars.values(),
                                                global_vars.scars[
-                                                   global_vars.CREATED_CAT.scar_slot_list[3]
+                                                   global_vars.CREATED_CAT.pelt.scar_slot_list[3]
                                                ],
                                                pygame.Rect((300, 90), (270, 30)),
                                                container=self.extras_tab)
@@ -736,7 +742,7 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus["accessory"] = \
             pygame_gui.elements.UIDropDownMenu(global_vars.accessories.values(),
                                                global_vars.accessories[
-                                                   global_vars.CREATED_CAT.accessory
+                                                   global_vars.CREATED_CAT.pelt.accessory
                                                ],
                                                pygame.Rect((20, 145), (240, 30)),
                                                container=self.extras_tab)
@@ -771,7 +777,7 @@ class CreationScreen(base_screens.Screens):
                                                                       container=self.general_tab)
             
         # Reversed
-        if global_vars.CREATED_CAT.reverse:
+        if global_vars.CREATED_CAT.pelt.reverse:
             self.checkboxes["reverse"] = custom_buttons.UIImageButton(pygame.Rect((190, 95), (34, 34)),
                                                                       "",
                                                                       object_id="#checked_checkbox",
@@ -783,7 +789,7 @@ class CreationScreen(base_screens.Screens):
                                                                       container=self.general_tab)
         
         # Paralyzed
-        if global_vars.CREATED_CAT.paralyzed:
+        if global_vars.CREATED_CAT.pelt.paralyzed:
             self.checkboxes["paralyzed"] = custom_buttons.UIImageButton(pygame.Rect((20, 160), (34, 34)),
                                                                         "",
                                                                         object_id="#checked_checkbox",
@@ -795,7 +801,7 @@ class CreationScreen(base_screens.Screens):
                                                                         container=self.general_tab)
             
         # Sick
-        if global_vars.CREATED_CAT.not_working:
+        if global_vars.CREATED_CAT.pelt.not_working:
             self.checkboxes["sick"] = custom_buttons.UIImageButton(pygame.Rect((190, 160), (34, 34)),
                                                                    "",
                                                                    object_id="#checked_checkbox",
@@ -812,7 +818,7 @@ class CreationScreen(base_screens.Screens):
 
 
         # Heterochromia
-        if global_vars.CREATED_CAT.eye_colour2:
+        if global_vars.CREATED_CAT.pelt.eye_colour2:
             self.checkboxes["hetero_eyes"] = custom_buttons.UIImageButton(pygame.Rect((210, 140), (34, 34)),
                                                                           "",
                                                                           object_id="#checked_checkbox",
@@ -851,34 +857,21 @@ class CreationScreen(base_screens.Screens):
         # Extras Tab --------------------------------------------------------------------------------------------------
         # -------------------------------------------------------------------------------------------------------------
 
-    def change_pose(self, pose: str=None):
-        # Changes the pose from 1, 2, or 3
-        if pose:
-            # Change the sprite number.
-            global_vars.CREATED_CAT.cat_sprites[global_vars.CREATED_CAT.age] = global_vars.poses[
-                global_vars.CREATED_CAT.pelt.length][global_vars.CREATED_CAT.age][pose]
-
-            # Adjust tracked poses.
-            global_vars.CREATED_CAT.current_poses[global_vars.CREATED_CAT.age] = pose
-
-
-
-    def change_fur_length(self, fur_length: str=None):
-        if fur_length:
-            global_vars.CREATED_CAT.pelt.length = fur_length
-
-            # Change all poses for all ages. 
-            for age in global_vars.CREATED_CAT.current_poses:
-                # This is such a mess of dictionary lookups.
-                global_vars.CREATED_CAT.cat_sprites[age] = global_vars.poses[
-                    fur_length][age][global_vars.CREATED_CAT.current_poses[age]]
-
     def exit_screen(self):
         self.back.kill()
         self.back = None
 
         self.done.kill()
         self.done = None
+        
+        self.next_page.kill()
+        self.next_page = None
+        
+        self.last_page.kill()
+        self.last_page = None
+        
+        self.page_indicator.kill()
+        self.page_indicator = None
 
         self.cat_platform.kill()
         self.cat_platform = None
@@ -919,23 +912,263 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus = {}
         self.checkboxes = {}
 
-class DoneScreen(base_screens.Screens):
+
+
+class MoreDetailScreen(base_screens.Screens):
 
     def __init__(self, name):
         self.save_dict = {}
+        self.labels = {}
+        self.number_selects = {}
+        self.cat_images = {}
+        self.stored_status = None
         super().__init__(name)
 
     def handle_event(self, event):
         pass
 
     def screen_switches(self):
-        self.save_dict = global_vars.CREATED_CAT.generate_save_file()
+        update_sprite(global_vars.CREATED_CAT)
 
+        self.draw_age_stage()
+        
+        self.back = custom_buttons.UIImageButton(pygame.Rect((50, 25), (105, 30)), "",
+                                                 object_id="#back_button")
+
+        self.done = custom_buttons.UIImageButton(pygame.Rect((673, 25), (77, 30)), "",
+                                                 object_id="#done_button")
+
+        # -----------------------------------------------------------------------------------------------------------
+        # TAB BUTTONS -----------------------------------------------------------------------------------------------
+        # -----------------------------------------------------------------------------------------------------------
+        self.general_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 365), (100, 88)), "",
+                                                               object_id="#general_info_tab_button")
+        self.general_tab_button.disable()
+
+        self.trait_skill_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 456), (100, 88)), "",
+                                                               object_id="#pattern_tab_button")
+
+        self.tab_background = pygame_gui.elements.UIImage(pygame.Rect((150, 350), (600, 300)),
+                                                          load_image("resources/images/options.png"))
+        
+        # -----------------------------------------------------------------------------------------------------------
+        # TAB CONTAINERS --------------------------------------------------------------------------------------------
+        # -----------------------------------------------------------------------------------------------------------
+        self.general_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+                                                                    global_vars.MANAGER)
+
+        self.trait_skill_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+                                                                    global_vars.MANAGER,
+                                                                    visible=False)
+        
+        self.trait_skill_tab2 = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+                                                                         global_vars.MANAGER,
+                                                                         visible=False)
+        
+        self.visable_tab = self.general_tab
+
+        # ------------------------------------------------------------------------------------------------------------
+        # Page Buttons -----------------------------------------------------------------------------------------------
+        # ------------------------------------------------------------------------------------------------------------
+        self.last_page = custom_buttons.UIImageButton(pygame.Rect((334, 640), (34, 34)), "",
+                                                      object_id="#last_page_button")
+        self.next_page = custom_buttons.UIImageButton(pygame.Rect((534, 640), (34, 34)), "",
+                                                      object_id="#next_page_button")
+        self.page_indicator = pygame_gui.elements.UITextBox("", pygame.Rect((370, 647), (162, 30)),
+                                                            object_id="#page_number")
+        
+        # Updates the page indicator and disabling the page buttons
+        self.handle_page_switching(0)
+
+
+        # ------------------------------------------------------------------------------------------------------------
+        # General Tab Labels -----------------------------------------------------------------------------------------
+        # ------------------------------------------------------------------------------------------------------------
+
+        self.labels["prefix"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Prefix:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.prefix_enter = pygame_gui.elements.UITextEntryLine(pygame.Rect((20, 35),(180, 30)), 
+                                                                container=self.general_tab,
+                                                                placeholder_text="Fire")
+        
+        self.labels["suffix"] = pygame_gui.elements.UILabel(pygame.Rect((210, 15), (150, 25)), "Suffix:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.suffix_enter = pygame_gui.elements.UITextEntryLine(pygame.Rect((210, 35),(180, 30)), 
+                                                                container=self.general_tab,
+                                                                placeholder_text="heart")
+        
+        self.labels["status"] = pygame_gui.elements.UILabel(pygame.Rect((400, 15), (150, 25)), "Status (Rank):",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["sex"] = pygame_gui.elements.UILabel(pygame.Rect((20, 80), (150, 25)), "Sex:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["gender"] = pygame_gui.elements.UILabel(pygame.Rect((20, 145), (150, 25)), "Gender Alignment:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["experience"] = pygame_gui.elements.UILabel(pygame.Rect((210, 80), (150, 25)), "Experience Level:",
+                                                                container=self.general_tab,
+                                                                object_id="#dropdown_label")
+        
+        self.labels["age"] = pygame_gui.elements.UILabel(pygame.Rect((400, 80), (150, 25)), "Age (in moons):",
+                                                                container=self.general_tab,
+                                                                object_id="#dropdown_label")
+        
+        self.age_enter = pygame_gui.elements.UITextEntryLine(pygame.Rect((400, 100),(180, 30)), 
+                                                             container=self.general_tab)
+        self.age_enter.set_allowed_characters('numbers')
+        
+        
+        """self.gender_alignment_other = pygame_gui.elements.UITextEntryLine(pygame.Rect((), ()), 
+                                                                          container=self.general_tab,
+                                                                          placeholder_text="Gender Here")
+        
+        self.labels["status"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Status (Rank):",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["age"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Age (in moons):",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["id"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Cat ID:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["experience"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Experience Level:",
+                                                                container=self.general_tab,
+                                                                object_id="#dropdown_label")"""
+
+        # -------------------------------------------------------------------------------------------------------------
+        # Trait Skill Labels ------------------------------------------------------------------------------------------
+        # -------------------------------------------------------------------------------------------------------------
+
+        self.labels["trait"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Trait:",
+                                                           container=self.trait_skill_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["lawfulness"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Lawfulness:",
+                                                           container=self.trait_skill_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["aggression"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Aggression:",
+                                                           container=self.trait_skill_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["sociability"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Sociability:",
+                                                           container=self.trait_skill_tab,
+                                                           object_id="#dropdown_label")
+        self.labels["stablity"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Stablity:",
+                                                           container=self.trait_skill_tab,
+                                                           object_id="#dropdown_label")
+        
+        """# Also create the facet select options, since those can be changes and don't need to be rebuild later
+        self.lawfulness_enter = custom_buttons.UIFacetSelect()
+        self.aggression_enter = custom_buttons.UIFacetSelect()
+        self.sociability_enter = custom_buttons.UIFacetSelect()
+        self.stablity_enter = custom_buttons.UIFacetSelect()"""
+        
+        
+        # -------------------------------------------------------------------------------------------------------------
+        # Trait Skill Labels 2 Tab Labels -----------------------------------------------------------------------------
+        # -------------------------------------------------------------------------------------------------------------
+
+        self.labels["primary_path"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Primary Skill Path:",
+                                                            container=self.trait_skill_tab2,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["secondary_path"] = pygame_gui.elements.UILabel(pygame.Rect((70, 15), (150, 25)),
+                                                               "Secondary Skill Path:",
+                                                               container=self.trait_skill_tab2,
+                                                               object_id="#dropdown_label")
+
+        self.labels["primary_tier"] = pygame_gui.elements.UILabel(pygame.Rect((230, 15), (190, 25)),
+                                                                          "Primary Skill Tier:",
+                                                                          container=self.trait_skill_tab2,
+                                                                          object_id="#dropdown_label")
+
+        self.labels["secondary_tier"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
+                                                                          "Secondary Skill Tier:",
+                                                                          container=self.trait_skill_tab2,
+                                                                          object_id="#dropdown_label")
+        
+        self.labels["hidden"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
+                                                                        "Hidden Skill: ",
+                                                                        container=self.trait_skill_tab2,
+                                                                        object_id="#dropdown_label")
+        
+        """self.number_selects["primary_tier"] = custom_buttons.UIFacetSelect()
+        self.number_selects["secondary_tier"] = custom_buttons.UIFacetSelect()"""
+        
+
+        #self.build_dropdown_menus()
+        #self.update_checkboxes_and_disable_dropdowns()
+
+    def handle_page_switching(self, direction: 1): 
+        """Direction is next vs last page. 1 is next page, -1 is last page. 0 is no change (just update the buttons)  """
+        if direction not in (1, 0, -1):
+            return
+        
+        pages = []
+        
+        for x in pages:
+            if self.visable_tab in x:    
+                index = x.index(self.visable_tab)
+                new_index = index + direction
+                self.page_indicator.set_text(f"{new_index + 1} / {len(x)}")
+                
+                if 0 <= new_index < len(x):
+                    self.show_tab(x[new_index])
+                    
+                    if new_index == len(x) - 1:
+                        self.last_page.enable()
+                        self.next_page.disable()
+                    elif new_index == 0:
+                        self.next_page.enable()
+                        self.last_page.disable()
+                    else:
+                        self.next_page.enable()
+                        self.last_page.enable()
+                            
+                    return
+                
+                
+        self.page_indicator.set_text(f"1 / 1")
+        self.next_page.disable()
+        self.last_page.disable()
+    
     def exit_screen(self):
         pass
 
+    
+    def draw_age_stage(self):
+        for ele in self.cat_images:
+            self.cat_images[ele].kill()
+        self.cat_images = {}
+        
+        x_pos = 130
+        for age in ["newborn", "kitten", "adolescent", "adult", "senior"]:
+            self.cat_images[age] = pygame_gui.elements.UIImage(
+                pygame.Rect((x_pos, 140), (100, 100)),
+                pygame.transform.scale(generate_sprite(
+                    global_vars.CREATED_CAT,
+                    life_state=age,
+                    no_not_working=True,
+                    no_para=True
+                ), (100, 100))
+            )
+            x_pos += 110
+    
     def save_png(self, path):
         pass
+    
+    def update_status_from_moons(self):
+        entered = int(self.age_enter.get_text())
+
 
 
 class SaveCodeScreen(base_screens.Screens):
