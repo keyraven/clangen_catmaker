@@ -2,7 +2,7 @@ import scripts.screens.base_screens as base_screens
 import pygame_gui
 import pygame
 import scripts.global_vars as global_vars
-from scripts.utility import update_sprite
+from scripts.utility import update_sprite, generate_sprite
 from scripts.game_structure.image_cache import load_image
 import scripts.game_structure.image_button as custom_buttons
 from scripts.cat.cats import Cat
@@ -38,7 +38,10 @@ class CreationScreen(base_screens.Screens):
 
     def handle_event(self, event):
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
-            if event.ui_element == self.general_tab_button:
+            if event.ui_element == self.done:
+                return
+                self.change_screen('detail screen')
+            elif event.ui_element == self.general_tab_button:
                 self.show_tab(self.general_tab)
                 self.handle_page_switching(0)
             elif event.ui_element == self.pattern_tab_button:
@@ -860,6 +863,15 @@ class CreationScreen(base_screens.Screens):
 
         self.done.kill()
         self.done = None
+        
+        self.next_page.kill()
+        self.next_page = None
+        
+        self.last_page.kill()
+        self.last_page = None
+        
+        self.page_indicator.kill()
+        self.page_indicator = None
 
         self.cat_platform.kill()
         self.cat_platform = None
@@ -900,12 +912,16 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus = {}
         self.checkboxes = {}
 
-class DoneScreen(base_screens.Screens):
+
+
+class MoreDetailScreen(base_screens.Screens):
 
     def __init__(self, name):
         self.save_dict = {}
         self.labels = {}
         self.number_selects = {}
+        self.cat_images = {}
+        self.stored_status = None
         super().__init__(name)
 
     def handle_event(self, event):
@@ -914,38 +930,19 @@ class DoneScreen(base_screens.Screens):
     def screen_switches(self):
         update_sprite(global_vars.CREATED_CAT)
 
-        if global_vars.CREATED_CAT.platform != "None":
-            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((160, 25), (480, 420)),
-                                                            pygame.transform.scale(load_image(
-                                                                global_vars.platforms[
-                                                                    global_vars.CREATED_CAT.platform
-                                                                ]),(480, 420)))
-        else:
-            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((160, 25), (480, 420)),
-                                                            global_vars.MANAGER.get_universal_empty_surface(),
-                                                            visible=False)
-
-        self.cat_image = pygame_gui.elements.UIImage(pygame.Rect((250, 25), (300, 300)),
-                                                     pygame.transform.scale(global_vars.CREATED_CAT.sprite,
-                                                                            (300, 300)))
-
+        self.draw_age_stage()
+        
         self.back = custom_buttons.UIImageButton(pygame.Rect((50, 25), (105, 30)), "",
                                                  object_id="#back_button")
 
         self.done = custom_buttons.UIImageButton(pygame.Rect((673, 25), (77, 30)), "",
                                                  object_id="#done_button")
 
-        self.randomize = custom_buttons.UIImageButton(pygame.Rect((630, 291), (50, 50)), "",
-                                                      object_id="#random_dice_button")
-
-        self.clear = custom_buttons.UIImageButton(pygame.Rect((690, 291), (50, 50)), "",
-                                                  object_id="#clear_button")
-
         # -----------------------------------------------------------------------------------------------------------
         # TAB BUTTONS -----------------------------------------------------------------------------------------------
         # -----------------------------------------------------------------------------------------------------------
         self.general_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 365), (100, 88)), "",
-                                                               object_id="#general_tab_button")
+                                                               object_id="#general_info_tab_button")
         self.general_tab_button.disable()
 
         self.trait_skill_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 456), (100, 88)), "",
@@ -963,6 +960,10 @@ class DoneScreen(base_screens.Screens):
         self.trait_skill_tab = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
                                                                     global_vars.MANAGER,
                                                                     visible=False)
+        
+        self.trait_skill_tab2 = pygame_gui.elements.UIScrollingContainer(pygame.Rect((150, 350), (600, 300)),
+                                                                         global_vars.MANAGER,
+                                                                         visible=False)
         
         self.visable_tab = self.general_tab
 
@@ -988,15 +989,48 @@ class DoneScreen(base_screens.Screens):
                                                             container=self.general_tab,
                                                             object_id="#dropdown_label")
         
-        self.labels["suffix"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Suffix:",
+        self.prefix_enter = pygame_gui.elements.UITextEntryLine(pygame.Rect((20, 35),(180, 30)), 
+                                                                container=self.general_tab,
+                                                                placeholder_text="Fire")
+        
+        self.labels["suffix"] = pygame_gui.elements.UILabel(pygame.Rect((210, 15), (150, 25)), "Suffix:",
                                                             container=self.general_tab,
                                                             object_id="#dropdown_label")
         
-        self.labels["sex"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Sex:",
+        self.suffix_enter = pygame_gui.elements.UITextEntryLine(pygame.Rect((210, 35),(180, 30)), 
+                                                                container=self.general_tab,
+                                                                placeholder_text="heart")
+        
+        self.labels["status"] = pygame_gui.elements.UILabel(pygame.Rect((400, 15), (150, 25)), "Status (Rank):",
                                                             container=self.general_tab,
                                                             object_id="#dropdown_label")
         
-        self.labels["gender"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Gender Alignment:",
+        self.labels["sex"] = pygame_gui.elements.UILabel(pygame.Rect((20, 80), (150, 25)), "Sex:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["gender"] = pygame_gui.elements.UILabel(pygame.Rect((20, 145), (150, 25)), "Gender Alignment:",
+                                                            container=self.general_tab,
+                                                            object_id="#dropdown_label")
+        
+        self.labels["experience"] = pygame_gui.elements.UILabel(pygame.Rect((210, 80), (150, 25)), "Experience Level:",
+                                                                container=self.general_tab,
+                                                                object_id="#dropdown_label")
+        
+        self.labels["age"] = pygame_gui.elements.UILabel(pygame.Rect((400, 80), (150, 25)), "Age (in moons):",
+                                                                container=self.general_tab,
+                                                                object_id="#dropdown_label")
+        
+        self.age_enter = pygame_gui.elements.UITextEntryLine(pygame.Rect((400, 100),(180, 30)), 
+                                                             container=self.general_tab)
+        self.age_enter.set_allowed_characters('numbers')
+        
+        
+        """self.gender_alignment_other = pygame_gui.elements.UITextEntryLine(pygame.Rect((), ()), 
+                                                                          container=self.general_tab,
+                                                                          placeholder_text="Gender Here")
+        
+        self.labels["status"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Status (Rank):",
                                                             container=self.general_tab,
                                                             object_id="#dropdown_label")
         
@@ -1010,33 +1044,33 @@ class DoneScreen(base_screens.Screens):
         
         self.labels["experience"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Experience Level:",
                                                                 container=self.general_tab,
-                                                                object_id="#dropdown_label")
+                                                                object_id="#dropdown_label")"""
 
         # -------------------------------------------------------------------------------------------------------------
         # Trait Skill Labels ------------------------------------------------------------------------------------------
         # -------------------------------------------------------------------------------------------------------------
 
         self.labels["trait"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Trait:",
-                                                           container=self.pattern_tab,
+                                                           container=self.trait_skill_tab,
                                                            object_id="#dropdown_label")
         self.labels["lawfulness"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Lawfulness:",
-                                                           container=self.pattern_tab,
+                                                           container=self.trait_skill_tab,
                                                            object_id="#dropdown_label")
         self.labels["aggression"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Aggression:",
-                                                           container=self.pattern_tab,
+                                                           container=self.trait_skill_tab,
                                                            object_id="#dropdown_label")
         self.labels["sociability"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Sociability:",
-                                                           container=self.pattern_tab,
+                                                           container=self.trait_skill_tab,
                                                            object_id="#dropdown_label")
         self.labels["stablity"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Stablity:",
-                                                           container=self.pattern_tab,
+                                                           container=self.trait_skill_tab,
                                                            object_id="#dropdown_label")
         
-        # Also create the facet select options, since those can be changes and don't need to be rebuild later
-        self.number_selects["lawfulness"] = custom_buttons.UIFacetSelect()
-        self.number_selects["aggression"] = custom_buttons.UIFacetSelect()
-        self.number_selects["sociability"] = custom_buttons.UIFacetSelect()
-        self.number_selects["stablity"] = custom_buttons.UIFacetSelect()
+        """# Also create the facet select options, since those can be changes and don't need to be rebuild later
+        self.lawfulness_enter = custom_buttons.UIFacetSelect()
+        self.aggression_enter = custom_buttons.UIFacetSelect()
+        self.sociability_enter = custom_buttons.UIFacetSelect()
+        self.stablity_enter = custom_buttons.UIFacetSelect()"""
         
         
         # -------------------------------------------------------------------------------------------------------------
@@ -1044,41 +1078,97 @@ class DoneScreen(base_screens.Screens):
         # -------------------------------------------------------------------------------------------------------------
 
         self.labels["primary_path"] = pygame_gui.elements.UILabel(pygame.Rect((20, 15), (150, 25)), "Primary Skill Path:",
-                                                            container=self.pattern_tab2,
+                                                            container=self.trait_skill_tab2,
                                                             object_id="#dropdown_label")
         
         self.labels["secondary_path"] = pygame_gui.elements.UILabel(pygame.Rect((70, 15), (150, 25)),
                                                                "Secondary Skill Path:",
-                                                               container=self.pattern_tab2,
+                                                               container=self.trait_skill_tab2,
                                                                object_id="#dropdown_label")
 
         self.labels["primary_tier"] = pygame_gui.elements.UILabel(pygame.Rect((230, 15), (190, 25)),
                                                                           "Primary Skill Tier:",
-                                                                          container=self.pattern_tab2,
+                                                                          container=self.trait_skill_tab2,
                                                                           object_id="#dropdown_label")
 
         self.labels["secondary_tier"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
                                                                           "Secondary Skill Tier:",
-                                                                          container=self.pattern_tab2,
+                                                                          container=self.trait_skill_tab2,
                                                                           object_id="#dropdown_label")
         
         self.labels["hidden"] = pygame_gui.elements.UILabel(pygame.Rect((420, 15), (190, 25)),
                                                                         "Hidden Skill: ",
-                                                                        container=self.pattern_tab2,
+                                                                        container=self.trait_skill_tab2,
                                                                         object_id="#dropdown_label")
         
-        self.number_selects["primary_tier"] = custom_buttons.UIFacetSelect()
-        self.number_selects["secondary_tier"] = custom_buttons.UIFacetSelect()
+        """self.number_selects["primary_tier"] = custom_buttons.UIFacetSelect()
+        self.number_selects["secondary_tier"] = custom_buttons.UIFacetSelect()"""
         
 
-        self.build_dropdown_menus()
-        self.update_checkboxes_and_disable_dropdowns()
+        #self.build_dropdown_menus()
+        #self.update_checkboxes_and_disable_dropdowns()
 
+    def handle_page_switching(self, direction: 1): 
+        """Direction is next vs last page. 1 is next page, -1 is last page. 0 is no change (just update the buttons)  """
+        if direction not in (1, 0, -1):
+            return
+        
+        pages = []
+        
+        for x in pages:
+            if self.visable_tab in x:    
+                index = x.index(self.visable_tab)
+                new_index = index + direction
+                self.page_indicator.set_text(f"{new_index + 1} / {len(x)}")
+                
+                if 0 <= new_index < len(x):
+                    self.show_tab(x[new_index])
+                    
+                    if new_index == len(x) - 1:
+                        self.last_page.enable()
+                        self.next_page.disable()
+                    elif new_index == 0:
+                        self.next_page.enable()
+                        self.last_page.disable()
+                    else:
+                        self.next_page.enable()
+                        self.last_page.enable()
+                            
+                    return
+                
+                
+        self.page_indicator.set_text(f"1 / 1")
+        self.next_page.disable()
+        self.last_page.disable()
+    
     def exit_screen(self):
         pass
 
+    
+    def draw_age_stage(self):
+        for ele in self.cat_images:
+            self.cat_images[ele].kill()
+        self.cat_images = {}
+        
+        x_pos = 130
+        for age in ["newborn", "kitten", "adolescent", "adult", "senior"]:
+            self.cat_images[age] = pygame_gui.elements.UIImage(
+                pygame.Rect((x_pos, 140), (100, 100)),
+                pygame.transform.scale(generate_sprite(
+                    global_vars.CREATED_CAT,
+                    life_state=age,
+                    no_not_working=True,
+                    no_para=True
+                ), (100, 100))
+            )
+            x_pos += 110
+    
     def save_png(self, path):
         pass
+    
+    def update_status_from_moons(self):
+        entered = int(self.age_enter.get_text())
+
 
 
 class SaveCodeScreen(base_screens.Screens):

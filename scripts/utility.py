@@ -12,7 +12,7 @@ def update_sprite(cat):
 
 
 def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, always_living=False, 
-                    no_not_working=False) -> pygame.Surface:
+                    no_not_working=False, no_para=False) -> pygame.Surface:
     """Generates the sprite for a cat, with optional arugments that will override certain things. 
         life_stage: sets the age life_stage of the cat, overriding the one set by it's age. Set to string. 
         scar_hidden: If True, doesn't display the cat's scars. If False, display cat scars. 
@@ -43,7 +43,7 @@ def generate_sprite(cat, life_state=None, scars_hidden=False, acc_hidden=False, 
             cat_sprite = str(19)
         else:
             cat_sprite = str(18)
-    elif cat.pelt.paralyzed and age != 'newborn':
+    elif cat.pelt.paralyzed and age != 'newborn' and not no_para:
         if age in ['kitten', 'adolescent']:
             cat_sprite = str(17)
         else:

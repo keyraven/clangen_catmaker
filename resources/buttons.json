@@ -270,6 +270,29 @@
                 "path": "resources/images/buttons/relationship_list_arrow_r_unavailable.png"
             }
         }
+    },
+    "#general_info_tab_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/general_info.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/general_info_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/general_info_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/general_info_selected.png"
+            }
+        }
     }
 }
 
