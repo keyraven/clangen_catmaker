@@ -293,6 +293,144 @@
                 "path": "resources/images/buttons/general_info_selected.png"
             }
         }
+    },
+    "#export_image_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/export_image.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/export_image_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/export_image_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/export_image_selected.png"
+            }
+        }
+    },
+    "#export_clangen_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/export_clangen.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/export_clangen_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/export_clangen_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/export_clangen_selected.png"
+            }
+        }
+    },
+    "#save_image_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/save_image.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/save_image_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/save_image_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/save_image_unavailable.png"
+            }
+        }
+    },
+    "#image_small_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/image_small.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/image_small_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/image_small_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/image_small_unavailable.png"
+            }
+        }
+    },
+    "#image_medium_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/image_medium.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/image_medium_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/image_medium_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/image_medium_unavailable.png"
+            }
+        }
+    },
+    "#image_large_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/image_large.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/image_large_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/image_large_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/image_large_unavailable.png"
+            }
+        }
     }
 }
 

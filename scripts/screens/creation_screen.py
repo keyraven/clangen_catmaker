@@ -7,10 +7,11 @@ from scripts.game_structure.image_cache import load_image
 import scripts.game_structure.image_button as custom_buttons
 from scripts.cat.cats import Cat
 from scripts.game_structure.image_cache import load_image
+from scripts.game_structure.windows import SaveAsImage
 
 class CreationScreen(base_screens.Screens):
 
-    def __init__(self, name):
+    def __init__(self, name="creation"):
         self.general_tab = None
         self.pattern_tab = None
         self.extras_tab = None
@@ -39,8 +40,7 @@ class CreationScreen(base_screens.Screens):
     def handle_event(self, event):
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
             if event.ui_element == self.done:
-                return
-                self.change_screen('detail screen')
+                self.change_screen('done')
             elif event.ui_element == self.general_tab_button:
                 self.show_tab(self.general_tab)
                 self.handle_page_switching(0)
@@ -72,7 +72,7 @@ class CreationScreen(base_screens.Screens):
                 self.update_cat_image()
                 self.update_platform()
             elif event.ui_element == self.back:
-                self.change_screen('start screen')
+                self.change_screen('start')
             # Here is where the cat creation checkboxes start.
             elif event.ui_element == self.checkboxes["tortie_checkbox"]:
                 # Switch pelt to tortie.
@@ -912,11 +912,75 @@ class CreationScreen(base_screens.Screens):
         self.dropdown_menus = {}
         self.checkboxes = {}
 
+class DoneScreen(base_screens.Screens):
+    
+    def __init__(self, name="done"):
+        
+        self.back = None
+        self.cat_platform = None
+        self.cat_image = None
+        
+        super().__init__(name)
+    
+    def handle_event(self, event):
+        if event.type == pygame_gui.UI_BUTTON_START_PRESS:
+            if event.ui_element == self.back:
+                self.change_screen('creation')
+            elif event.ui_element == self.save_as_image:
+                SaveAsImage(global_vars.CREATED_CAT.sprite, "image")
+            elif event.ui_element == self.export_clangen:
+                self.change_screen('detail')
+        
+        return super().handle_event(event)
+    
+    def screen_switches(self):
+        
+        if global_vars.CREATED_CAT.platform != "None":
+            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((80, 130), (640, 560)),
+                                                            pygame.transform.scale(load_image(
+                                                                global_vars.platforms[
+                                                                    global_vars.CREATED_CAT.platform
+                                                                ]),(640, 560)))
+        else:
+            self.cat_platform = pygame_gui.elements.UIImage(pygame.Rect((80, 130), (640, 560)),
+                                                            global_vars.MANAGER.get_universal_empty_surface(),
+                                                            visible=False)
+        
+        self.cat_image = pygame_gui.elements.UIImage(pygame.Rect((200, 130), (400, 400)),
+                                                     pygame.transform.scale(global_vars.CREATED_CAT.sprite,
+                                                                            (400, 400)))
+        
+        self.back = custom_buttons.UIImageButton(pygame.Rect((50, 25), (105, 30)), "",
+                                                 object_id="#back_button")
+        
+        self.save_as_image = custom_buttons.UIImageButton(pygame.Rect((679, 85), (71, 53)), "",
+                                                          object_id="#export_image_button")
+        
+        self.export_clangen = custom_buttons.UIImageButton(pygame.Rect((632, 25), (118, 53)), "",
+                                                          object_id="#export_clangen_button")
+        
+        
+        return super().screen_switches()
+    
+    def exit_screen(self):
+        
+        self.cat_platform.kill()
+        self.cat_platform = None
+        self.cat_image.kill()
+        self.cat_image = None
+        self.back.kill()
+        self.back = None
+        self.save_as_image.kill()
+        self.save_as_image = None
+        self.export_clangen.kill()
+        self.export_clangen = None
+        
+        return super().exit_screen()
 
 
 class MoreDetailScreen(base_screens.Screens):
 
-    def __init__(self, name):
+    def __init__(self, name = "detail"):
         self.save_dict = {}
         self.labels = {}
         self.number_selects = {}

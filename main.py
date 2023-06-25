@@ -8,10 +8,14 @@ import scripts.global_vars as global_vars
 import scripts.game_structure.game_essentials
 from scripts.game_structure.game_essentials import *
 import scripts.screens.all_screens
+from scripts.game_structure.image_cache import load_image
 
+# Set Icon
+pygame.display.set_icon(load_image("resources/images/icon.png"))
 
 clock = pygame.time.Clock()
-scripts.screens.all_screens.start_screen.screen_switches()
+game.current_screen = "start"
+game.all_screens["start"].screen_switches()
 
 # MAIN GAME LOOK
 while True:

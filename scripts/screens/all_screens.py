@@ -1,6 +1,6 @@
 from .base_screens import Screens
 from scripts.screens.organization_screens import StartScreen
-from scripts.screens.creation_screen import CreationScreen, MoreDetailScreen
+from scripts.screens.creation_screen import CreationScreen, MoreDetailScreen, DoneScreen
 
 
 # ---------------------------------------------------------------------------- #
@@ -29,12 +29,13 @@ screens = Screens()
 #                        organization_screens.py                               #
 # ---------------------------------------------------------------------------- #
 
-start_screen = StartScreen('start screen')
+StartScreen()
 
 
 # ---------------------------------------------------------------------------- #
 #                        creation_screens.py                                   #
 # ---------------------------------------------------------------------------- #
 
-creation_screen = CreationScreen('creation screen')
-export_prepare_screen = MoreDetailScreen('detail screen')
+CreationScreen()
+DoneScreen()
+MoreDetailScreen()
