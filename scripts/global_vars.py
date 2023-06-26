@@ -10,6 +10,7 @@ MANAGER.get_theme().load_theme('resources/defaults.json')
 MANAGER.get_theme().load_theme('resources/buttons.json')
 MANAGER.get_theme().load_theme('resources/text_boxes.json')
 MANAGER.get_theme().load_theme('resources/text_boxes.json')
+MANAGER.get_theme().load_theme('resources/windows.json')
 
 
 import scripts.cat.cats

@@ -313,7 +313,7 @@
             },
             "disabled_image":
             {
-                "path": "resources/images/buttons/export_image_selected.png"
+                "path": "resources/images/buttons/export_image_unavailable.png"
             }
         }
     },
@@ -336,7 +336,7 @@
             },
             "disabled_image":
             {
-                "path": "resources/images/buttons/export_clangen_selected.png"
+                "path": "resources/images/buttons/export_clangen_unavailable.png"
             }
         }
     },
@@ -429,6 +429,25 @@
             "disabled_image":
             {
                 "path": "resources/images/buttons/image_large_unavailable.png"
+            }
+        }
+    },
+    "#exit_window_button":
+    {
+        "prototype": "#image_button",
+        "images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/exit_window_button.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/exit_window_button_hover.png"
+            },
+            "selected_image":
+            {
+                "path": "resources/images/buttons/exit_window_button_hover.png"
             }
         }
     }

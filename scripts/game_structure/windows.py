@@ -10,7 +10,7 @@ import pygame_gui
 class SaveAsImage(UIWindow):
     def __init__(self, image_to_save, file_name):
         super().__init__(pygame.Rect((200, 175), (400, 250)),
-                         resizable=False)
+                         resizable=False, object_id="#window_base_theme")
         
         self.set_blocking(True)
         #game.switches['window_open'] = True
@@ -21,6 +21,16 @@ class SaveAsImage(UIWindow):
         
         button_layout_rect = pygame.Rect((0, 5), (22, 22))
         button_layout_rect.topright = (-2, 10)
+        
+        self.close_button = UIImageButton(
+            button_layout_rect,
+            "",
+            object_id="#exit_window_button",
+            starting_height=2,
+            container=self,
+            anchors={'right': 'right',
+                     'top': 'top'}
+        )
         
         self.save_as_image = UIImageButton(
             pygame.Rect((0, 90), (135, 30)),
