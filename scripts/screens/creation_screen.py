@@ -1010,7 +1010,7 @@ class MoreDetailScreen(base_screens.Screens):
         self.general_tab_button.disable()
 
         self.trait_skill_tab_button = custom_buttons.UIImageButton(pygame.Rect((50, 456), (100, 88)), "",
-                                                               object_id="#pattern_tab_button")
+                                                               object_id="#skill_trait_tab_button")
 
         self.tab_background = pygame_gui.elements.UIImage(pygame.Rect((150, 350), (600, 300)),
                                                           load_image("resources/images/options.png"))

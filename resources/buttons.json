@@ -450,6 +450,29 @@
                 "path": "resources/images/buttons/exit_window_button_hover.png"
             }
         }
+    },
+    "#skill_trait_tab_button":
+    {
+        "prototype": "#image_button",
+		"images":
+        {
+            "normal_image":
+            {
+                "path": "resources/images/buttons/skill_trait.png"
+            },
+            "hovered_image":
+            {
+                "path": "resources/images/buttons/skill_trait_hover.png"
+            },
+			"selected_image":
+            {
+                "path": "resources/images/buttons/skill_trait_hover.png"
+            },
+            "disabled_image":
+            {
+                "path": "resources/images/buttons/skill_trait_selected.png"
+            }
+        }
     }
 }
 

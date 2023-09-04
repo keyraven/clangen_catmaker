@@ -69,7 +69,7 @@ class SaveAsImage(UIWindow):
         self.confirm_text = pygame_gui.elements.UITextBox(
             "",
             pygame.Rect((5, 125), (390, 45)),
-            object_id="#text_box_26_horizcenter_vertcenter_spacing_95",
+            object_id="#facet_select_display",
             container=self,
             starting_height=2
         )
@@ -90,6 +90,8 @@ class SaveAsImage(UIWindow):
         super().process_event(event)
         
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
+            if event.ui_element == self.close_button:
+                self.kill()
             if event.ui_element == self.save_as_image:
                 file_name = self.save_image()
                 self.confirm_text.set_text(f"Saved as {file_name} in the saved_images folder")
