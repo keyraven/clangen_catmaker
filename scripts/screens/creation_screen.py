@@ -904,6 +904,9 @@ class CreationScreen(base_screens.Screens):
 
         self.pattern_tab.kill()
         self.pattern_tab = None
+        
+        self.pattern_tab2.kill()
+        self.pattern_tab2 = None
 
         self.extras_tab.kill()
         self.extras_tab = None
