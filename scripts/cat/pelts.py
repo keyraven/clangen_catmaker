@@ -25,6 +25,7 @@ class Pelt():
         'Sokoke': 'sokoke',
         'Agouti': 'agouti',
         'Singlestripe': 'singlestripe',
+        'Masked': "masked",
         'Tortie': None,
         'Calico': None,
     }
