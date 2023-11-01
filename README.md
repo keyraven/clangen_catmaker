@@ -15,5 +15,6 @@ Future Plans:
 Please don't sell any images created, and provide proper attribution. 
 
 
-Nightly builds can be found [here](https://nightly.link/keyraven/clangen_catmaker/workflows/build/main)
-A more persistant version can be found on [itch.io](https://keyraven.itch.io/clangen-catmaker)
+Nightly builds can be found [here](https://nightly.link/keyraven/clangen_catmaker/workflows/build/main).
+
+A more persistant version can be found on [itch.io](https://keyraven.itch.io/clangen-catmaker).
