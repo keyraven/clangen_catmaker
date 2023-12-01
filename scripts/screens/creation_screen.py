@@ -39,6 +39,10 @@ class CreationScreen(base_screens.Screens):
     def handle_event(self, event):
         if event.type == pygame_gui.UI_BUTTON_START_PRESS:
             if event.ui_element == self.done:
+                import json
+                with open('meow.json', 'w', encoding='utf-8') as file:
+                    json.dump(global_vars.CREATED_CAT.generate_save_file(), file, indent=4)
+                print('Ok, your cat is exported in Meow.json file.')
                 return
                 self.change_screen('detail screen')
             elif event.ui_element == self.general_tab_button:
@@ -548,7 +552,7 @@ class CreationScreen(base_screens.Screens):
         # General Tab Contents ----------------------------------------------------------------------------------------
         # -------------------------------------------------------------------------------------------------------------
 
-        self.dropdown_menus["pelt_length_select"] = pygame_gui.elements.UIDropDownMenu(["Short", "Long"],
+        self.dropdown_menus["pelt_length_select"] = pygame_gui.elements.UIDropDownMenu(["Short", "Medium", "Long"],
                                                                                        global_vars.CREATED_CAT.pelt.length.capitalize(),
                                                                                        pygame.Rect((20, 100), (150, 30)),
                                                                                        container=self.general_tab)
@@ -904,9 +908,6 @@ class CreationScreen(base_screens.Screens):
 
         self.pattern_tab.kill()
         self.pattern_tab = None
-        
-        self.pattern_tab2.kill()
-        self.pattern_tab2 = None
 
         self.extras_tab.kill()
         self.extras_tab = None
